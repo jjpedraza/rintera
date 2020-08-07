@@ -2,6 +2,13 @@
 <?php
 require ("rintera-config.php");
 require ("components.php");
+
+
+
+
+
+
+
 if  ($PublicIndex == TRUE){
     include("seguridad.php");   
 }
@@ -34,6 +41,16 @@ if  ($PublicIndex == TRUE){
 
 </head>
 <body>
+<?php Init();
+$MiToken = MiToken($RinteraUser, "Search");
+if ($MiToken == ''){
+    $MiToken = MiToken_Init($RinteraUser, "Search");
+}
+
+// echo "Token: ".$MiToken."";
+?>
+
+
 <div id='PreLoader'>
     <div id='Loader'>
         <img src='img/loader_classic.gif'><br>      
@@ -48,14 +65,38 @@ if ($PublicIndex == TRUE){
 
 
     echo "
-    <div id='Welcome'>
-    <table width=100%><tr><td>
+    <div id='Welcome' style=''>
+    <table width=100%><tr>
+    
+    <td style='
+    background-color: #64c16a;
+    color: white;
+    font-size: 13pt;
+    text-align: center;
+
+    '>
     ";
-    echo "<b style='cursor:pointer;' title='No. de Empleado = ".$RinteraUser."'>".$RinteraUserName."</b>";    
+    echo "<a style='
+    display: block;
+    color: white;
+    font-family: ExtraBold;
+    text-transform: uppercase;
+    
+    font-size: 13pt;
+
+
+    ' href='index.php' title='Haz clic aqui para retomar al inicio'>".$Cliente."</a></td>";
+    echo "<td class='pc' style='
+    
+    background-color: #cde6cf;
+    font-size: 10pt;
+    color: #47824b;
+    '><cite>".$ClienteInfo."</cite></td>";
+    // echo "<hr><b style='cursor:pointer;' title='No. de Empleado = ".$RinteraUser."'>".$RinteraUserName."</b>";    
     echo "
     </td>
-    <td width=50px>
-    <a href='logout.php' class='Salir'>Salir</a>
+    <td width=50px  style='background-color:#ff7800;' align=center>
+    <a href='logout.php' class='Salir' title='Cerrar Sessión de ".$RinteraUserName."'>Salir</a>
     </td></tr>
     </table></div>
     ";
@@ -69,19 +110,42 @@ if ($PublicIndex == TRUE){
 
 <section id='Busqueda' >
 
-<input
-  style="
+<?php
 
-  "
+if (isset($_GET['q'])){
+    
+    echo '
+    <input id="InputBusqueda" onkeypress="Search();"
+    style="
+    "
+    class="InputBusqueda" type="text" placeholder="¿Que Información necesitas?"  value="'.VarClean($_GET['q']).'">
+    ';
+} else {
+    echo '
+    <input id="InputBusqueda" onkeypress="Search();"
+    style="
+    "
+    class="InputBusqueda" type="text" placeholder="¿Que Información necesitas?" >
+    ';
+}
+
+if (isset($_GET['i1'])){Toast("Guardado correctamente ".VarClean($_GET['q']),1,"");}
   
-  class="InputBusqueda" type="text" placeholder="¿Que Información necesitas?" >
-  
 
-
+?>
 
 </section>
 
-
+<div  style='
+background-color: #1895c6;
+text-align: center;
+color: white;
+font-size: 10pt;  height:22px;
+'>
+    <div id='PreloaderBuscando' style='display:none;'>
+    Buscando <img src='img/loader_bar.gif'>
+    </div>
+</div>
 <section id='Resultados'>
 Resutlado de la buqueda
 
@@ -90,16 +154,46 @@ Resutlado de la buqueda
 <?php
 if (UserAdmin($RinteraUser)==TRUE){
     echo "<div class='btnMas' title='Haz clic aquí para crear un nuevo reporte'>
-    <a href='#NuevoReporte' rel='MyModal:open'> <img src='src/mas.png' style='width:100%;'>
+    <a href='nuevo.php' > <img src='src/mas.png' style='width:100%;'>
     </a>
     </div>";
 
-    echo "<div id='NuevoReporte' class='MyModal'>";
-    echo "<b class='h5'>Nuevo Reporte<b>:<br>";
-    echo"</div>";
+  
 } else {
 
 }
+?>
+
+<div id='Footer'>
+<b>Rintera<b>: Es un proyecto para la gestion de reportes a traves de consultas a la base de datos con variables integradas. El entorno ideal para gestionar la data de tu proyecto
+
+</div>
+
+<?php
+echo "
+    <script>
+    function Search(){
+        var busqueda = $('#InputBusqueda').val();
+        $('#PreloaderBuscando').show();                
+        $.ajax({
+            url: 'search.php',
+            type: 'post',        
+            data: {IdUser:'".$RinteraUser."', Token: '".$MiToken."',
+                busqueda:busqueda
+
+            },
+        success: function(data){
+            $('#Resultados').html(data);
+            $('#PreloaderBuscando').hide();
+        }
+        });
+
+
+            
+    }
+    </script>
+";
+
 ?>
 
 </body>

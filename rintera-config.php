@@ -57,7 +57,7 @@ if ($db2_ == TRUE){
 $db2_host = 'localhost';	
 $db2_user = 'root';
 $db2_pass = '3l-1t4vu'; 
-$db2_name = 'rintera';
+$db2_name = 'huesitos';
 
 if (function_exists('mysqli_connect')) {		
     $db2 = new mysqli($db2_host,$db2_user,$db2_pass,$db2_name);

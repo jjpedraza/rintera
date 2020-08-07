@@ -1,8 +1,62 @@
 <?php
 require("lib/var_clean.php");
+require("tokens.php");
+
+define("Version","1.0"); 
+
+function Init(){
+    if (VersionCheck() == TRUE){
+    } else {
+        if (VersionMaster_required() == "TRUE"){
+            echo "<div id='Version' class='alert alert-danger' role='alert' style='
+            height: 100%;
+            display: block;
+            position: fixed;
+            z-index: 5000;
+            width: 100%;
+            text-align: center;
+            '>
+            <h1>Requiere Actualizacion</h1>
+            <p>Por cuestiones de seguridad, se requiere una actualizacion del codigo del proyecto. Favor de comunicarse con su <b>Departamento de Informática</b> para realizar el proceso</p>
+            <p>Version actual: ".Version."<br>"."Version nueva: ".VersionMaster()."
+            <br>NOTA de la version: <cite>".getData()->label."</cite>
+            <br><a href='".VersionMaster_url()."'>Descargala aqui</a> <hr>
+            <br>
+            Desarrollador por ".getData()->contact."
+
+            </div>";
+
+           
+        } else {
+            echo "<div id='Version' class='alert alert-warning' role='alert'>
+            <h1>Se Recomienda actualizar Rintera</h1>
+            <p>Hay nueva versión disponible, se requiere actualizacion para seguir operando </p>
+            <p>Version actual: ".Version."<br>"."Version nueva: ".VersionMaster()."
+            <br><a href='".VersionMaster_url()."'>Descarga aqui</a>
+            </div>";
+        }
+       
+    }
+}
+function VersionCheck(){
+    if (Version < VersionMaster()){
+        return  FALSE;
+    } else {
+        return TRUE;
+    }
+}
+function VersionMaster_url(){
+    return getData()-> download;
+}
 
 
+function VersionMaster_required(){
+    return getData()-> required;
+}
 
+function VersionMaster(){
+    return getData()-> version;
+}
 function SESSION_init($id, $user, $session_name, $session_comentario, $ip){
     require("rintera-config.php");	
     $sql = "INSERT INTO sessiones (id, session_name,  usuario, fecha, hora, comentarios,ipcliente) 
@@ -342,9 +396,6 @@ function UserAdmin($IdUser){
 
         //apuntamos la coneccion a la base de datos del cliente
         $rc= $db1 -> query($sql);
-                      
-         
-
     }
     
     if($f = $rc -> fetch_array())
@@ -357,4 +408,26 @@ function UserAdmin($IdUser){
     }
         
 }
+
+function getData()
+{    
+    $url = 'https://v3nt4s.store/ws/rintera.html'; 
+    $context = stream_context_create(
+        array(
+            "http" => array(
+                "header" => "User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36"
+            )
+        )
+    );
+    
+    $archivo_web = file_get_contents($url, false, $context);
+    $archivo = json_decode($archivo_web);    
+    return $archivo;
+
+}
+
+function LocationFull($page){
+	echo ' <script type="text/javascript">top.location.href="'.$page.'"</script>';
+}
+
 ?>

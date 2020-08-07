@@ -5,9 +5,35 @@
 @font-face{font-family:"Cursiva";src:url("Windsong.ttf") format("truetype")}
 @font-face{font-family:"Informal";src:url("CFCrayons-Regular.ttf") format("truetype")}
 @font-face{font-family:"Bold";src:url("OpenSans-ExtraBold.ttf") format("truetype")}
+
+
+#Footer{
+	background-color: #f0f0f0;
+	color: #343c40;
+	font-family: Light;
+	padding: 20px;
+	font-size: 11pt;
+	font-weight: normal;
+	margin-top: 800px;
+}
+a:hover {
+	text-decoration: none;
+	opacity: 0.9;
+}
+label{
+	font-size:10pt;
+	
+	color:gray;
+	margin-bottom: 10px;
+}
+.Query{
+	width:100%;
+	font-family: Compacta;
+	font-size:8pt;
+}
 .btnMas{
-	width: 8%;
-	background-color: rgb(24, 149, 198);
+	width: 50px;
+	background-color:rgba(24, 162, 33, 0.84);
 	position: fixed;
 	right: 10px;
 	bottom: 10px;
@@ -19,9 +45,9 @@
 	opacity: 1;
 }
 .Salir{
-	background-color: red;
+	background-color: #ff7800;
 	color:white;
-	padding:10px;
+	
 
 }
 
@@ -32,8 +58,8 @@
 }
 
 #Welcome {
-	background-color: #096e86;
-	color:white;
+	background-color: #dbdbdb;
+	color: #a6a6a6;
 }
 
 .InputBusqueda {
@@ -59,7 +85,9 @@
 }
 
 #Resultados{
-	margin-top:100px;
+	
+	margin-top: 5px;
+	padding: 10px;
 	color:gray;
 }
 .input-group.md-form.form-sm.form-1 input{
