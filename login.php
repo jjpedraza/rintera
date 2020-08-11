@@ -109,15 +109,17 @@ if (isset($_POST['FormLogin'])){
         //Complementmos la consulta a la base de nuestro cliente
         $sql = $QueryUsuariosForaneos." and IdUser='".$txtIdUser."'";
 
+        // echo $sql."<br>";
         //apuntamos la coneccion a la base de datos del cliente
         $rc= $db1 -> query($sql);
-                      
+        
          
 
     }
     
     if($f = $rc -> fetch_array())
     {  
+        // var_dump($f);
         
       if ($f['NIP']==$txtNIP){
 

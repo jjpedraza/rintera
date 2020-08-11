@@ -5,12 +5,9 @@ $ClienteInfo = "Reportes Interactivos basados en consultas MySQL con Variables";
 $ClienteContacto = "Juan José Pedraza, printepolis@gmail.com, Whatsapp: 8343088602";
 
 $PublicIndex =  TRUE; //requiere login para ver los reportes, usuarios | Tipo = 2
-$UsuariosForaneaos = FALSE; // para activar consulta en la base secundaria $db1
+$UsuariosForaneaos = TRUE; // para activar consulta en la base secundaria $db1
 $QueryUsuariosForaneos = "
-select 
-*
-from rinterausuarios
-WHERE RinteraLevel>0
+select * from UsuariosRintera where RinteraLevel>0
 "; // Tomar en cuenta en tu consulta, que añadiras un and en el WHERE despues
 //para seleccionar al usuario
 

@@ -400,7 +400,7 @@ function UserAdmin($IdUser){
     
     if($f = $rc -> fetch_array())
     {
-        if ($f['RinteraLevel']==2)  {
+        if ($f['RinteraLevel']==1)  {
             return TRUE; // es admin
         } else {
             return FALSE; // no es admin
@@ -428,6 +428,50 @@ function getData()
 
 function LocationFull($page){
 	echo ' <script type="text/javascript">top.location.href="'.$page.'"</script>';
+}
+
+function PermisoReporte_Ver($IdUser,$IdRep){
+    require("rintera-config.php");   
+    $sql = "select count(*) as n
+    
+    from reportes_permisos WHERE IdUser ='".$IdUser."' and id_rep='".$IdRep."' and Ver=1";
+    $rc= $db0 -> query($sql);
+    
+    
+    if($f = $rc -> fetch_array())
+    {
+        if ($f['n']==1)  {
+            return TRUE; // es admin
+        } else {
+            return FALSE; // no es admin
+        }
+    } else {
+        return FALSE;
+    }
+
+}
+
+
+
+function PermisoReporte_Share($IdUser,$IdRep){
+    require("rintera-config.php");   
+    $sql = "select count(*) as n
+    
+    from reportes_permisos WHERE IdUser ='".$IdUser."' and id_rep='".$IdRep."' and CompartirVer=1";
+    $rc= $db0 -> query($sql);
+    
+    
+    if($f = $rc -> fetch_array())
+    {
+        if ($f['n']==1)  {
+            return TRUE; // es admin
+        } else {
+            return FALSE; // no es admin
+        }
+    } else {
+        return FALSE;
+    }
+
 }
 
 ?>

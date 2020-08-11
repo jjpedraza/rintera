@@ -15,7 +15,7 @@ if (MiToken_valida($ElToken, $IdUser, "Search")==TRUE){//Valido
         font-size: 16pt;
         text-align: center; 
     '>Resultados de <b>".$busqueda."</b>:</h1>";
-    echo "<table class='tabla'>";
+    echo "<section id='Reportes'>";
     $sql = "select * from reportes  WHERE
     rep_name like '%".$busqueda."%' or
     rep_description like '%".$busqueda."%' or
@@ -26,12 +26,96 @@ if (MiToken_valida($ElToken, $IdUser, "Search")==TRUE){//Valido
     // echo $sql;
     $r= $db0 -> query($sql);
     while($f = $r -> fetch_array()) {   
-        echo "<tr>";
-        echo "<td>".$f['rep_name']."</td>";
+        if (PermisoReporte_Ver($IdUser,$f['id_rep'])==TRUE){
+            echo "<article>";
+            echo "<table width=100% border=0><tr><td align=center valign=middle>  ";        
+            echo "<a href='?id=".$f['id_rep']."'>";
+        } else {
+            echo "<article style='background-color:#fbeee8;opacity:0.7;'>";
+            echo "<table width=100% border=0><tr><td align=center valign=middle>  ";
+            
+        }
+        
+        switch ($f['out_type']) {
+            case 0:
+                if ($f['var1']=='1' || $f['var2']=='1' || $f['var3']=='1'){
+                    //PDF Interactivo
+                    echo "<img class='icono32' 
+                            src='icons/pdf2.png' title='IdReporte=".$f['id_rep']." | "." | Orientacion: ".$f['orientacion']." | Formato: PDF. 
+                            Este reporte requiere alimentarse con datos proporcionados por el usuario'>";
+                } else {//interactivo
+                    echo "<img class='icono32' src='icons/pdf.png'
+                     title='IdReporte=".$f['id_rep']." | "." | Orientacion: ".$f['orientacion'].", Formato:PDF | 
+                     '>";
+                }
+            break;
 
-        echo "</tr>";
+            case 1:
+                if ($f['var1']=='1' || $f['var2']=='1' || $f['var3']=='1'){
+                    //PDF Interactivo
+                    echo "<img class='icono32' 
+                            src='icons/excel2.png' title='IdReporte=".$f['id_rep']." | "." | Orientacion: ".$f['orientacion']." | Formato: PDF. 
+                            Este reporte requiere alimentarse con datos proporcionados por el usuario'>";
+                } else {//interactivo
+                    echo "<img class='icono32' src='icons/excel.png'
+                     title='IdReporte=".$f['id_rep']." | "." | Orientacion: ".$f['orientacion'].", Formato:PDF | 
+                     '>";
+                }
+            break;
+
+            case 2:
+                if ($f['var1']=='1' || $f['var2']=='1' || $f['var3']=='1'){
+                    //PDF Interactivo
+                    echo "<img class='icono32' 
+                            src='icons/pantala2.png' title='IdReporte=".$f['id_rep']." | "." | Orientacion: ".$f['orientacion']." | Formato: PDF. 
+                            Este reporte requiere alimentarse con datos proporcionados por el usuario'>";
+                } else {//interactivo
+                    echo "<img class='icono32' src='icons/pantalla  .png'
+                     title='IdReporte=".$f['id_rep']." | "." | Orientacion: ".$f['orientacion'].", Formato:PDF | 
+                     '>";
+                }
+            break;
+          
+    
+        }
+        if (PermisoReporte_Ver($IdUser,$f['id_rep'])==TRUE){
+        echo "</a>";
+        }
+        echo "</td><td align=right valign=top width=20px>";
+        echo "<img src='icons/mas.png'
+        class='iconoMore'
+        >";
+        echo "</td></tr></table>";
+        echo "<h4><b>".$f['rep_name']."</b></h4>";
+        echo "<cite>".$f['rep_description']."</cite>";
+
+
+        echo "<table width=100% border=0><tr><td align=left valign=middle>";
+        if (PermisoReporte_Ver($IdUser,$f['id_rep'])==TRUE){
+        } else {
+            echo "<img src='icons/candado.png' style='width:15px;cursor:pointer;'
+            title='Haga clic aquí para solicitar acceso'> Sin acceso";
+        }
+        echo "</td><td align=right valign=bottom width=20px>";
+        if (PermisoReporte_Share($IdUser,$f['id_rep'])==TRUE){
+            echo "<img src='icons/share.png'
+        
+        style='
+            width:13px;
+            cursor:pointer;
+        '
+        >";
+        } else {
+            echo "<div  style='
+                width:13px;
+                cursor:pointer;
+            '></div>";
+        }
+        echo "</td></tr></table>";
+        echo "</article>";
+        
     }
-    echo "</table>";
+    echo "</section>";
 } else {    
     
     Toast("Error vuelva a intentarlo",2,"");

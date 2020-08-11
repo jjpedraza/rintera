@@ -6,6 +6,52 @@
 @font-face{font-family:"Informal";src:url("CFCrayons-Regular.ttf") format("truetype")}
 @font-face{font-family:"Bold";src:url("OpenSans-ExtraBold.ttf") format("truetype")}
 
+.iconoMore{
+	width: 18px;
+	margin-top: -10px;
+	margin-right: -10px;
+	opacity: 0.7;
+	cursor: pointer;
+}
+.iconoMore{
+	opacity: 1;
+}
+#Reportes {
+	width:100%;
+	padding: 10px;
+}
+.icono32 {
+	width:42px;
+	cursor:pointer;
+	margin-left: 10px;
+
+}
+#Reportes article {
+    background-color: #f4f4f4;
+    width: 20%; 
+    display: inline-block;
+    margin: 10px;
+    vertical-align: top;
+    font-size: 10pt;
+    text-align: center;
+    border-radius: 5px;
+    border: solid #eeecec 1px;
+    padding: 5px;
+}
+#Reportes article cite {
+	font-size: 8pt;
+	font-family: Compacta;
+}
+#Reportes article:hover {
+	background-color: #ececec;
+
+}
+
+#Reportes article h4 {
+	font-size: 10pt;
+
+}
+
 
 #Footer{
 	background-color: #f0f0f0;
@@ -576,5 +622,9 @@ margin-lefT:2px; margin-right: 2px; }
 }
 .InputBusqueda {
 	font-size: 14pt;
+}
+
+#Reportes article {
+	width:99%;
 }
 }

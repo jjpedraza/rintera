@@ -49,6 +49,7 @@ $MiToken = MiToken($RinteraUser, "Nuevo");
 if ($MiToken == ''){
     $MiToken = MiToken_Init($RinteraUser, "Nuevo");
 }
+// echo "Token: ".$MiToken;
 
 
 
@@ -56,12 +57,13 @@ if ($PublicIndex == TRUE){
 
 
 
+
     echo "
     <div id='Welcome' style=''>
     <table width=100%><tr>
     
-    <td width=200px style='
-    background-color: #64c16a;
+    <td style='
+    background-color: #16799f;
     color: white;
     font-size: 13pt;
     text-align: center;
@@ -77,17 +79,12 @@ if ($PublicIndex == TRUE){
     font-size: 13pt;
 
 
-    ' href='index.php' title='Haz clic aqui para retomar al inicio'>";
-    
-    // echo "<img src='img/logo.png' style='width:100px;'>";
-    echo $Cliente;
-    
-    echo "</a></td>";
+    ' href='index.php' title='Haz clic aqui para retomar al inicio'>".$Cliente."</a></td>";
     echo "<td class='pc' style='
     
-    background-color: #cde6cf;
+    background-color: #1487b5;
     font-size: 10pt;
-    color: #47824b;
+    color: white;
     '><cite>".$ClienteInfo."</cite></td>";
     // echo "<hr><b style='cursor:pointer;' title='No. de Empleado = ".$RinteraUser."'>".$RinteraUserName."</b>";    
     echo "
@@ -314,6 +311,33 @@ if (UserAdmin($RinteraUser)==TRUE){
     echo "<option value='2'>Pantalla</option>";
     echo "</select>";
 
+
+
+    echo "<br><label>Usuario Administrador:</label><br>";
+    echo "<select name='ReporteIdUser' id='ReporteIdUser' class='form-control'>";
+    echo "<option value=''>Seleccione</option>";
+    if ($UsuariosForaneaos == FALSE){
+        $sql = "select * from users WHERE IdUser ='".$txtIdUser."'";
+
+        $rc= $db0 -> query($sql);
+                       
+         
+    } else {
+        //Complementmos la consulta a la base de nuestro cliente
+        $sql = $QueryUsuariosForaneos." order by UserName";
+
+        $r= $db1 -> query($sql);
+        while($f = $r -> fetch_array()) {   
+            echo "<option value='".$f['IdUser']."'>".$f['UserName']."</option>";
+        }
+         
+
+    }
+    
+    
+    echo "</select>";
+
+
     echo '
         <br><br><br>';
         echo "
@@ -394,15 +418,15 @@ if (UserAdmin($RinteraUser)==TRUE){
         ";
 
         
-        if (MiToken_valida($MiToken, $RinteraUser, "Nuevo")==TRUE){//Valido
+        // if (MiToken_valida($MiToken, $RinteraUser, "Nuevo")==TRUE){//Valido
             echo '
                 <center><button class="Mbtn btn-Success" style="font-size:20pt;font-family:ExtraBold" onclick="SendData();">Guardar</button></center>
                 ';
         
-        } else { //No Valido
+        // } else { //No Valido
             
 
-        }
+        // }
     
     echo '
         <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
@@ -412,7 +436,7 @@ if (UserAdmin($RinteraUser)==TRUE){
     //echo "</form>";
     
 } else {
-
+    LocationFull("index.php");
 }
 ?>
 
