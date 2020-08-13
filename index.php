@@ -60,66 +60,7 @@ if ($MiToken == ''){
 
 
 <?php
-
-if ($PublicIndex == TRUE){
-
-
-
-    echo "
-    <div id='Welcome' style=''>
-    <table width=100%><tr>
-    
-    <td style='
-    background-color: #16799f;
-    color: white;
-    font-size: 13pt;
-    text-align: center;
-
-    '>
-    ";
-    echo "<a style='
-    display: block;
-    color: white;
-    font-family: ExtraBold;
-    text-transform: uppercase;
-    
-    font-size: 13pt;
-
-
-    ' href='index.php' title='Haz clic aqui para retomar al inicio'>".$Cliente."</a></td>";
-    echo "<td class='pc' style='
-    
-    background-color: #1487b5;
-    font-size: 10pt;
-    color: white;
-    '><cite>".$ClienteInfo."</cite></td>";
-    // echo "<hr><b style='cursor:pointer;' title='No. de Empleado = ".$RinteraUser."'>".$RinteraUserName."</b>";    
-    echo "
-    </td>
-    "."<td valing=middle  style='
-    text-align: right;
-    background-color: #1487b5;
-    color: #fbb373;
-    padding-right: 15px;
-    '><img src='icons/atencion.png' style='width:17px;'><span class='pc'>".$RinteraUserName."</span></td>
-    <td width=50px  style='background-color:#ff7800;' align=center>
-    0
-    </td>
-
-    <td width=10px>
-
-    <a href='logout.php'  title='Cerrar Sessión de ".$RinteraUserName."'>    
-    <img src='icons/salir2.png' style='width:17px;'></a>
-    
-    </td></tr>
-    </table></div>
-    ";
-
-} else {
-    echo "
-    <div id='Welcome'>Acceso abierto al publico</div>";
-}
-
+include ("header.php");
 ?>
 
 <section id='Busqueda' >
@@ -144,6 +85,8 @@ if (isset($_GET['q'])){
 }
 
 if (isset($_GET['i1'])){Toast("Guardado correctamente ".VarClean($_GET['q']),1,"");}
+if (isset($_GET['e1'])){Toast("ERROR:Al localizar el Reporte ".VarClean($_GET['e1']),2,"");}
+// Toast("No se ha localizado tu Reporte ".$IdRep,2,"");
   
 
 ?>

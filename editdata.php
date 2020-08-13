@@ -5,8 +5,9 @@ require("components.php");
 $ElToken = VarClean($_POST['Token']);
 
 $IdUser = VarClean($_POST['IdUser']);
-$MiToken = MiToken($IdUser, "Nuevo");
+$MiToken = MiToken($IdUser, "Edit");
 
+$IdRep = VarClean($_POST['IdRep']);
 $rep_name = VarClean($_POST['rep_name']);
 $rep_descripcion = VarClean($_POST['rep_descripcion']);
 // $rep_query = VarClean($_POST['rep_query']);
@@ -31,6 +32,7 @@ $var3_type = VarClean($_POST['var2_type']);
 $var3_label = VarClean($_POST['var2_label']);
 $var3_sql = VarClean($_POST['var2_sql']);
 
+
 // echo strlen($rep_query);
 //VALIDACION DE CAPTURA
 $OK = TRUE; $msg="";
@@ -40,97 +42,69 @@ if ($rep_query == '' or strlen($rep_query)<=5){$OK = FALSE; $msg= $msg."<li>Debe
     $('#rep_query').css('border-width', '4px');
     </script>";}
 
-    $ReporteIdUser = VarClean($_POST['ReporteIdUser']);
-    if ($ReporteIdUser == '' or strlen($ReporteIdUser)<=5){$OK = FALSE; $msg= $msg."<li>Se requiere seleccionar un Administrador del Reporte</li><script>$('#ReporteIdUser').css('background-color', '#ffeed8');</script>";}
-    
+$ReporteIdUser = VarClean($_POST['ReporteIdUser']);
+if ($ReporteIdUser == '' ){$OK = FALSE; $msg= $msg."<li>Se requiere seleccionar un Administrador del Reporte</li><script>$('#ReporteIdUser').css('background-color', '#ffeed8');</script>";}
+
 
 if ($OK ==TRUE){
     //Listo empezamos a trabajar
 
     //Validar las var
 
-    //Insertar 
+    //Editar
     
-    $sql = "INSERT INTO reportes
-    (
-        
-        rep_name,
-        sql1,
-        sql2,
-        sql3,
-        rep_description,
-        IdUser,
-        fecha,
-        hora,
-        orientacion,
-        estado,
-        solicitante,
-        basededatos,
-        PageSize,
-        out_type,
-        var1,
-        var1_type,
-        var1_label,
-        var2,
-        var2_type,
-        var2_label,
-        var3,
-        var3_type,
-        var3_label,
-        var1_sql,
-        var2_sql,
-        var3_sql, admin
-    )
+    $sql= "
+    UPDATE reportes 
+    SET 
+    rep_name='".$rep_name."',
+    sql1='".$rep_query."',
+    rep_description='".$rep_descripcion."',
+    admin='".$ReporteIdUser."',
+    orientacion='".$Orientacion."',
+    basededatos='".$db."',
+    PageSize='".$PageSize."',
+    out_type='".$Formato."',
+    var1='".$var1."',
+    var1_type='".$var1_type."',
+    var1_label='".$var1_label."',
+    var1_sql='".$var1_sql."',
+    var2='".$var2."',
+    var2_type='".$var2_type."',
+    var2_label='".$var2_label."',
+    var2_sql='".$var2_sql."',
+    var3='".$var3."',
+    var3_type='".$var3_type."',
+    var3_label='".$var3_label."',
+    var3_sql='".$var3_sql."'
+    
+    WHERE id_rep = '".$IdRep."'
+    
+    ";
 
-   VALUES (
-    '".$rep_name."', 
-    '".$rep_query."', 
-    '', 
-    '', 
-    '".$rep_descripcion."', 
-    '".$IdUser."', 
-    '".$fecha."', 
-    '".$hora."', 
-    '".$Orientacion."', 
-    '1', 
-    '".$IdUser."',
-    '".$db."',
-    '".$PageSize."',
-    '".$Formato."',
-    '".$var1."',
-    '".$var1_type."',
-    '".$var1_label."',
-    '".$var2."',
-    '".$var2_type."',
-    '".$var2_label."',
-    '".$var3."',
-    '".$var3_type."',
-    '".$var3_label."',
-    '".$var1_label."',
-    '".$var2_label."',
-    '".$var3_label."',
-    '".$ReporteIdUser."')";
-    
     // echo $sql;
+
     // mensaje($sql,'login.php');
 
-    echo "".$ElToken." | ".$MiToken;
-    if (MiToken_valida($ElToken, $IdUser, "Nuevo")==TRUE){//Valido
+//  echo "".$ElToken." | ".$MiToken;
+
+    if (MiToken_valida($ElToken, $IdUser, "Edit")==TRUE){//Valido
         if ($db0->query($sql) == TRUE)
         {
-            $page = "index.php?q=".$rep_name."&i1=";
-            MiToken_Close($IdUser, $ElToken);    
-            Historia($IdUser, "NUEVO", "Creo el Reporte ".$rep_name." [SQL=".$sql."]");
-            LocationFull($page);
+            $page = "index.php?q=".$rep_name."&i2=".$rep_name."";
+            // MiToken_Close($IdUser, $ElToken);             
+            Historia($IdUser, "EDIT", "Edito el Reporte ".$rep_name." - ID = ".$IdRep."[SQL=".$sql."]");
+            Toast("Se ha guardado correctamente ".$rep_name,1,"");
+            // LocationFull($page);
         }
         else {
             // MiToken_Close($IdUser, $ElToken);             
-            echo "Ha habido un error al intentar guardar tu reporte: <br>QUERY= <br>".$sql;
+            echo "<br>Ha habido un error al intentar guardar tu reporte: <br>QUERY= <br>".$sql;
         }
     } else {
         // MiToken_Close($IdUser, $ElToken);             
-        echo "Ha habido un error, vuelva a intentarlo.";
+        echo "<br>Ha habido un error, vuelva a intentarlo.";
     }
+
 } else {
     Toast("Te faltan algunos datos",2,"");
     // MiToken_Close($IdUser, $ElToken);             

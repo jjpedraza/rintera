@@ -25,18 +25,20 @@ function MiToken_valida($Token, $usuario, $descripcion){
 function MiToken($usuario, $descripcion){
     require("rintera-config.php");
     $sql = "SELECT * from tokens WHERE user='$usuario' and activo='0' and descripcion = '".$descripcion."'";
+    // echo $sql."<br>";
     $rc= $db0 -> query($sql);
     if($f = $rc -> fetch_array())
 	{
         return $f['token'];
     } else {
-        return '';
+        return MiToken_Init($usuario, $descripcion);
     }
 }
 function MiToken_Init($usuario, $descripcion){
     require("rintera-config.php");
-    $sql = "SELECT count(*) as n from tokens WHERE user='$usuario' and activo='0'";
+    $sql = "SELECT count(*) as n from tokens WHERE user='$usuario' and activo='0' and descripcion='".$descripcion."'";
     // echo $sql;
+    // echo $sql."<br>";
     $rc= $db0 -> query($sql);
     if($rc){
         if($f = $rc -> fetch_array())
@@ -48,7 +50,7 @@ function MiToken_Init($usuario, $descripcion){
 				//echo $Token;
                 $sql = "INSERT INTO tokens (id, user, descripcion, token, fecha, hora, activo, cierre_fecha, cierre_hora)
                 VALUES ('','$usuario', '$descripcion', '$Token','$fecha', '$hora','0','','')";
-                //echo $sql;
+                // echo $sql."<br>";
                 if ($db0->query($sql) == TRUE)
                 {return $Token;} else {return '';}
       

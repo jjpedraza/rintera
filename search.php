@@ -82,9 +82,12 @@ if (MiToken_valida($ElToken, $IdUser, "Search")==TRUE){//Valido
         echo "</a>";
         }
         echo "</td><td align=right valign=top width=20px>";
-        echo "<img src='icons/mas.png'
-        class='iconoMore'
-        >";
+        if (UserAdmin($IdUser)==TRUE){
+            echo "<a href='edit.php?id=".$f['id_rep']."' title='Haga clic aquí para editar el Reporte'><img src='icons/mas.png'
+            class='iconoMore'
+            ></a>";
+        }
+        
         echo "</td></tr></table>";
         echo "<h4><b>".$f['rep_name']."</b></h4>";
         echo "<cite>".$f['rep_description']."</cite>";

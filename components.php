@@ -474,4 +474,153 @@ function PermisoReporte_Share($IdUser,$IdRep){
 
 }
 
+
+
+function DynamicTable_MySQL($sql, $IdDiv, $IdTabla, $Clase, $Tipo, $db){
+	//Tipo == 0 = Basica, 1 = ScrollVertical, 2 = Scroll Horizontal
+	//$sql = "select * from Colorines limit 20";
+	//DynamicTable_MySQL($sql, "Colorines", "Colorines_Tabla", "Colorines_ClaseCSS", 0, 0);
+
+	require("rintera-config.php");
+	
+	if ($db == 0){
+        $r= $db0 -> query($sql);
+        $tbCont = '<div id="'.$IdDiv.'" class="'.$Clase.'">
+        <table id="'.$IdTabla.'" class="display" style="width:100%" class="tabla" style="font-size:8pt;">';
+    $tabla_titulos = ""; $cuantas_columnas = 0;
+        $r2 = $db0 -> query($sql); while($finfo = $r2->fetch_field())
+        {//OBTENER LAS COLUMNAS
+
+                /* obtener posición del puntero de campo */
+                $currentfield = $r2->current_field;       
+                $tabla_titulos=$tabla_titulos."<th style='text-transform:uppercase; font-size:9pt;'>".$finfo->name."</th>";
+                $cuantas_columnas = $cuantas_columnas + 1;        
+        }
+
+        $tbCont = $tbCont."  
+        <thead>
+        <tr>
+            ".$tabla_titulos."  
+        </tr>
+        </thead>"; //Encabezados
+        $tbCont = $tbCont."<tbody class='tabla'>";
+        $cuantas_filas=0;
+        $r = $db0 -> query($sql); while($f = $r-> fetch_row())
+        {//LISTAR COLUMNAS
+
+            $tbCont = $tbCont."<tr>";        
+            for ($i = 1; $i <= $cuantas_columnas; $i++) {      
+                $tbCont = $tbCont."<td style='font-size:10pt;'>".$f[$i-1]."</td>";       
+                }
+
+            $tbCont = $tbCont."</tr>";
+            $cuantas_filas = $cuantas_filas + 1;        
+        }
+
+        $tbCont = $tbCont."</tbody>";
+        $tbCont = $tbCont."</table></div>";
+	
+
+    }
+
+
+
+
+
+
+	if ($db == 1){
+
+        $r1= $db1 -> query($sql);
+        $tbCont = '<div id="'.$IdDiv.'" class="'.$Clase.'">
+        <table id="'.$IdTabla.'" class="display" style="width:100%" class="tabla" style="font-size:8pt;">';
+    $tabla_titulos = ""; $cuantas_columnas = 0;
+        $r1_1 = $db1 -> query($sql); while($finfo = $r1_1->fetch_field())
+        {//OBTENER LAS COLUMNAS
+
+                /* obtener posición del puntero de campo */
+                $currentfield = $r1_1->current_field;       
+                $tabla_titulos=$tabla_titulos."<th style='text-transform:uppercase; font-size:9pt;'>".$finfo->name."</th>";
+                $cuantas_columnas = $cuantas_columnas + 1;        
+        }
+
+        $tbCont = $tbCont."  
+        <thead>
+        <tr>
+            ".$tabla_titulos."  
+        </tr>
+        </thead>"; //Encabezados
+        $tbCont = $tbCont."<tbody class='tabla'>";
+        $cuantas_filas=0;
+        $r1 = $db1 -> query($sql); while($f1 = $r1-> fetch_row())
+        {//LISTAR COLUMNAS
+
+            $tbCont = $tbCont."<tr>";        
+            for ($i = 1; $i <= $cuantas_columnas; $i++) {      
+                $tbCont = $tbCont."<td style='font-size:10pt;'>".$f1[$i-1]."</td>";       
+                }
+
+            $tbCont = $tbCont."</tr>";
+            $cuantas_filas = $cuantas_filas + 1;        
+        }
+
+        $tbCont = $tbCont."</tbody>";
+        $tbCont = $tbCont."</table></div>";
+	
+
+    }
+
+
+    if ($db == 0 OR $db==1){
+	echo  $tbCont;
+		switch ($Tipo) {
+			case 1: //Scroll Vertical
+					echo '<script>
+					$(document).ready(function() {
+						$("#'.$IdTabla.'").DataTable( {
+							"scrollY":        "200px",
+							"scrollCollapse": true,
+							"paging":         false,
+							"language": {
+								"decimal": ",",
+								"thousands": "."
+							}
+						} );
+					} );
+					</script>';
+				break;
+
+			case 2: //Scroll Horizontal
+					echo '<script>
+					$(document).ready(function() {
+						$("#'.$IdTabla.'").DataTable( {
+							"scrollX": true,
+							"scrollCollapse": true,
+							"paging":         true,
+							"language": {
+								"decimal": ",",
+								"thousands": "."
+							}
+						} );
+					} );
+					</script>';
+				break;
+			
+			default:
+				echo '<script>
+				$(document).ready(function() {
+					$("#'.$IdTabla.'").DataTable( {
+						"language": {
+							"decimal": ",",
+							"thousands": "."
+						}
+					} );
+				} );
+				</script>';
+		}
+    } else {
+    	echo "Error: no se ha seleccionado una db para la Tabla Dinamica";
+    }
+
+}
+
 ?>
