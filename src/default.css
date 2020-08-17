@@ -6,6 +6,16 @@
 @font-face{font-family:"Informal";src:url("CFCrayons-Regular.ttf") format("truetype")}
 @font-face{font-family:"Bold";src:url("OpenSans-ExtraBold.ttf") format("truetype")}
 
+.Panel {
+	width: 46%;
+	display: inline-block;
+	/* background-color: antiquewhite; */
+	margin: 5px;
+	vertical-align: top;
+	border-radius: 5px;
+	padding: 5px;
+
+}
 .iconoMore{
 	width: 18px;
 	margin-top: -10px;
@@ -652,5 +662,9 @@ margin-lefT:2px; margin-right: 2px; }
 
 #Reportes article {
 	width:99%;
+}
+
+.Panel {
+	width: 90%;
 }
 }

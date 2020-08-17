@@ -7,7 +7,7 @@ if ($PublicIndex == TRUE){
 
     echo "
     <div id='Welcome' style=''>
-    <table width=100%><tr>
+    <table width=100% border=0><tr>
     
     <td style='
     background-color: #16799f;
@@ -35,19 +35,42 @@ if ($PublicIndex == TRUE){
     '><cite>".$ClienteInfo."</cite></td>";
     // echo "<hr><b style='cursor:pointer;' title='No. de Empleado = ".$RinteraUser."'>".$RinteraUserName."</b>";    
     echo "
-    </td>
-    "."<td valing=middle  style='
+    </td>";
+
+  
+
+    echo "<td  valing=middle  style='
     text-align: right;
     background-color: #1487b5;
-    color: #fbb373;
+    color: white;
     padding-right: 15px;
-    '><img src='icons/atencion.png' style='width:17px;'><span class='pc'> ".$RinteraUserName."</span></td>";
+    '><img src='icons/atencion.png' style='width:17px;'><span class='pc'> ".$RinteraUserName."</span> </td>";
+
+
+    if (UserAdmin($RinteraUser)==TRUE){
+        echo "<td width=22px align=right 
+        style='
+        
+        background-color: #1487b5;
+        font-size: 10pt;
+        color: white;
+        '
+        >";
+        
+        echo "<a href='custom.php?db=' title='Haga clic aqui para ajustar las preferencias'>";
+        echo " <img src='icons/config.png' style='width:22px; margin:3px;'> ";
+        echo "</a>";
+        
+        echo "</td>";
+    
+    }
+    
 
     $Pendientes = 3;
 
     if ($Pendientes >0 ){
         echo "
-        <td width=50px  style='background-color:#ff7800;color:white; font-weight:bold' align=center title='Pendientes por checar'>
+        <td  style='background-color:#ff7800;color:white; font-weight:bold' align=center title='Pendientes por checar'>
         ".$Pendientes."
         </td>";
 

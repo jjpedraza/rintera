@@ -1,16 +1,20 @@
 <?php
 //TU CLIENTE:
 $Cliente  = "Rintera";
+$SrcLogo = "img/logo.png";
+
 $ClienteInfo = "Reportes Interactivos basados en consultas MySQL con Variables";
 $ClienteContacto = "Juan José Pedraza, printepolis@gmail.com, Whatsapp: 8343088602";
 
+
+//PARAMETROS:
 $PublicIndex =  TRUE; //requiere login para ver los reportes, usuarios | Tipo = 2
 $UsuariosForaneaos = FALSE; // para activar consulta en la base secundaria $db1
+    $QueryUsuariosForaneos = "
+        select * from UsuariosRintera where RinteraLevel>0
+    "; // Tomar en cuenta en tu consulta, que añadiras un and en el WHERE despues
+    //para seleccionar al usuario
 
-$QueryUsuariosForaneos = "
-select * from UsuariosRintera where RinteraLevel>0
-"; // Tomar en cuenta en tu consulta, que añadiras un and en el WHERE despues
-//para seleccionar al usuario
 
 //CONEXION DE LA BASE DE DATOS DE RINTERA	
 	$db0_host = 'localhost';	
@@ -26,6 +30,9 @@ select * from UsuariosRintera where RinteraLevel>0
 		}else{			
 			die ("Error en la conexion a la base de datos principal de RINTERA");
     }
+
+
+//Conecciones a las bases de datos    
 
 
 
