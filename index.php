@@ -38,7 +38,9 @@ if  ($PublicIndex == TRUE){
 <script src="lib/jquery.modalpdz.js"></script> 
 <link rel="stylesheet" href="lib/jquery.modalcsspdz.css" />
 
-
+<link rel="icon" href="data:;base64,iVBORw0KGgo=">
+<link rel="shortcut icon" href="favicon.ico">
+<link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
 </head>
 <body>
 <?php Init();

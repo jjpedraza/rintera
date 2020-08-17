@@ -14,10 +14,12 @@ require("components.php");
 	
 	<script src="lib/jquery-3.3.1.js"></script> 
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
+                    
 
 <?php
 $dir = "";
 echo '
+             
 
 <script src="lib/jquery-3.3.1.js"></script> 
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
@@ -31,13 +33,15 @@ echo '
 <link rel="stylesheet" href="lib/jquery.modalcsspdz.css" />
 ';
 
+
 ?>
+
     <style>
         body {
             background-color: #d5d5d5;
             
         }
-        #Login {
+        #Login, #Login2 {
             width: 40%;
             background-color: white;
             position: absolute;
@@ -66,6 +70,8 @@ echo '
 
 </div>
 <?php
+
+
 if (isset($_POST['FormLogin'])){
 
     $txtIdUser = VarClean($_POST['txtIdUser']);
@@ -124,8 +130,10 @@ if (isset($_POST['FormLogin'])){
       if ($f['NIP']==$txtNIP){
 
                 $IdUser = $f['IdUser'];	// variable de entorno      
-                session_start();    
-                session_regenerate_id();                
+                session_name($SesionName);
+                session_start();                    
+                // session_regenerate_id();    
+                // echo "Id: ".session_id();            
                 
 
                 $_SESSION['RinteraUser']=$f['IdUser']; //session		
@@ -135,6 +143,10 @@ if (isset($_POST['FormLogin'])){
 
                 Historia($RinteraUser,'RinteraLogin','Acceso Rintera'.InfoEquipo().'');			    
                 SESSION_init(session_id(), $RinteraUser, $SesionName, InfoEquipo(), "");    
+                
+
+               
+
                 echo '<script>window.location.replace("index.php?home=")</script>'; 
             
         } else {

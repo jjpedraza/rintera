@@ -1,9 +1,22 @@
 <?php
 //AUTORIZACION PARA WEBSITE DEL USUARIO
+require("rintera-config.php");
+
+session_name($SesionName);
 session_start();	
+// echo "id: ".session_id();
+// echo "error: ".$_SESSION['RinteraUser'];
+
+// if (isset($_SESSION['RinteraUser']) <> ''){
+// 	echo "Hay Session";
+// } else {
+// 	echo "NO Hay Session";
+// }
+
+
 if (isset($_SESSION['RinteraUser'])){
-	require("rintera-config.php");
-	
+
+
 	//SENTINELA DE SESSION
 	$IdSession = session_id();
 	if (SESSION_Validate($IdSession) == TRUE) { //<-- Si la session esta abierta
@@ -29,20 +42,18 @@ if (isset($_SESSION['RinteraUser'])){
 		$_SESSION = array(); 
 		session_destroy();		
 		unset($RinteraUser);
-		//header("location:login.php?info=Sesion Expirada");	
+		header("location:login.php?info=Sesion Expirada");	
 	}
 
 
 
 
-
-        // $HorarioInicio = HorarioInicio(($_SESSION['IdUser']));
-        // $HorarioFin = HorarioFin(($_SESSION['IdUser']));
-            
 					
 }
 else
+
 {	
+	
 	$_SESSION = array(); session_destroy();		   
 	unset($IdUser);
 	header("location:login.php");		
@@ -80,7 +91,8 @@ function SESSION_Validate($id){ // solo existe en seguridad
 	require("rintera-config.php");    
     $sql = "select  count(*) as n  from sessiones 
 	where id='".$id."' and cierre_fecha = '0000-00-00'" ;
-	echo $sql;
+	// echo $sql;
+	echo "<script>console.log(".$sql.");</script>";
     $r= $db0 -> query($sql); if($f = $r -> fetch_array()){
 			if ($f['n']==0)	{
 				return FALSE;
@@ -146,6 +158,6 @@ require("rintera-config.php");
 	else {return FALSE;}
 }
 
-ob_end_clean();
+// ob_end_clean();
 
 ?>
