@@ -55,44 +55,69 @@ include ("header.php");
 
 
 <?php
+//     echo '
+//     <!-- Default switch -->
+// <div class="custom-control custom-switch">
+//   <input type="checkbox" class="custom-control-input" id="customSwitches">
+//   <label class="custom-control-label" for="customSwitches">Toggle this switch element</label>
+// </div>
+//     ';
+
+
 if (UserAdmin($RinteraUser)==TRUE){
     echo "<center>";
     echo "<h4>Preferencias de Rintera</h4>";
 
-    echo '<div id="accordion" class="Panel">
-         <div class="card">
-            <div class="card-header" id="headingOne">
-                <h5 class="mb-0">
-                    <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                        db1
-                    </button>
-                </h5>
-            </div>';
+    $sql="select * from dbs";
+    $r= $db0 -> query($sql);    
+    echo '<div id="accordion" class="Panel" 
+    style="
+        background-color: #f0f0f0;
+        padding: 10px;
+    "
+    >';
+    echo '<h6 style="
+    font-weight:bold;
+    ">Configuracion de Origen de Datos:</h6>';
 
-    echo '
-        <div id="collapseOne" class="collapse " aria-labelledby="headingOne" data-parent="#accordion">
-            <div class="card-body">
-            x
-            </div>
-        </div>
-    </div>';
 
+
+    while($f = $r -> fetch_array()) {  
+        if ($f['Active']==1){$Color = '#d3f0cf';} else {$Color = '#f4f4f4';}
+        $IdCard='Card'.$f['IdCon'];
+        $IdCollapsed = 'Coll'.$f['IdCon'] ;
+        $btnText ='<table width=100% border=0><tr><td width=20px align=left><img src="icons/db.png" style="width:20px"></td><td>['.$f['IdCon'].'] '.$f['ConName'].'</td></tr></table>';
+        $ContenidoDelCard = 'Esto seria el contenido';
+        AcordionCard($IdCard, $btnText, $IdCollapsed, $Color);
+        AcordionCard_Data($IdCard, $ContenidoDelCard, $IdCollapsed, $Color);
+
+        // echo '
+        //     <div class="card">
+        //         <div class="card-header" id="headingOne">
+        //             <h5 class="mb-0">
+        //                 <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">';
+                            
+        // echo '          </button>
+        //             </h5>
+        //         </div>';
+
+    // echo '
+    //     <div id="collapseOne" class="collapse " aria-labelledby="headingOne" data-parent="#accordion">
+    //         <div class="card-body">
+    //         x
+    //         </div>
+    //     </div>
+    // </div>';
+
+    }
     echo '</div>';
 
 
     echo '<div id="Grafica" class="Panel">';
-    echo 'xxxx';
+    echo 'Panel2';
     echo '</div>';
 
 
-    echo '<div id="Grafica" class="Panel">';
-    echo 'xxxx';
-    echo '</div>';
-
-
-    echo '<div id="Grafica" class="Panel">';
-    echo 'xxxx';
-    echo '</div>';
 
 
     

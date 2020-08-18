@@ -623,4 +623,41 @@ function DynamicTable_MySQL($sql, $IdDiv, $IdTabla, $Clase, $Tipo, $db){
 
 }
 
+
+
+//Acordeon
+
+function AcordionCard($IdCard, $btnText, $IdCollapsed, $Color){
+        echo '
+            <div class="card">
+                <div class="card-header" id="'.$IdCard.'" style="
+                background-color:'.$Color.'
+                ">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link" data-toggle="collapse" data-target="#'.$IdCollapsed.'" aria-expanded="true" aria-controls="'.$IdCollapsed.'"
+                        style="width:100%;"
+                        
+                        >';
+        echo $btnText;                            
+        echo '          </button>
+                    </h5>
+                </div>';
+}
+
+function AcordionCard_Data($IdCard, $Text, $IdCollapsed, $Color){
+    echo '
+        <div id="'.$IdCollapsed.'" class="collapse " aria-labelledby="'.$IdCard.'" data-parent="#accordion" style="opacity:0.6; background-color:'.$Color.';
+        -webkit-box-shadow: inset 2px 25px 31px -25px rgba(0,0,0,0.75);
+        -moz-box-shadow: inset 2px 25px 31px -25px rgba(0,0,0,0.75);
+        box-shadow: inset 2px 25px 31px -25px rgba(0,0,0,0.75);
+        
+        ">
+            <div class="card-body">';
+    echo $Text;
+    echo '  </div>
+        </div>
+    
+    </div>
+    ';
+}
 ?>
