@@ -632,6 +632,7 @@ function AcordionCard($IdCard, $btnText, $IdCollapsed, $Color){
             <div class="card">
                 <div class="card-header" id="'.$IdCard.'" style="
                 background-color:'.$Color.'
+
                 ">
                     <h5 class="mb-0">
                         <button class="btn btn-link" data-toggle="collapse" data-target="#'.$IdCollapsed.'" aria-expanded="true" aria-controls="'.$IdCollapsed.'"
@@ -646,7 +647,7 @@ function AcordionCard($IdCard, $btnText, $IdCollapsed, $Color){
 
 function AcordionCard_Data($IdCard, $Text, $IdCollapsed, $Color){
     echo '
-        <div id="'.$IdCollapsed.'" class="collapse " aria-labelledby="'.$IdCard.'" data-parent="#accordion" style="opacity:0.6; background-color:'.$Color.';
+        <div id="'.$IdCollapsed.'" class="collapse " aria-labelledby="'.$IdCard.'" data-parent="#accordion" style="opacity:0.8; background-color:'.$Color.';
         -webkit-box-shadow: inset 2px 25px 31px -25px rgba(0,0,0,0.75);
         -moz-box-shadow: inset 2px 25px 31px -25px rgba(0,0,0,0.75);
         box-shadow: inset 2px 25px 31px -25px rgba(0,0,0,0.75);
@@ -660,4 +661,66 @@ function AcordionCard_Data($IdCard, $Text, $IdCollapsed, $Color){
     </div>
     ';
 }
+
+
+function TestConectionDB($IdCon){
+require("rintera-config.php");   
+$sql = "select * from dbs where IdCon='".$IdCon."'";
+$rc= $db0 -> query($sql);
+if($f = $rc -> fetch_array())
+{
+    if ($f['dbhost']<>'' &&  $f['dbname']<>'' && $f['dbuser']<>'' && $f['dbpassword']<>'')    {
+        $Tdb_host = $f['dbhost'];
+        $Tdb_user = $f['dbuser'];
+        $Tdb_pass = $f['dbpassword'];
+        $Tdb_name = $f['dbname'];
+
+        
+            $Tdb = new mysqli($Tdb_host,$Tdb_user,$Tdb_pass,$Tdb_name);
+            if ($Tdb->connect_error) {
+                // die("Connection failed: " . $Tdb->connect_error);
+                Toast("Error al conectarse, revise los datos. ".$Tdb->connect_error,2,"");
+            }
+            $sql = "select @@version as Version";
+            $rT= $Tdb -> query($sql);
+            if($T = $rT -> fetch_array()){
+                Toast("Conección Existosa a ".$dbname."@".$dbhost.": <b>".$T['Version'],4,"")."</b>";
+            } else {
+                Toast("Error al conectase, revise los datos en su conección",3,"");
+            }
+        
+        
+         
+           
+
+
+
+
+
+    } else {
+        Toast("Sin datos para la coneccion",2,"");
+    }
+
+
+} else {
+    return "FALSE";
+}
+
+}
+
+function ConType($IdCon){
+    require("rintera-config.php");   
+    
+    $sql = "select * from dbs WHERE Idcon='".$IdCon."'";
+    $rc= $db0 -> query($sql);
+    if($f = $rc -> fetch_array())
+    {
+        return $f['ConType'];
+    } else{
+        return "";
+    }
+        
+}
+
+
 ?>
