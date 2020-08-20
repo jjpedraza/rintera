@@ -6,6 +6,18 @@
 @font-face{font-family:"Informal";src:url("CFCrayons-Regular.ttf") format("truetype")}
 @font-face{font-family:"Bold";src:url("OpenSans-ExtraBold.ttf") format("truetype")}
 
+.Etiqueta{
+	color: #716e6e;
+	background-color: #dfdfdf;
+	width: 100%;
+	display: block;
+	border-radius: 3px;
+	font-weight: normal;
+	font-size: 10pt;
+	padding: 4px;
+	margin-bottom: 10px;
+}
+
 .Panel {
 	width: 46%;
 	display: inline-block;

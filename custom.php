@@ -136,174 +136,327 @@ if (UserAdmin($RinteraUser)==TRUE){
             $ContenidoDelCard =  $ContenidoDelCard.'<input type="hidden" id="ConType_'.$f['IdCon'].'" value="'.$f['ConType'].'">';
             if ($f['ConType']<=1){
                 
-                $ContenidoDelCard =  $ContenidoDelCard.'
-                <div class="row ">
-                    
-                    <div class="col-sm-6 form-group">
-                        <label class="" for="dbhost_'.$f['IdCon'].'" >Host:</label>
-                        <input class="form-control" type="text" name="dbhost_'.$f['IdCon'].'" id="dbhost_'.$f['IdCon'].'"
-                        title="URL o ip del servidor de la base de datos"                    
-                        value="'.$f['dbhost'].'"
-                        >
-                    </div>
-
-                    
-                    <div class="col-sm-6 form-group">
-                        <label class="" for="dbuser_'.$f['IdCon'].'" >Usuario:</label>
-                        <input class="form-control" type="text" name="dbuser_'.$f['IdCon'].'" id="dbuser_'.$f['IdCon'].'"
-                        title="Usuario para acceder a la base de datos"                    
-                        value="'.$f['dbuser'].'"
-                        >
-                    </div>
-                </div>
-                ';
-
-
-                $ContenidoDelCard =  $ContenidoDelCard.'
-                <div class="row ">
-                    
-                    <div class="col-sm-6 form-group">
-                        <label class="" for="dbname_'.$f['IdCon'].'" >Nombre de la Base:</label>
-                        <input class="form-control" type="text" name="dbname_'.$f['IdCon'].'" id="dbname_'.$f['IdCon'].'"
-                        title="Nombre de la base de datos"                    
-                        value="'.$f['dbname'].'"
-                        >
-                    </div>
-
-                    
-                    <div class="col-sm-6 form-group">
-                        <label class="" for="dbpassword_'.$f['IdCon'].'" >Password:</label>
-                        <input class="form-control" type="text" name="dbpassword_'.$f['IdCon'].'" id="dbpassword_'.$f['IdCon'].'"
-                        title="Password del usuario de la base de datos"                    
-                        value="'.$f['dbpassword'].'"
-                        >
-                    </div>
-                </div>
-                ';
-            } else {
-                $ContenidoDelCard =  $ContenidoDelCard.'
-                <div class="row ">                    
-                    <div class="col-sm-6 form-group">
-                        <label  class="" for="wsmethod_'.$f['IdCon'].'" >Metodo:</label>
-                        <select class="form-control" type="text" name="wsmethod_'.$f['IdCon'].'" id="wsmethod_'.$f['IdCon'].'"
-                            title="Metodo del webservice GET o POST"                                                
-                            required
-                        >';
-
-                        if ($f['wsmethod'] == '0'){
-                            $ContenidoDelCard =  $ContenidoDelCard.'
-                                <option value="0" selected>GET</option>                                
-                                <option value="1">POST</option>
-                            ';
-
-                        } else {
-                                $ContenidoDelCard =  $ContenidoDelCard.'
-                                <option value="1" selected>POST</option>                                
-                                <option value="0">GET</option>                                
-                                ';
-                            
-                        }
-                            
-
-
-                    
+            if ($f['ConType']==0){
                     $ContenidoDelCard =  $ContenidoDelCard.'
+                    <b class="Etiqueta">* Esta conección es la base de rintera</b>
+                    <div class="row ">
+                        
+                        <div class="col-sm-6 form-group">
+                            <label class="" for="dbhost_'.$f['IdCon'].'" >Host:</label>
+                            <input class="form-control" type="text" name="dbhost_'.$f['IdCon'].'" id="dbhost_'.$f['IdCon'].'"
+                            title="URL o ip del servidor de la base de datos"                    
+                            value="'.$db0_host.'"
+                            >
+                        </div>
 
-                        </select>
+                        
+                        <div class="col-sm-6 form-group">
+                            <label class="" for="dbuser_'.$f['IdCon'].'" >Usuario:</label>
+                            <input class="form-control" type="text" name="dbuser_'.$f['IdCon'].'" id="dbuser_'.$f['IdCon'].'"
+                            title="Usuario para acceder a la base de datos"                    
+                            value="'.$db0_user.'"
+                            >
+                        </div>
                     </div>
+                    ';
 
+
+                    $ContenidoDelCard =  $ContenidoDelCard.'
+                    <div class="row ">
+                        
+                        <div class="col-sm-6 form-group">
+                            <label class="" for="dbname_'.$f['IdCon'].'" >Nombre de la Base:</label>
+                            <input class="form-control" type="text" name="dbname_'.$f['IdCon'].'" id="dbname_'.$f['IdCon'].'"
+                            title="Nombre de la base de datos"                    
+                            value="'.$db0_name .'"
+                            >
+                        </div>
+
+                        
+                        <div class="col-sm-6 form-group">
+                            <label class="" for="dbpassword_'.$f['IdCon'].'" >Password:</label>
+                            <input class="form-control" type="text" name="dbpassword_'.$f['IdCon'].'" id="dbpassword_'.$f['IdCon'].'"
+                            title="Password del usuario de la base de datos"                    
+                            value="'.$db0_pass.'"
+                            >
+                        </div>
+                    </div>
+                    ';
+
+            } else {
+                    $ContenidoDelCard =  $ContenidoDelCard.'
+                    <div class="row ">
+                        
+                        <div class="col-sm-6 form-group">
+                            <label class="" for="dbhost_'.$f['IdCon'].'" >Host:</label>
+                            <input class="form-control" type="text" name="dbhost_'.$f['IdCon'].'" id="dbhost_'.$f['IdCon'].'"
+                            title="URL o ip del servidor de la base de datos"                    
+                            value="'.$f['dbhost'].'"
+                            >
+                        </div>
+
+                        
+                        <div class="col-sm-6 form-group">
+                            <label class="" for="dbuser_'.$f['IdCon'].'" >Usuario:</label>
+                            <input class="form-control" type="text" name="dbuser_'.$f['IdCon'].'" id="dbuser_'.$f['IdCon'].'"
+                            title="Usuario para acceder a la base de datos"                    
+                            value="'.$f['dbuser'].'"
+                            >
+                        </div>
+                    </div>
+                    ';
+
+
+                    $ContenidoDelCard =  $ContenidoDelCard.'
+                    <div class="row ">
+                        
+                        <div class="col-sm-6 form-group">
+                            <label class="" for="dbname_'.$f['IdCon'].'" >Nombre de la Base:</label>
+                            <input class="form-control" type="text" name="dbname_'.$f['IdCon'].'" id="dbname_'.$f['IdCon'].'"
+                            title="Nombre de la base de datos"                    
+                            value="'.$f['dbname'].'"
+                            >
+                        </div>
+
+                        
+                        <div class="col-sm-6 form-group">
+                            <label class="" for="dbpassword_'.$f['IdCon'].'" >Password:</label>
+                            <input class="form-control" type="text" name="dbpassword_'.$f['IdCon'].'" id="dbpassword_'.$f['IdCon'].'"
+                            title="Password del usuario de la base de datos"                    
+                            value="'.$f['dbpassword'].'"
+                            >
+                        </div>
+                    </div>
+                    ';
+                }
+            } else {
+
+                if ($f['ConType']==2){//SQLSERVERTOJON
+                    $ContenidoDelCard =  $ContenidoDelCard.'
+                    <b class="Etiqueta">
+                    WebService: <a href="https://github.com/prymecode/sqlservertojson" title="Conecta el proyecto mediante consultas SQL a tu servidor MSSQL-Server"
+                    >sqlservertojson</a>. <p>Conecta el proyecto mediante consultas SQL a tu servidor MSSQL-Server</p>
+                    </b>
+                    <div class="row ">                    
+                        <div class="col-sm-6 form-group">
+                            <label  class="" for="wsmethod_'.$f['IdCon'].'" >Metodo:</label>
+                            <select class="form-control" type="text" name="wsmethod_'.$f['IdCon'].'" id="wsmethod_'.$f['IdCon'].'"
+                                title="Metodo del webservice GET o POST"                                                
+                                required
+                            >';
+                                $ContenidoDelCard =  $ContenidoDelCard.'                                                                 
+                                    <option value="1" selected>POST</option>';
+
+                            // if ($f['wsmethod'] == '0'){
+                            //     $ContenidoDelCard =  $ContenidoDelCard.'
+                            //         <option value="0" selected>GET</option>                                
+                            //         <option value="1">POST</option>
+                            //     ';
+    
+                            // } else {
+                            //         $ContenidoDelCard =  $ContenidoDelCard.'
+                            //         <option value="1" selected>POST</option>                                
+                            //         <option value="0">GET</option>                                
+                            //         ';
+                                
+                            // }
+                                
+    
+    
+                        
+                        $ContenidoDelCard =  $ContenidoDelCard.'
+    
+                            </select>
+                        </div>
+    
+                        
+                        <div class="col-sm-6 form-group">
+                            <label class="" for="wsurl_'.$f['IdCon'].'" >URL:</label>
+                            <input class="form-control" type="text" name="wsurl_'.$f['IdCon'].'" id="wsurl_'.$f['IdCon'].'"
+                            title="URL del Webservice"                    
+                            value="'.$f['wsurl'].'"
+                            >
+                        </div>
+                    </div>
+                    ';
+    
+                    $ContenidoDelCard =  $ContenidoDelCard.'
+                    <div class="row ">  
+                    <h6>Parametros:</h6>
+                    <table width=100% class="tabla">
+                    <th>n</th><th>Id</th><th>Valor</th>
+                    <tr>
+                        <td>1</td>
+                        <td> 
+                            <input class="form-control" type="text" name="wsP1_id_'.$f['IdCon'].'" id="wsP1_id_'.$f['IdCon'].'"
+                            title="Id del Primer Parametro"                    
+                            value="token"
+                            >
+                        </td>
+    
+                        <td> 
+                            <input class="form-control" type="text" name="wsP1_value_'.$f['IdCon'].'" id="wsP1_value_'.$f['IdCon'].'"
+                            title="Valor del Primer Parametro"                    
+                            value="'.$f['wsP1_value'].'"
+                            >
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td>2</td>
+                        <td> 
+                            <input class="form-control" type="text" name="wsP2_id_'.$f['IdCon'].'" id="wsP2_id_'.$f['IdCon'].'"
+                            title="Id del Segundo Parametro"                    
+                            value="method"
+                            readonly
+                            >
+                        </td>
+    
+                        <td> 
+                            <input class="form-control" type="text" name="wsP2_value_'.$f['IdCon'].'" id="wsP2_value_'.$f['IdCon'].'"
+                            title="Valor del Primer Parametro"                    
+                            value="POST"
+                            readonly
+                            >
+                        </td>
+                    </tr>
+    
+    
+                    </tr>
+    
+                    </table>
+    
+                    </div>
+                    ';
+    
                     
-                    <div class="col-sm-6 form-group">
-                        <label class="" for="wsurl_'.$f['IdCon'].'" >URL:</label>
-                        <input class="form-control" type="text" name="wsurl_'.$f['IdCon'].'" id="wsurl_'.$f['IdCon'].'"
-                        title="URL del Webservice"                    
-                        value="'.$f['wsurl'].'"
-                        >
+    
+                } else {
+                    $ContenidoDelCard =  $ContenidoDelCard.'
+                    <div class="row ">                    
+                        <div class="col-sm-6 form-group">
+                            <label  class="" for="wsmethod_'.$f['IdCon'].'" >Metodo:</label>
+                            <select class="form-control" type="text" name="wsmethod_'.$f['IdCon'].'" id="wsmethod_'.$f['IdCon'].'"
+                                title="Metodo del webservice GET o POST"                                                
+                                required
+                            >';
+    
+                            if ($f['wsmethod'] == '0'){
+                                $ContenidoDelCard =  $ContenidoDelCard.'
+                                    <option value="0" selected>GET</option>                                
+                                    <option value="1">POST</option>
+                                ';
+    
+                            } else {
+                                    $ContenidoDelCard =  $ContenidoDelCard.'
+                                    <option value="1" selected>POST</option>                                
+                                    <option value="0">GET</option>                                
+                                    ';
+                                
+                            }
+                                
+    
+    
+                        
+                        $ContenidoDelCard =  $ContenidoDelCard.'
+    
+                            </select>
+                        </div>
+    
+                        
+                        <div class="col-sm-6 form-group">
+                            <label class="" for="wsurl_'.$f['IdCon'].'" >URL:</label>
+                            <input class="form-control" type="text" name="wsurl_'.$f['IdCon'].'" id="wsurl_'.$f['IdCon'].'"
+                            title="URL del Webservice"                    
+                            value="'.$f['wsurl'].'"
+                            >
+                        </div>
                     </div>
-                </div>
-                ';
-
-                $ContenidoDelCard =  $ContenidoDelCard.'
-                <div class="row ">  
-                <h6>Parametros:</h6>
-                <table width=100% class="tabla">
-                <th>n</th><th>Id</th><th>Valor</th>
-                <tr>
-                    <td>1</td>
-                    <td> 
-                        <input class="form-control" type="text" name="wsP1_id_'.$f['IdCon'].'" id="wsP1_id_'.$f['IdCon'].'"
-                        title="Id del Primer Parametro"                    
-                        value="'.$f['wsP1_id'].'"
-                        >
-                    </td>
-
-                    <td> 
-                        <input class="form-control" type="text" name="wsP1_value_'.$f['IdCon'].'" id="wsP1_value_'.$f['IdCon'].'"
-                        title="Valor del Primer Parametro"                    
-                        value="'.$f['wsP1_value'].'"
-                        >
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>2</td>
-                    <td> 
-                        <input class="form-control" type="text" name="wsP2_id_'.$f['IdCon'].'" id="wsP2_id_'.$f['IdCon'].'"
-                        title="Id del Segundo Parametro"                    
-                        value="'.$f['wsP2_id'].'"
-                        >
-                    </td>
-
-                    <td> 
-                        <input class="form-control" type="text" name="wsP2_value_'.$f['IdCon'].'" id="wsP2_value_'.$f['IdCon'].'"
-                        title="Valor del Primer Parametro"                    
-                        value="'.$f['wsP2_value'].'"
-                        >
-                    </td>
-                </tr>
-
-
-                <tr>
-                    <td>3</td>
-                    <td> 
-                        <input class="form-control" type="text" name="wsP3_id_'.$f['IdCon'].'" id="wsP3_id_'.$f['IdCon'].'"
-                        title="Id del Tercer Parametro"                    
-                        value="'.$f['wsP3_id'].'"
-                        >
-                    </td>
-
-                    <td> 
-                        <input class="form-control" type="text" name="wsP3_value_'.$f['IdCon'].'" id="wsP3_value_'.$f['IdCon'].'"
-                        title="Valor del Tercer Parametro"                    
-                        value="'.$f['wsP3_value'].'"
-                        >
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>4</td>
-                    <td> 
-                        <input class="form-control" type="text" name="wsP4_id_'.$f['IdCon'].'" id="wsP4_id_'.$f['IdCon'].'"
-                        title="Id del Cuarto Parametro"                    
-                        value="'.$f['wsP4_id'].'"
-                        >
-                    </td>
-
-                    <td> 
-                        <input class="form-control" type="text" name="wsP4_value_'.$f['IdCon'].'" id="wsP4_value_'.$f['IdCon'].'"
-                        title="Valor del Cuarto Parametro"                    
-                        value="'.$f['wsP4_value'].'"
-                        >
-                    </td>
-                </tr>
-
-                </table>
-
-                </div>
-                ';
-
-                
-
+                    ';
+    
+                    $ContenidoDelCard =  $ContenidoDelCard.'
+                    <div class="row ">  
+                    <h6>Parametros:</h6>
+                    <table width=100% class="tabla">
+                    <th>n</th><th>Id</th><th>Valor</th>
+                    <tr>
+                        <td>1</td>
+                        <td> 
+                            <input class="form-control" type="text" name="wsP1_id_'.$f['IdCon'].'" id="wsP1_id_'.$f['IdCon'].'"
+                            title="Id del Primer Parametro"                    
+                            value="'.$f['wsP1_id'].'"
+                            >
+                        </td>
+    
+                        <td> 
+                            <input class="form-control" type="text" name="wsP1_value_'.$f['IdCon'].'" id="wsP1_value_'.$f['IdCon'].'"
+                            title="Valor del Primer Parametro"                    
+                            value="'.$f['wsP1_value'].'"
+                            >
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td>2</td>
+                        <td> 
+                            <input class="form-control" type="text" name="wsP2_id_'.$f['IdCon'].'" id="wsP2_id_'.$f['IdCon'].'"
+                            title="Id del Segundo Parametro"                    
+                            value="'.$f['wsP2_id'].'"
+                            >
+                        </td>
+    
+                        <td> 
+                            <input class="form-control" type="text" name="wsP2_value_'.$f['IdCon'].'" id="wsP2_value_'.$f['IdCon'].'"
+                            title="Valor del Primer Parametro"                    
+                            value="'.$f['wsP2_value'].'"
+                            >
+                        </td>
+                    </tr>
+    
+    
+                    <tr>
+                        <td>3</td>
+                        <td> 
+                            <input class="form-control" type="text" name="wsP3_id_'.$f['IdCon'].'" id="wsP3_id_'.$f['IdCon'].'"
+                            title="Id del Tercer Parametro"                    
+                            value="'.$f['wsP3_id'].'"
+                            >
+                        </td>
+    
+                        <td> 
+                            <input class="form-control" type="text" name="wsP3_value_'.$f['IdCon'].'" id="wsP3_value_'.$f['IdCon'].'"
+                            title="Valor del Tercer Parametro"                    
+                            value="'.$f['wsP3_value'].'"
+                            >
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td>4</td>
+                        <td> 
+                            <input class="form-control" type="text" name="wsP4_id_'.$f['IdCon'].'" id="wsP4_id_'.$f['IdCon'].'"
+                            title="Id del Cuarto Parametro"                    
+                            value="'.$f['wsP4_id'].'"
+                            >
+                        </td>
+    
+                        <td> 
+                            <input class="form-control" type="text" name="wsP4_value_'.$f['IdCon'].'" id="wsP4_value_'.$f['IdCon'].'"
+                            title="Valor del Cuarto Parametro"                    
+                            value="'.$f['wsP4_value'].'"
+                            >
+                        </td>
+                    </tr>
+    
+                    </table>
+    
+                    </div>
+                    ';
+    
+                    
+    
+                }
+               
 
             }
             

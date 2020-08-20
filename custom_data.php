@@ -68,6 +68,10 @@ $sql="UPDATE dbs  SET
         if (ConType($IdCon)<=1){
             TestConectionDB($IdCon);
         }
+
+        if (ConType($IdCon)<=2){
+            TestConectionWS($IdCon);
+        }
         Historia($IdUser, "CONECCIONES", "Actualizo la coneccion: ".$IdCon." - ".$ConName."[SQL=".$sql."]");
     }
     else {

@@ -723,4 +723,84 @@ function ConType($IdCon){
 }
 
 
+
+function TestConectionWS($IdCon){
+    require("rintera-config.php");   
+    $sql = "select * from dbs where IdCon='".$IdCon."'";
+    $rc= $db0 -> query($sql);
+    if($f = $rc -> fetch_array())
+    {
+        if ($f['ConType']==2) //SQLSERVERTOJON 
+        {
+
+            $wsmethod ='POST';
+            $wsjson = '1';
+            $wsurl = $f['wsurl'];
+            
+            $wsP1_id = 'token';
+            $wsP1_value = $f['wsP1_value'];
+    
+            $wsP2_id = 'method';
+            $wsP2_value = $f['wsP2_value'];
+    
+            //Estos no se utilizan para este Webservice
+            // $wsP3_id = $f['wsP3_id'];
+            // $wsP3_value = $f['wsP3_value'];
+    
+            // $wsP4_id = $f['wsP4_id'];
+            // $wsP4_value = $f['wsP4_value'];
+
+
+            $url = $wsurl;            
+            $sql = "select @@version";
+            $datos_post = http_build_query(
+                array(
+                    'method' => 'POST',
+                    'token' => json_encode($wsP1_value),
+                    'sql' => json_encode($sql)
+                    
+                )
+            );
+            
+            $opciones = array('http' =>
+                array(
+                    'method'  => 'POST',
+                    'header'  => 'Content-type: application/x-www-form-urlencoded',
+                    'content' => $datos_post
+                )
+            );
+            
+            $context = stream_context_create($opciones);            
+            $archivo_web = file_get_contents($url, false, $context);            
+            $data = json_decode($archivo_web);
+        
+            var_dump($datos_post);
+            var_dump($archivo_web);
+            // echo $data->Version;
+
+
+            // echo $archivo_web."<hr>";
+            // var_dump($archivo);
+            // echo "<hr>";
+            // echo $archivo->address->{'city'};
+    
+            
+              
+            
+        } else {
+
+        }
+            
+            
+             
+               
+    
+    
+    
+    
+    } else {
+        return "FALSE";
+    }
+    
+    }
 ?>
