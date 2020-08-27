@@ -92,7 +92,7 @@ function SESSION_Validate($id){ // solo existe en seguridad
     $sql = "select  count(*) as n  from sessiones 
 	where id='".$id."' and cierre_fecha = '0000-00-00'" ;
 	// echo $sql;
-	echo "<script>console.log(".$sql.");</script>";
+	// echo "<script>console.log(".$sql.");</script>";
     $r= $db0 -> query($sql); if($f = $r -> fetch_array()){
 			if ($f['n']==0)	{
 				return FALSE;

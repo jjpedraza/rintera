@@ -1,6 +1,7 @@
 <?php
 require("lib/var_clean.php");
 require("tokens.php");
+require("preference.php");
 
 define("Version","1.0"); 
 
@@ -635,7 +636,7 @@ function AcordionCard($IdCard, $btnText, $IdCollapsed, $Color){
 
                 ">
                     <h5 class="mb-0">
-                        <button class="btn btn-link" data-toggle="collapse" data-target="#'.$IdCollapsed.'" aria-expanded="true" aria-controls="'.$IdCollapsed.'"
+                        <button class="btn " data-toggle="collapse" data-target="#'.$IdCollapsed.'" aria-expanded="true" aria-controls="'.$IdCollapsed.'"
                         style="width:100%;"
                         
                         >';
@@ -684,7 +685,7 @@ if($f = $rc -> fetch_array())
             $sql = "select @@version as Version";
             $rT= $Tdb -> query($sql);
             if($T = $rT -> fetch_array()){
-                Toast("Conección Existosa a ".$dbname."@".$dbhost.": <b>".$T['Version'],4,"")."</b>";
+                Toast("Conección Existosa a ".$f['dbname']."@".$f['dbhost'].": <b>".$T['Version'],4,"")."</b>";
             } else {
                 Toast("Error al conectase, revise los datos en su conección",3,"");
             }
@@ -752,16 +753,19 @@ function TestConectionWS($IdCon){
 
 
             $url = $wsurl;            
-            $sql = "select @@version";
-            $datos_post = http_build_query(
-                array(
-                    'method' => 'POST',
-                    'token' => json_encode($wsP1_value),
-                    'sql' => json_encode($sql)
-                    
-                )
-            );
+            $sql = "select 'OK' as Exito";
+            $token = $wsP1_value;
+
+            //Peticion
+            $myObj = new stdClass;
+            $myObj->token = $token;
+            $myObj->sql = $sql;
+            $myJSON = json_encode($myObj,JSON_UNESCAPED_SLASHES);
             
+            $datos_post = http_build_query(
+                $myObj
+            );
+
             $opciones = array('http' =>
                 array(
                     'method'  => 'POST',
@@ -774,18 +778,36 @@ function TestConectionWS($IdCon){
             $archivo_web = file_get_contents($url, false, $context);            
             $data = json_decode($archivo_web);
         
-            var_dump($datos_post);
-            var_dump($archivo_web);
-            // echo $data->Version;
 
-
-            // echo $archivo_web."<hr>";
-            // var_dump($archivo);
+            var_dump($data);
             // echo "<hr>";
-            // echo $archivo->address->{'city'};
-    
-            
+
+            //Recorrido
+            $jsonIterator = new RecursiveIteratorIterator(
+                new RecursiveArrayIterator(json_decode($archivo_web, TRUE)),
+                RecursiveIteratorIterator::SELF_FIRST
+            );
+         
+            $Exito = FALSE;
+            foreach ($jsonIterator as $key => $val) {
+                    if(is_array($val)) {
+                        // echo $key.":<br>";
+                        // $Exito = TRUE;
+                    } else {
+                        // echo $key.":".$val."<br>";
+                        if ($key=='Exito' and $val == 'OK'){
+                            $Exito = TRUE;
+                        }
+                    }
+            }
               
+            if ($Exito == TRUE){
+                Toast("Conección exitosa",4,"");
+                return TRUE;
+            } else {
+                Toast("Conección fallida",2,"");
+                return FALSE;
+            }
             
         } else {
 

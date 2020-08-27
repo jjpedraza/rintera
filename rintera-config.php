@@ -36,47 +36,27 @@ $UsuariosForaneaos = FALSE; // para activar consulta en la base secundaria $db1
 
 
 
-//CONEXION DE LA BASE DE DATOS: CLIENTE 1
+//BASE DE DATOS SECUNDARIA, CLIENTE
 $db1_ = TRUE; //Indica si esta operativa o  no
 if ($db1_ == TRUE){
-$db1_host = 'localhost';	
-$db1_user = 'root';
-$db1_pass = '3l-1t4vu'; 
-$db1_name = 'itavu';
+    $db1_host = 'localhost';	
+    $db1_user = 'root';
+    $db1_pass = '3l-1t4vu'; 
+    $db1_name = 'itavu';
 
-if (function_exists('mysqli_connect')) {		
-    $db1 = new mysqli($db1_host,$db1_user,$db1_pass,$db1_name);
-    $acentos = $db1->query("SET NAMES 'utf8'"); // para los acentos
-        global $db1;
-        
-    }else{			
-        die ("Error en la conexion a la base de datos principal de CLIENTE 1");
-} 
+    if (function_exists('mysqli_connect')) {		
+        $db1 = new mysqli($db1_host,$db1_user,$db1_pass,$db1_name);
+        $acentos = $db1->query("SET NAMES 'utf8'"); // para los acentos
+            global $db1;
+            
+        }else{			
+            die ("Error en la conexion a la base de datos principal de CLIENTE 1");
+    } 
 }   
 
 
 
-//CONEXION DE LA BASE DE DATOS: CLIENTE 2
-$db2_ = FALSE; // <-- Indica si esta operativa o no
-if ($db2_ == TRUE){
-$db2_host = 'localhost';	
-$db2_user = 'root';
-$db2_pass = '3l-1t4vu'; 
-$db2_name = 'huesitos';
-
-if (function_exists('mysqli_connect')) {		
-    $db2 = new mysqli($db2_host,$db2_user,$db2_pass,$db2_name);
-    $acentos = $db2->query("SET NAMES 'utf8'"); // para los acentos
-        global $db2;
-        
-    }else{			
-        die ("Error en la conexion a la base de datos principal de CLIENTE 2");
-}    
-
-}
-
 $fecha = date('Y-m-d');
 $hora =  date ("H:i:s");
-
 $SesionName="R1nT3r4";
 ?>

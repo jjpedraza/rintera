@@ -1,40 +1,4 @@
-
-<?php
-require ("rintera-config.php");
-require ("components.php");
-include("seguridad.php");   
-
-?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">	
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title><?php echo $Cliente.": ".$ClienteInfo; ?></title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
-    <meta http-equiv="x-ua-compatible" content="ie-edge">
-
-    <script src="lib/popper.min.js"></script>
-    <script src="lib/jquery-3.5.1.js"></script>
-    <script src="lib/bootstrap/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="src/default.css">
-
-
-
-<link rel="stylesheet" type="text/css" href="lib/bootstrap/css/bootstrap.css">
-<link rel="stylesheet" href="lib/jquery.toast.min.css">
-<script type="text/javascript" src="lib/jquery.toast.min.js"></script>
-<link rel="stylesheet" type="text/css" href="lib/datatables.min.css"/> 
-<script type="text/javascript" src="lib/datatables.min.js"></script>
-<script src="lib/jquery.modalpdz.js"></script> 
-<link rel="stylesheet" href="lib/jquery.modalcsspdz.css" />
-
-
-</head>
-<body>
-
-<?php Init();?>
+<?php     include("head.php"); ?>
 <div id='PreLoader'>
     <div id='Loader'>
         <img src='img/loader_classic.gif'><br>      
@@ -497,8 +461,19 @@ if (UserAdmin($RinteraUser)==TRUE){
     
 
 
-    echo '<div id="Grafica" class="Panel">';
-    echo 'Panel2';
+    echo '<div id="Preferencias" class="Panel" 
+    style="
+        background-color: #f4f3ec;
+        padding: 10px;
+    "
+    ">';
+    echo '<h6 style="
+    font-weight:bold;
+    ">Perfil Empresarial</h6>';
+
+    
+
+
     echo '</div>';
 
 
@@ -543,7 +518,11 @@ if (UserAdmin($RinteraUser)==TRUE){
                 $.ajax({
                     url: 'custom_data.php',
                     type: 'post',        
-                    data: {IdUser:IdUser, IdCon: IdCon, ConName: ConName, Active:Active, dbhost:dbhost, dbuser:dbuser, dbname:dbname, dbpassword:dbpassword},
+                    data: {IdUser:IdUser, IdCon: IdCon, ConName: ConName, Active:Active, dbhost:dbhost, dbuser:dbuser, dbname:dbname, dbpassword:dbpassword,
+                        Token: '<?php echo $MiToken; ?>'
+                    }
+                    
+                    ,
                     success: function(data){
                         $('#R').html(data);
                         $('#PreLoader').hide();
@@ -571,11 +550,12 @@ if (UserAdmin($RinteraUser)==TRUE){
                 $.ajax({
                     url: 'custom_data.php',
                     type: 'post',        
-                    data: {IdCon: IdCon, ConName: ConName, Active:Active, wsmethod:wsmethod, wsurl:wsurl,
+                    data: {IdUser:IdUser,IdCon: IdCon, ConName: ConName, Active:Active, wsmethod:wsmethod, wsurl:wsurl,
                         wsP1_id:wsP1_id, wsP1_value: wsP1_value,
                         wsP2_id:wsP2_id, wsP2_value: wsP2_value,
                         wsP3_id:wsP3_id, wsP3_value: wsP3_value,
-                        wsP4_id:wsP4_id, wsP4_value: wsP4_value
+                        wsP4_id:wsP4_id, wsP4_value: wsP4_value,
+                        Token: '<?php echo $MiToken; ?>'
 
                         
                     },
