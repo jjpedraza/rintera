@@ -470,9 +470,45 @@ if (UserAdmin($RinteraUser)==TRUE){
     echo '<h6 style="
     font-weight:bold;
     ">Perfil Empresarial</h6>';
+    echo "<form method='POST' enctype='multipart/form-data' id='EmpresaForm' >";    
+    echo "<label style='width:100%;' >Nombre de la Empresa: <input type='text' class='form-control' id='RinteraName'  value='".Preference("RinteraName", "","")."'></label>";
+    echo "<label style='width:100%;' >Descripcion: <input type='text' class='form-control' id='RinteraDescription' value='".Preference("RinteraDescription", "","")."'></label>";
+    echo '
+      <hr style="
+        border-color: #9a9b9b;
+        border-style: dashed;
+    ">
 
-    
 
+        <table width=100%><tr>
+        <td width=80px>';
+        if (  Preference("LogoImagePNG", "","") == "TRUE"  ){
+            if (file_exists("img/Logo.png")){ //Existe el archivo
+                echo "<img src='img/Logo.png' style='width:150px;' id='ImgEmpresa'>";
+            }
+        } else {
+            if (file_exists("img/Logo.jpg")){ //Existe el archivo
+                echo "<img src='img/Logo.jpg' style='width:150px;' id='ImgEmpresa'>";
+            }
+        }
+
+        echo "<br>";
+        echo "<input class='form-control' type='file' name='archivo' accept='image/jpeg, image/png'>";
+
+        echo '
+        </td>
+        
+
+        <td align=right valign=bottom>
+                <button type="button" class="btn btn-success"  onclick="SaveEmpresa();" >
+                    <img src="icons/ok2.png" style="width:22px;">
+                </button>
+        </td></tr></table>
+
+
+
+    </form>
+       ';
 
     echo '</div>';
 
@@ -574,6 +610,43 @@ if (UserAdmin($RinteraUser)==TRUE){
         $('#Tit_'+ IdCon).html('['+IdCon+'] '+''+$('#ConName_'+IdCon).val())
 
     }
+
+
+    
+    // $("#EmpresaForm").on("submit", function(e){
+            // alert('Click');
+    function SaveEmpresa(){            
+            // e.preventDefault();
+            var RinteraName = $('#RinteraName').val();
+            var RinteraDescription = $('#RinteraDescription').val();
+            var f = $(this);
+            var formData = new FormData(document.getElementById("EmpresaForm"));
+                formData.append("IdUser", "<?php echo $RinteraUser; ?>");
+                formData.append("Token", "<?php echo $MiToken; ?>");
+                formData.append("RinteraName",RinteraName);
+                formData.append("RinteraDescription",RinteraDescription);
+                
+
+            $.ajax({
+                url: "custom_dataEmpresa.php",
+                type: "post",
+                dataType: "html",
+                data: formData,             
+                cache: false,
+                contentType: false,
+                processData: false,
+                beforeSend:function(){
+                    $('#Loader').show();
+                },
+                success:function(data){                    
+                    $('#R').html(data);
+                    $('#Loader').hide();
+                    
+                }
+            });
+        }
+        // });
+
 </script>
 <div id='R' style='display:none;' >
 </div>

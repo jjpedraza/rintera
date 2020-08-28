@@ -29,13 +29,17 @@
 
 
 //CONEXION DE LA BASE DE DATOS DE RINTERA	
-define("dbhost","localhost"); 
-define("dbuser","root"); 
-define("dbpass","3l-1t4vu"); 
-define("dbname","rintera"); 
+// define("Pdbhost","localhost"); 
+$Pdbhost = "localhost";
+// define("Pdbuser","root"); 
+$Pdbuser  = "root";
+// define("Pdbpass","3l-1t4vu"); 
+$Pdbpass = "3l-1t4vu";
+// define("Pdbname","rintera"); 
+$Pdbname = "rintera";
 
 if (function_exists('mysqli_connect')) {		
-    $dbP = new mysqli(dbhost,dbuser,dbpass,dbname);    
+    $dbP = new mysqli($Pdbhost,$Pdbuser,$Pdbpass,$Pdbname);    
     $acentos = $dbP->query("SET NAMES 'utf8'"); // para los acentos
     
     // global $dbP;

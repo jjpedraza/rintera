@@ -6,7 +6,7 @@ function MiToken_valida($Token, $usuario, $descripcion){
     require("rintera-config.php");
     // $Token = MiToken_generate();
     $sql = "SELECT * from  tokens WHERE user='$usuario' and token='$Token' and descripcion='".$descripcion."'";    
-    echo $sql;
+    // echo $sql;
     $rc= $db0 -> query($sql);
     if($f = $rc -> fetch_array()){
         if ($f['activo'] == 1){ //cerrado

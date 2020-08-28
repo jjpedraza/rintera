@@ -1,7 +1,7 @@
 <?php
 require("lib/var_clean.php");
 require("tokens.php");
-require("preference.php");
+require_once("preference.php");
 
 define("Version","1.0"); 
 
@@ -825,4 +825,3 @@ function TestConectionWS($IdCon){
     }
     
     }
-?>
