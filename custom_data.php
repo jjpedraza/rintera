@@ -1,7 +1,7 @@
 <?php
 require ("rintera-config.php");
 require ("components.php");
-include("seguridad.php");   
+// include("seguridad.php");   
 echo "=>". $_POST['Token']."|";
 
 
