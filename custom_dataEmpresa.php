@@ -34,14 +34,20 @@ if (MiToken_valida($ElToken, $IdUser, "custom")==TRUE) { //Token Valido
     else {
 
         $ExtensionFile = strtolower(end(explode(".", $_FILES['archivo']['name'])));
+        echo $ExtensionFile;
         
         if ($ExtensionFile == 'png' || $ExtensionFile == 'jpg') {
             echo '<script>$("#ImgEmpresa").attr("src","img/loader.gif");</script>';
             if ($ExtensionFile == 'png') {
                 move_uploaded_file($_FILES['archivo']['tmp_name'], "img/Logo.png");
+                //Actualizamos PNG
+                $Preference = "LogoImagePNG"; $Value = "TRUE"; $GroupA = ""; $GroupB="";
+                PreferenceEdit($Preference, $GroupA, $GroupB, $Value);
                 echo '<script>$("#ImgEmpresa").attr("src","img/Logo.png");</script>';
             } else {
                 move_uploaded_file($_FILES['archivo']['tmp_name'], "img/Logo.jpg");
+                $Preference = "LogoImagePNG"; $Value = "FALSE"; $GroupA = ""; $GroupB="";
+                PreferenceEdit($Preference, $GroupA, $GroupB, $Value);
                 echo '<script>$("#ImgEmpresa").attr("src","img/Logo.jpg");</script>';
             }
         } else {

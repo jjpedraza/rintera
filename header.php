@@ -1,5 +1,9 @@
 <?php
-
+$sombra = "
+-webkit-box-shadow: inset 0px -36px 13px -31px rgba(0,0,0,0.39);
+-moz-box-shadow: inset 0px -36px 13px -31px rgba(0,0,0,0.39);
+box-shadow: inset 0px -36px 13px -31px rgba(0,0,0,0.39);
+";
 
 if ($PublicIndex == TRUE){
 
@@ -8,12 +12,35 @@ if ($PublicIndex == TRUE){
     echo "
     <div id='Welcome' style=''>
     <table width=100% border=0><tr>
-    
-    <td style='
-    background-color: #16799f;
+    ";
+
+    if (Preference("VisualLogo","","")=="TRUE"){
+        echo "<td width=10px style='
+        background-color: ".Preference("ColorPrincipal", "", "").";
+        ".$sombra."
+        '>";
+        echo "<a href='index.php'>";
+        $ArchivoLogo = "";
+         if (Preference("LogoImagePNG","","")=="TRUE"){
+            $ArchivoLogo = "img/Logo.png";
+         } else {
+            $ArchivoLogo = "img/Logo.jpg";
+         }
+
+         echo "<img src='".$ArchivoLogo."' style='height:50px; padding:2px;'>";
+         echo "</a>";
+        echo "</td>";
+    }
+
+    echo "
+    <td 
+ 
+    style='
+    background-color: ".Preference("ColorPrincipal", "", "").";
     color: white;
     font-size: 13pt;
-    text-align: center;
+    text-align: left;
+    ".$sombra."
 
     '>
     ";
@@ -23,27 +50,23 @@ if ($PublicIndex == TRUE){
     font-family: ExtraBold;
     text-transform: uppercase;
     
-    font-size: 13pt;
-
-
-    ' href='index.php' title='Haz clic aqui para retomar al inicio'>".$Cliente."</a></td>";
-    echo "<td class='pc' style='
-    
-    background-color: #1487b5;
     font-size: 10pt;
-    color: white;
-    '><cite>".$ClienteInfo."</cite></td>";
-    // echo "<hr><b style='cursor:pointer;' title='No. de Empleado = ".$RinteraUser."'>".$RinteraUserName."</b>";    
-    echo "
+    margin-bottom: -10px
+
+
+    ' href='index.php' title='Haz clic aqui para retomar al inicio'>".Preference("RinteraName","","")."</a>
+    <cite style='font-size:8pt;'>".Preference("RinteraDescription","","")."</cite>
     </td>";
 
-  
+
+
 
     echo "<td  valing=middle  style='
     text-align: right;
-    background-color: #1487b5;
+    background-color: ".Preference("ColorPrincipal", "", "").";
     color: white;
     padding-right: 15px;
+    ".$sombra."
     '><img src='icons/atencion.png' style='width:17px;'><span class='pc'> ".$RinteraUserName."</span> </td>";
 
 
@@ -51,9 +74,10 @@ if ($PublicIndex == TRUE){
         echo "<td width=22px align=right 
         style='
         
-        background-color: #1487b5;
+        background-color: ".Preference("ColorPrincipal", "", "").";
         font-size: 10pt;
         color: white;
+        ".$sombra."
         '
         >";
         
@@ -70,13 +94,13 @@ if ($PublicIndex == TRUE){
 
     if ($Pendientes >0 ){
         echo "
-        <td  style='background-color:#ff7800;color:white; font-weight:bold' align=center title='Pendientes por checar'>
+        <td  style='background-color:".Preference("ColorResaltado", "", "").";color:white; font-weight:bold;     ".$sombra."' align=center title='Pendientes por checar'>
         ".$Pendientes."
         </td>";
 
     } else {
         echo "
-        <td width=0px  style='background-color:#1487b5;' align=center>
+        <td width=0px  style='background-color:".Preference("ColorPrincipal", "", "").";     ".$sombra."' align=center>
         
         </td>";
     }
@@ -84,7 +108,7 @@ if ($PublicIndex == TRUE){
 
     echo "
 
-    <td width=10px valign=midle style='background-color:#b75906;'>
+    <td width=10px valign=midle style='background-color:".Preference("ColorPrincipal", "", "").";     ".$sombra."'>
 
     <a href='logout.php'  title='Cerrar Sessión de ".$RinteraUserName."'>    
     <img src='icons/salir2.png' style='width:17px;'></a>

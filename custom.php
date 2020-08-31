@@ -30,7 +30,7 @@ include("header.php");
 if (UserAdmin($RinteraUser) == TRUE) {
     echo "<center>";
     echo "<h4 style='
-    background-color: #f4f4f4;
+    background-color: ".Preference("ColorSecundario", "", "").";
     padding: 7px;
     '>Preferencias de Rintera</h4>";
 
@@ -481,19 +481,19 @@ if (UserAdmin($RinteraUser) == TRUE) {
 
 
         <table width=100%><tr>
-        <td width=80px>';
+        <td width=50%>';
     if (Preference("LogoImagePNG", "", "") == "TRUE") {
         if (file_exists("img/Logo.png")) { //Existe el archivo
             echo "<img src='img/Logo.png' style='width:150px;' id='ImgEmpresa'>";
         }
     } else {
         if (file_exists("img/Logo.jpg")) { //Existe el archivo
-            echo "<img src='img/Logo.jpg' style='width:150px;' id='ImgEmpresa'>";
+            echo "<img src='img/Logo.jpg' style='width:150px;' id='ImgEmpresa' >";
         }
     }
 
     echo "<br>";
-    echo "<input class='form-control' type='file' name='archivo' accept='image/jpeg, image/png'>";
+    echo "<input class='form-control' type='file' name='archivo'  id='archivo' accept='image/jpeg, image/png' >";
 
     echo '
         </td>
@@ -534,22 +534,135 @@ if (UserAdmin($RinteraUser) == TRUE) {
         $txt_checked = 'Activar';
     }
 
-    echo '
+
+    if (Preference("SearchVisualList","","") == "TRUE") {
+        $checkedList = 'checked';
+        $txt_checkedList = 'Desactivar';
+    } else {
+        $checkedList = '';
+        $txt_checkedList = 'Activar';
+    }
+    // echo $checkedList;
+
+    echo '<table class="tabla">';
+    echo '<tr>
         
-        <div class="row ">
-            <div class="custom-control custom-switch col-sm-6 ">
-                
-                <input type="checkbox" class="custom-control-input" id="VisualLogo" 
-                onclick="VisualLogo();" ' . $checked . '
-                >
-                <label 
-                onclick="VisulLogo();"
-                class="custom-control-label" for="VisualLogo"> Ver Logo</label>
+       
+            <td  width=90% align=right>
+                <b style="font-weight:bold; font-size:10pt;">Visualizar Logotipo.<br></b>
+                <cite>Muestra la imagen cargada en el Perfil empresarial en la parte superior de la aplicacion; así como en otras partes donde corresponda.</cite>
+            </td>
+
+            <td align=left valign=top>  
+            <div class="custom-control custom-switch col-sm-6 " >
+            <input type="checkbox" class="custom-control-input" id="VisualLogo" onclick="ActivarLogo();" "'.$checked.'">
+            <label onclick="" class="custom-control-label" for="VisualLogo"></label>
             </div>
 
-           
+            
+            </td>
+        </tr>             
+        ';
+    
+
+        echo '<tr>              
+            <td  width=90% align=right>
+                <b style="font-weight:bold; font-size:10pt;">Color Principal<br></b>
+                
+            </td>
+
+            <td align=left valign=top>  
+            
+            <input type="color" class="form-control" id="ColorPrincipal" onclick="" value="'.Preference("ColorPrincipal", "", "").'" >
+            
+            
+            </td>
+        </tr>             
+        ';
+
+
         
-        </div>';
+        echo '<tr>              
+            <td  width=90% align=right>
+                <b style="font-weight:bold; font-size:10pt;">Color Secundario<br></b>
+                
+            </td>
+
+            <td align=left valign=top>  
+            
+            <input type="color" class="form-control" id="ColorSecundario" onclick="" value="'.Preference("ColorSecundario", "", "").'"  >
+            
+            
+            </td>
+        </tr>             
+        ';
+
+        
+        echo '<tr>              
+            <td  width=90% align=right>
+                <b style="font-weight:bold; font-size:10pt;">Color Resaltado<br></b>
+                
+            </td>
+
+            <td align=left valign=top>  
+            
+            <input type="color" class="form-control" id="ColorResaltado" onclick=""  value="'.Preference("ColorResaltado", "", "").'" >
+            
+            
+            </td>
+        </tr>             
+        ';
+
+        
+        echo '<tr>              
+            <td  width=90% align=right>
+                <b style="font-weight:bold; font-size:10pt;">Color de Fondo<br></b>
+                
+            </td>
+
+            <td align=left valign=top>  
+            
+            <input type="color" class="form-control" id="ColorDeFondo" onclick=""  value="'.Preference("ColorDeFondo", "", "").'" >
+            
+            
+            </td>
+        </tr>             
+        ';
+
+        echo '<tr>              
+        <td  width=90% align=right>
+            <b style="font-weight:bold; font-size:10pt;">Resultados de Busqueda en forma de Lista<br></b>
+            <cite>Si esta apagada esta opcion, el resultado sale en cuadricula</cite>
+            
+        </td>
+
+        <td align=left valign=top>  
+        
+        <div class="custom-control custom-switch col-sm-6 " >
+            <input type="checkbox" class="custom-control-input" id="SearchVisualList" '.$checkedList.'>
+            <label onclick="" class="custom-control-label" for="SearchVisualList"></label>
+        </div>
+        
+        
+        </td>
+    </tr>             
+    ';
+
+
+
+    echo '<tr>              
+    <td  width=90% align=right>
+     
+    </td>
+
+    <td align=left valign=top>  
+                    <button type="button" class="btn btn-success"  onclick="SaveVisual();" >
+                        <img src="icons/ok2.png" style="width:22px;">
+                    </button>
+    </td>
+</tr>             
+';
+    echo '</table>';
 
     echo "</div>";
 
@@ -577,6 +690,74 @@ if (UserAdmin($RinteraUser) == TRUE) {
 ?>
 
 <script>
+function SaveVisual(){
+    var VisualLogoCheck = 0
+    if ($('#VisualLogo').prop('checked')) {
+        VisualLogoCheck = 1
+    } else {
+        VisualLogoCheck = 0
+    }
+    var ColorPrincipal = $('#ColorPrincipal').val();
+    var ColorSecundario = $('#ColorSecundario').val();
+    var ColorResaltado = $('#ColorResaltado').val();
+    var ColorDeFondo = $('#ColorDeFondo').val();
+    
+    
+    var SearchVisualList = 0
+    if ($('#SearchVisualList').prop('checked')) {
+        SearchVisualList = 1
+    } else {
+        SearchVisualList = 0
+    }
+
+    $('#PreLoader').show();
+            $.ajax({
+                url: 'custom_dataVisual.php',
+                type: 'post',
+                data: {
+                    IdUser: '<?php echo $RinteraUser; ?>',              
+                    VisualLogoCheck: VisualLogoCheck,     
+                    ColorPrincipal:ColorPrincipal,
+                    ColorSecundario: ColorSecundario,                           
+                    ColorResaltado:ColorResaltado,
+                    ColorDeFondo:ColorDeFondo,
+                    SearchVisualList:SearchVisualList,
+                    Token: '<?php echo $MiToken; ?>'
+
+                },
+                success: function(data) {
+                    $('#R').html(data);
+                    $('#PreLoader').hide();
+                }
+            });
+}
+
+
+
+function ActivarLogo(){
+    var VisualLogoCheck = 0
+    if ($('#VisualLogo').prop('checked')) {
+        VisualLogoCheck = 1
+    } else {
+        VisualLogoCheck = 0
+    }
+    $('#PreLoader').show();
+            $.ajax({
+                url: 'custom_dataActivarLogo.php',
+                type: 'post',
+                data: {
+                    IdUser: '<?php echo $RinteraUser; ?>',              
+                    VisualLogoCheck: VisualLogoCheck,                                
+                    Token: '<?php echo $MiToken; ?>'
+
+                },
+                success: function(data) {
+                    $('#R').html(data);
+                    $('#PreLoader').hide();
+                }
+            });
+}
+
     function Active(IdCon) {
         var IdUser = '<?php echo $RinteraUser; ?>'
         var Active = 0

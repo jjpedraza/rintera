@@ -23,7 +23,9 @@ if ($MiToken == '') {
 include("header.php");
 ?>
 
-<section id='Busqueda'>
+<section id='Busqueda' style='
+background-color: <?php echo Preference("ColorPrincipal", "", ""); ?>;
+'>
 
     <?php
 
@@ -32,6 +34,9 @@ include("header.php");
         echo '
     <input id="InputBusqueda" onkeypress="Search();"
     style="
+
+        background-color: '.Preference("ColorPrincipal", "", "").';
+
     "
     class="InputBusqueda" type="text" placeholder="¿Que Información necesitas?"  value="' . VarClean($_GET['q']) . '">
     ';
@@ -39,6 +44,9 @@ include("header.php");
         echo '
     <input id="InputBusqueda" onkeypress="Search();"
     style="
+
+        background-color: '.Preference("ColorPrincipal", "", "").';
+
     "
     class="InputBusqueda" type="text" placeholder="¿Que Información necesitas?" >
     ';
@@ -58,10 +66,14 @@ include("header.php");
 </section>
 
 <div style='
-background-color: #1895c6;
+background-color: <?php echo Preference("ColorPrincipal", "", ""); ?>;
 text-align: center;
 color: white;
 font-size: 10pt;  height:22px;
+
+-webkit-box-shadow: -2px 3px 7px 0px rgba(0,0,0,0.75);
+-moz-box-shadow: -2px 3px 7px 0px rgba(0,0,0,0.75);
+box-shadow: -2px 3px 7px 0px rgba(0,0,0,0.75);
 '>
     <div id='PreloaderBuscando' style='display:none;'>
         Buscando <img src='img/loader_bar.gif'>

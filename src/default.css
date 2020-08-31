@@ -126,7 +126,7 @@ label{
 }
 
 #Welcome {
-	background-color: #dbdbdb;
+
 	color: #a6a6a6;
 }
 
@@ -136,7 +136,7 @@ label{
     display: inline-block;
     position: absolute;
     border-width: 0px;
-    background-color: rgb(24, 149, 198);
+    /* background-color: rgb(24, 149, 198); */
     font-size: 24pt;
     text-align: center;
 	color: white;
@@ -417,7 +417,7 @@ footer{
 }
 body {
 	margin: 0px;
-	background-color: #3c3944;
+	/* background-color: #3c3944; */
 	color: rgb(93, 93, 93);
 	font-family: Regular;
 	/*background-image: url('https://source.unsplash.com/random/1920x1080/?nature');*/

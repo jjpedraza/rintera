@@ -22,7 +22,7 @@ if  ($PublicIndex == TRUE){
 <head>
 	<meta charset="UTF-8">	
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title><?php echo $Cliente.": ".$ClienteInfo; ?></title>
+	<title><?php echo Preference("RinteraName","","")." ".Preference("RinteraDescription","","")." by Rintera" ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
     <meta http-equiv="x-ua-compatible" content="ie-edge">
 
@@ -45,7 +45,9 @@ if  ($PublicIndex == TRUE){
 <link rel="shortcut icon" href="favicon.ico">
 <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
 </head>
-<body>
+<body style="
+background-color: <?php echo Preference("ColorDeFondo", "", ""); ?>;
+">
 <?php
 Init();
 ?>
