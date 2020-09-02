@@ -2,9 +2,9 @@
 <?php
 require ("rintera-config.php");
 require ("components.php");
-if  ($PublicIndex == TRUE){
+
     include("seguridad.php");   
-}
+
 ?>
 
 <!DOCTYPE html>

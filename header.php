@@ -5,9 +5,6 @@ $sombra = "
 box-shadow: inset 0px -36px 13px -31px rgba(0,0,0,0.39);
 ";
 
-if ($PublicIndex == TRUE){
-
-
 
     echo "
     <div id='Welcome' style=''>
@@ -117,8 +114,4 @@ if ($PublicIndex == TRUE){
     </table></div>
     ";
 
-} else {
-    echo "
-    <div id='Welcome'>Acceso abierto al publico</div>";
-}
 ?>

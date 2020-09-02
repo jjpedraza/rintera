@@ -649,6 +649,58 @@ if (UserAdmin($RinteraUser) == TRUE) {
     ';
 
 
+    //Privacidad
+    
+    if (Preference("SearchVisualList","","") == "TRUE") {
+        $checkedList = 'checked';
+        $txt_checkedList = 'Desactivar';
+    } else {
+        $checkedList = '';
+        $txt_checkedList = 'Activar';
+    }
+    // echo $checkedList;
+
+    echo '<table class="tabla">';
+    echo '<tr>
+        
+       
+            <td  width=90% align=right>
+                <b style="font-weight:bold; font-size:10pt;">Visualizar Logotipo.<br></b>
+                <cite>Muestra la imagen cargada en el Perfil empresarial en la parte superior de la aplicacion; así como en otras partes donde corresponda.</cite>
+            </td>
+
+            <td align=left valign=top>  
+            <div class="custom-control custom-switch col-sm-6 " >
+            <input type="checkbox" class="custom-control-input" id="VisualLogo" onclick="ActivarLogo();" "'.$checked.'">
+            <label onclick="" class="custom-control-label" for="VisualLogo"></label>
+            </div>
+
+            
+            </td>
+        </tr>             
+        ';
+    
+
+        echo '<tr>              
+            <td  width=90% align=right>
+                <b style="font-weight:bold; font-size:10pt;">Color Principal<br></b>
+                
+            </td>
+
+            <td align=left valign=top>  
+            
+            <input type="color" class="form-control" id="ColorPrincipal" onclick="" value="'.Preference("ColorPrincipal", "", "").'" >
+            
+            
+            </td>
+        </tr>             
+        ';
+
+
+
+
+        
+
 
     echo '<tr>              
     <td  width=90% align=right>
@@ -679,6 +731,134 @@ if (UserAdmin($RinteraUser) == TRUE) {
     echo '<h6 style="
     font-weight:bold;
     ">Seguridad y Privacidad</h6>';
+
+
+
+
+    if (Preference("UsuariosForaneos","","") == "TRUE") {
+        $checkedF = 'checked';        
+    } else {
+        $checkedF= '';        
+    }
+    // echo $checkedList;
+
+    echo '<table class="tabla">';
+    
+    echo '<tr>     
+       
+            <td  width=90% align=right>
+                <b style="font-weight:bold; font-size:10pt;">Utilizar Usuarios Foraneos<br></b>
+                Puedes utilizar una base de datos externa, respetando el nombre de los campos.
+                    <b style="font-weight:bold; color:black;">IdUser, NIP, UserName y RinteraLevel. </b> (1=Administrador y 2=Para Usuarios de Consulta)<br>
+                    <code class="Code">select * from UsuariosRintera where RinteraLevel>0</code>
+                
+            </td>
+
+            <td align=left valign=top>  
+            <div class="custom-control custom-switch col-sm-6 " >
+            <input type="checkbox" class="custom-control-input" id="UsuariosForaneos" '.$checkedF.'>
+            <label onclick="" class="custom-control-label" for="UsuariosForaneos"></label>
+            </div>
+
+            
+            </td>
+        </tr>             
+        ';
+    
+
+
+
+
+        echo '<tr>     
+       
+            <td  width=90% align=right colspan=2>';
+
+        echo '<label class="form-control-label" >Conección donde estan los usuarios:</label>
+        <select id="UsuariosForaneosIdCon" class="form-control" >';
+
+        $sql="select * from dbs where Active=1";
+        $r= $db0 -> query($sql);
+        while($f = $r -> fetch_array()) {               
+            echo "<option value='".$f['IdCon']."'>".$f['ConName']."</option>";
+        }
+
+        echo "</select>";
+            
+
+        echo '            
+            </td>
+        </tr>             
+        ';
+    
+
+        echo '<tr>     
+       
+        <td  width=90% align=right colspan=2>';
+
+    echo '<label class="form-control-label" >UsuariosForaneosQuery:</label><br>';
+
+    echo '<textarea class="Query ">'.Preference("UsuariosForaneosQuery", "", "").'</textarea>';
+        
+
+    echo '            
+        </td>
+    </tr>             
+    ';
+
+        echo '<tr>              
+            <td  width=90% align=right>
+                <b style="font-weight:bold; font-size:10pt;">Color Principal<br></b>
+                
+            </td>
+
+            <td align=left valign=top>  
+            
+            <input type="color" class="form-control" id="ColorPrincipal" onclick="" value="'.Preference("ColorPrincipal", "", "").'" >
+            
+            
+            </td>
+        </tr>             
+        ';
+
+
+
+
+
+
+
+    echo '<tr>              
+    <td  width=90% align=right>
+     
+    </td>
+
+    <td align=left valign=top>  
+                    <button type="button" class="btn btn-success"  onclick="SaveVisual();" >
+                        <img src="icons/ok2.png" style="width:22px;">
+                    </button>
+    </td>
+</tr>             
+';
+    echo '</table>';
+
+    echo "</div>";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     echo "</div>";
 

@@ -3,10 +3,10 @@
 
 <?php
 
-$MiToken = MiToken($RinteraUser, "Search");
-if ($MiToken == '') {
-    $MiToken = MiToken_Init($RinteraUser, "Search");
-}
+    $MiToken = MiToken($RinteraUser, "Search");
+    if ($MiToken == '') {
+        $MiToken = MiToken_Init($RinteraUser, "Search");
+    }
 
 // echo "Token: ".$MiToken."";
 ?>
@@ -85,12 +85,13 @@ box-shadow: -2px 3px 7px 0px rgba(0,0,0,0.75);
 </section>
 
 <?php
+
 if (UserAdmin($RinteraUser) == TRUE) {
     echo "<div class='btnMas' title='Haz clic aquí para crear un nuevo reporte'>
     <a href='nuevo.php' > <img src='src/mas.png' style='width:100%;'>
     </a>
     </div>";
-} else {
+
 }
 ?>
 

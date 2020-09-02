@@ -9,10 +9,10 @@ require ("components.php");
 
 
 
-if  ($PublicIndex == TRUE){
+
     include("seguridad.php");   
     MiToken_CloseALL($RinteraUser);
-}
+
 
 
 ?>
