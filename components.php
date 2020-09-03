@@ -387,7 +387,7 @@ function Toast($Texto,$Tipo,$img){
 }
 
 function UserAdmin($IdUser){
-    require("rintera-config.php");   
+    require_once("rintera-config.php");   
     if ($UsuariosForaneaos == FALSE){
         $sql = "select * from users WHERE IdUser ='".$IdUser."'";
         $rc= $db0 -> query($sql);
@@ -432,7 +432,7 @@ function LocationFull($page){
 }
 
 function PermisoReporte_Ver($IdUser,$IdRep){
-    require("rintera-config.php");   
+    require_once("rintera-config.php");   
     $sql = "select count(*) as n
     
     from reportes_permisos WHERE IdUser ='".$IdUser."' and id_rep='".$IdRep."' and Ver=1";
@@ -455,7 +455,7 @@ function PermisoReporte_Ver($IdUser,$IdRep){
 
 
 function PermisoReporte_Share($IdUser,$IdRep){
-    require("rintera-config.php");   
+    require_once("rintera-config.php");   
     $sql = "select count(*) as n
     
     from reportes_permisos WHERE IdUser ='".$IdUser."' and id_rep='".$IdRep."' and CompartirVer=1";
@@ -710,7 +710,7 @@ if($f = $rc -> fetch_array())
 }
 
 function ConType($IdCon){
-    require("rintera-config.php");   
+    require_once("rintera-config.php");   
     
     $sql = "select * from dbs WHERE Idcon='".$IdCon."'";
     $rc= $db0 -> query($sql);
@@ -726,7 +726,7 @@ function ConType($IdCon){
 
 
 function TestConectionWS($IdCon){
-    require("rintera-config.php");   
+    require_once("rintera-config.php");   
     $sql = "select * from dbs where IdCon='".$IdCon."'";
     $rc= $db0 -> query($sql);
     if($f = $rc -> fetch_array())
@@ -825,3 +825,48 @@ function TestConectionWS($IdCon){
     }
     
     }
+
+
+    function PingtoDb($IdCon){
+        require_once("rintera-config.php");   
+        $sql = "select * from dbs where IdCon='".$IdCon."'";    
+        
+        $rc= $db0 -> query($sql);    
+        if($f = $rc -> fetch_array())
+        {    
+            if ($f['dbhost']<>'' &&  $f['dbname']<>'' && $f['dbuser']<>'' && $f['dbpassword']<>'')    {
+                $Tdb_host = $f['dbhost'];
+                $Tdb_user = $f['dbuser'];
+                $Tdb_pass = $f['dbpassword'];
+                $Tdb_name = $f['dbname'];
+                    $Tdb = new mysqli($Tdb_host,$Tdb_user,$Tdb_pass,$Tdb_name);
+                    if ($Tdb->connect_error) {
+                        // die("Connection failed: " . $Tdb->connect_error);
+                            Toast("Error al conectarse, revise los datos. ".$Tdb->connect_error,2,"");
+                            return FALSE;
+                    }
+                    $sql = "select @@version as Version";
+                    $rT= $Tdb -> query($sql);
+                    if($T = $rT -> fetch_array()){
+                        
+                        return TRUE;
+                    } else {
+                        
+                        return FALSE;
+                    }
+                
+            } else {
+               
+                return FALSE;
+            }
+        
+        
+        } else {
+            return FALSE;
+        }
+        
+    }
+        
+
+
+    

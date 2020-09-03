@@ -734,9 +734,10 @@ if (UserAdmin($RinteraUser) == TRUE) {
 
 
 
-
+    $styleF = "";
     if (Preference("UsuariosForaneos","","") == "TRUE") {
         $checkedF = 'checked';        
+        
     } else {
         $checkedF= '';        
     }
@@ -756,7 +757,7 @@ if (UserAdmin($RinteraUser) == TRUE) {
 
             <td align=left valign=top>  
             <div class="custom-control custom-switch col-sm-6 " >
-            <input type="checkbox" class="custom-control-input" id="UsuariosForaneos" '.$checkedF.'>
+            <input onclick="ActivarForaneos();" type="checkbox" class="custom-control-input" id="UsuariosForaneos" '.$checkedF.'>
             <label onclick="" class="custom-control-label" for="UsuariosForaneos"></label>
             </div>
 
@@ -769,14 +770,14 @@ if (UserAdmin($RinteraUser) == TRUE) {
 
 
 
-        echo '<tr>     
+        echo '<tr  class="Foraneos">     
        
             <td  width=90% align=right colspan=2>';
 
         echo '<label class="form-control-label" >Conección donde estan los usuarios:</label>
         <select id="UsuariosForaneosIdCon" class="form-control" >';
 
-        $sql="select * from dbs where Active=1";
+        $sql="select * from dbs where Active=1 and ConType in(0,1)";
         $r= $db0 -> query($sql);
         while($f = $r -> fetch_array()) {               
             echo "<option value='".$f['IdCon']."'>".$f['ConName']."</option>";
@@ -791,7 +792,7 @@ if (UserAdmin($RinteraUser) == TRUE) {
         ';
     
 
-        echo '<tr>     
+        echo '<tr class="Foraneos">     
        
         <td  width=90% align=right colspan=2>';
 
@@ -805,20 +806,38 @@ if (UserAdmin($RinteraUser) == TRUE) {
     </tr>             
     ';
 
-        echo '<tr>              
-            <td  width=90% align=right>
-                <b style="font-weight:bold; font-size:10pt;">Color Principal<br></b>
-                
-            </td>
 
-            <td align=left valign=top>  
-            
-            <input type="color" class="form-control" id="ColorPrincipal" onclick="" value="'.Preference("ColorPrincipal", "", "").'" >
-            
-            
-            </td>
-        </tr>             
-        ';
+    
+    echo '<tr class="Usuarios">     
+       
+    <td  width=90% align=right colspan=2 align=center>';
+
+echo '<a href="users.php" class="btn btn-primary" style="
+color:white;
+">Administrar Usuarios </a>';
+
+    
+
+echo '            
+    </td>
+</tr>             
+';
+
+
+            // echo '<tr >              
+            //     <td  width=90% align=right>
+            //         <b style="font-weight:bold; font-size:10pt;">Color Principal<br></b>
+                    
+            //     </td>
+
+            //     <td align=left valign=top>  
+                
+            //     <input type="color" class="form-control" id="ColorPrincipal" onclick="" value="'.Preference("ColorPrincipal", "", "").'" >
+                
+                
+            //     </td>
+            // </tr>             
+            // ';
 
 
 
@@ -832,7 +851,7 @@ if (UserAdmin($RinteraUser) == TRUE) {
     </td>
 
     <td align=left valign=top>  
-                    <button type="button" class="btn btn-success"  onclick="SaveVisual();" >
+                    <button type="button" class="btn btn-success"  onclick="SavePrivacidad();" >
                         <img src="icons/ok2.png" style="width:22px;">
                     </button>
     </td>
@@ -842,7 +861,7 @@ if (UserAdmin($RinteraUser) == TRUE) {
 
     echo "</div>";
 
-
+    
 
 
 
@@ -1077,6 +1096,50 @@ function ActivarLogo(){
         });
     }
     // });
+
+function ActivarForaneos(){
+    if ($('#UsuariosForaneos').prop('checked')) {
+            $('.Foraneos').show();
+            $('.Usuarios').hide();
+        } else {
+            $('.Foraneos').hide();
+            $('.Usuarios').show();
+
+        }
+
+}
+ActivarForaneos();
+
+
+function SavePrivacidad(){
+    
+    var UsuariosForaneos = "";
+    if ($('#UsuariosForaneos').prop('checked')) {
+            UsuariosForaneos = "TRUE";
+        } else {
+            UsuariosForaneos = "FALSE";
+        }
+    var UsuariosForaneosQuery = $('#UsuariosForaneosQuery').val();
+    var UsuariosForaneosIdCon = $('#UsuariosForaneosIdCon').val();
+    
+    $('#PreLoader').show();
+            $.ajax({
+                url: 'custom_dataPriv.php',
+                type: 'post',
+                data: {
+                    IdUser: '<?php echo $RinteraUser; ?>',              
+                    UsuariosForaneos: UsuariosForaneos,     
+                    UsuariosForaneosQuery:UsuariosForaneosQuery,
+                    UsuariosForaneosIdCon: UsuariosForaneosIdCon,                                               
+                    Token: '<?php echo $MiToken; ?>'
+
+                },
+                success: function(data) {
+                    $('#R').html(data);
+                    $('#PreLoader').hide();
+                }
+            });
+}
 </script>
 <div id='R' style='display:none;'>
 </div>

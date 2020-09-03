@@ -1,10 +1,5 @@
 <?php
-
-
-$fecha = date('Y-m-d');
-$hora =  date ("H:i:s");
-$SesionName="R1nT3r4";
-
+// require_once("components.php");
 require_once("preference.php");
 //CONEXION DE LA BASE DE DATOS DE RINTERA	
 $db0_host = 'localhost';	
@@ -14,8 +9,7 @@ $db0_name = 'rintera';
 
 if (function_exists('mysqli_connect')) {		
     $db0 = new mysqli($db0_host,$db0_user,$db0_pass,$db0_name);
-	$acentos = $db0->query("SET NAMES 'utf8'"); // para los acentos
-	// var_dump($db0);
+    $acentos = $db0->query("SET NAMES 'utf8'"); // para los acentos
         // global $db0;
         
     }else{			
@@ -30,24 +24,13 @@ if (function_exists('mysqli_connect')) {
 $UsuariosForaneaos = Preference("UsuariosForaneos", "", ""); 
 $QueryUsuariosForaneos = Preference("UsuariosForaneosQuery", "", "");  //"select * from UsuariosRintera where RinteraLevel>0"; 
 $UsuariosForaneosIdCon = Preference("UsuariosForaneosIdCon", "", ""); 
-
-$UsuariosForaneosIdConType = "";
-$sql = "select * from dbs WHERE Idcon='".$UsuariosForaneosIdCon."'";
-$rc= $db0 -> query($sql);
-// var_dump($db0);
-if($f = $rc -> fetch_array())
-{
-	$UsuariosForaneosIdConType =  $f['ConType'];
-}
-
 $Error="";
 
 // var_dump($UsuariosForaneosIdCon);
 if ($UsuariosForaneaos == "TRUE") {
     if 	($UsuariosForaneosIdCon <> "" ){
-        if ($UsuariosForaneosIdConType  <=1) {
-
-                  
+        if (Con_Type($UsuariosForaneosIdCon) <=1) {
+            if (PingDb($UsuariosForaneosIdCon)  == TRUE ){            
                 if ($QueryUsuariosForaneos <> '') {
                     $sql = "select * from dbs where IdCon='".$UsuariosForaneosIdCon."'";        
                     $r= $db0 -> query($sql);    
@@ -65,7 +48,7 @@ if ($UsuariosForaneaos == "TRUE") {
                                 
 
                                 
-                                // echo "Exito";p
+                                echo "Exito";
                             }else{
                                 $Error = $Error."No esta activado MySQLi";    
                             }
@@ -81,7 +64,9 @@ if ($UsuariosForaneaos == "TRUE") {
                 } else {
                     $Error = $Error."Sin Query para Foraneos";
                 }
-              
+            } else {
+                $Error = $Error."Sin conección la base de datos ".$UsuariosForaneosIdCon;
+            }       
         } else {
             $Error = $Error."No es un tipo de Conección Permitida ConType=0,1. ";
         }
@@ -135,6 +120,63 @@ echo $Error;
 
 
 
+
+function PingDb($IdCon){
+    require_once("rintera-config.php");   
+    $sql = "select * from dbs where IdCon='".$IdCon."'";    
+    
+    $rc= $db0 -> query($sql);    
+    if($f = $rc -> fetch_array())
+    {    
+        if ($f['dbhost']<>'' &&  $f['dbname']<>'' && $f['dbuser']<>'' && $f['dbpassword']<>'')    {
+            $Tdb_host = $f['dbhost'];
+            $Tdb_user = $f['dbuser'];
+            $Tdb_pass = $f['dbpassword'];
+            $Tdb_name = $f['dbname'];
+                $Tdb = new mysqli($Tdb_host,$Tdb_user,$Tdb_pass,$Tdb_name);
+                if ($Tdb->connect_error) {
+                    // die("Connection failed: " . $Tdb->connect_error);
+                        Toast("Error al conectarse, revise los datos. ".$Tdb->connect_error,2,"");
+                        return FALSE;
+                }
+                $sql = "select @@version as Version";
+                $rT= $Tdb -> query($sql);
+                if($T = $rT -> fetch_array()){
+                    
+                    return TRUE;
+                } else {
+                    
+                    return FALSE;
+                }
+            
+        } else {
+           
+            return FALSE;
+        }
+    
+    
+    } else {
+        return FALSE;
+    }
+    
+}
+    
+
+
+
+function Con_Type($IdCon){
+    require_once("rintera-config.php");   
+    
+    $sql = "select * from dbs WHERE Idcon='".$IdCon."'";
+    $rc= $db0 -> query($sql);
+    if($f = $rc -> fetch_array())
+    {
+        return $f['ConType'];
+    } else{
+        return "";
+    }
+        
+}
 
 
 
