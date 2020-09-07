@@ -485,7 +485,7 @@ function DynamicTable_MySQL($sql, $IdDiv, $IdTabla, $Clase, $Tipo, $db){
         $r= $db0 -> query($sql);
         $tbCont = '<div id="'.$IdDiv.'" class="'.$Clase.'">
         <table id="'.$IdTabla.'" class="display" style="width:100%" class="tabla" style="font-size:8pt;">';
-    $tabla_titulos = ""; $cuantas_columnas = 0;
+        $tabla_titulos = ""; $cuantas_columnas = 0;
         $r2 = $db0 -> query($sql); while($finfo = $r2->fetch_field())
         {//OBTENER LAS COLUMNAS
 

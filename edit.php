@@ -582,6 +582,4 @@ if (UserAdmin($RinteraUser)==TRUE){
 
 
 
-
-</body>
-</html>
+<?php include ("footer.php"); ?>

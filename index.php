@@ -125,8 +125,5 @@ echo "
     </script>
 ";
 
+include ("footer.php");
 ?>
-
-</body>
-
-</html>
