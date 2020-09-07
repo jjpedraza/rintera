@@ -695,3 +695,9 @@ margin-lefT:2px; margin-right: 2px; }
 	width: 90%;
 }
 }
+:root {
+	--RinteraBackground: url('https://source.unsplash.com/random/1920x1080/?nature');
+	--RinteraBackgroundColor: #015288;
+	--RinteraColor: white ;
+	
+}

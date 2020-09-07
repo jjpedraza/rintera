@@ -387,18 +387,16 @@ function Toast($Texto,$Tipo,$img){
 }
 
 function UserAdmin($IdUser){
-    require_once("rintera-config.php");   
-    if ($UsuariosForaneaos == FALSE){
-        $sql = "select * from users WHERE IdUser ='".$IdUser."'";
-        $rc= $db0 -> query($sql);
+    require("rintera-config.php");   
+    // var_dump($dbUser);
+    if (Preference("UsuariosForaneos", "", "") == "FALSE"){
+        $sql = "select * from users WHERE IdUser ='".$IdUser."'";        
     } else {
-        //Complementmos la consulta a la base de nuestro cliente
-        $sql = $QueryUsuariosForaneos." and IdUser='".$IdUser."'";
-
-        //apuntamos la coneccion a la base de datos del cliente
-        $rc= $db1 -> query($sql);
+        
+        $sql = Preference("UsuariosForaneosQuery", "", "")." and IdUser='".$IdUser."'";
+        
     }
-    
+    $rc= $dbUser -> query($sql);
     if($f = $rc -> fetch_array())
     {
         if ($f['RinteraLevel']==1)  {
@@ -432,7 +430,7 @@ function LocationFull($page){
 }
 
 function PermisoReporte_Ver($IdUser,$IdRep){
-    require_once("rintera-config.php");   
+    require("rintera-config.php");   
     $sql = "select count(*) as n
     
     from reportes_permisos WHERE IdUser ='".$IdUser."' and id_rep='".$IdRep."' and Ver=1";
@@ -455,7 +453,7 @@ function PermisoReporte_Ver($IdUser,$IdRep){
 
 
 function PermisoReporte_Share($IdUser,$IdRep){
-    require_once("rintera-config.php");   
+    require("rintera-config.php");   
     $sql = "select count(*) as n
     
     from reportes_permisos WHERE IdUser ='".$IdUser."' and id_rep='".$IdRep."' and CompartirVer=1";
@@ -482,8 +480,7 @@ function DynamicTable_MySQL($sql, $IdDiv, $IdTabla, $Clase, $Tipo, $db){
 	//$sql = "select * from Colorines limit 20";
 	//DynamicTable_MySQL($sql, "Colorines", "Colorines_Tabla", "Colorines_ClaseCSS", 0, 0);
 
-	require("rintera-config.php");
-	
+	require("rintera-config.php");	
 	if ($db == 0){
         $r= $db0 -> query($sql);
         $tbCont = '<div id="'.$IdDiv.'" class="'.$Clase.'">
@@ -710,7 +707,7 @@ if($f = $rc -> fetch_array())
 }
 
 function ConType($IdCon){
-    require_once("rintera-config.php");   
+    require("rintera-config.php");   
     
     $sql = "select * from dbs WHERE Idcon='".$IdCon."'";
     $rc= $db0 -> query($sql);
@@ -726,7 +723,7 @@ function ConType($IdCon){
 
 
 function TestConectionWS($IdCon){
-    require_once("rintera-config.php");   
+    require("rintera-config.php");   
     $sql = "select * from dbs where IdCon='".$IdCon."'";
     $rc= $db0 -> query($sql);
     if($f = $rc -> fetch_array())
@@ -828,7 +825,7 @@ function TestConectionWS($IdCon){
 
 
     function PingtoDb($IdCon){
-        require_once("rintera-config.php");   
+        require("rintera-config.php");   
         $sql = "select * from dbs where IdCon='".$IdCon."'";    
         
         $rc= $db0 -> query($sql);    

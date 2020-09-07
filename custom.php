@@ -555,7 +555,7 @@ if (UserAdmin($RinteraUser) == TRUE) {
 
             <td align=left valign=top>  
             <div class="custom-control custom-switch col-sm-6 " >
-            <input type="checkbox" class="custom-control-input" id="VisualLogo" onclick="ActivarLogo();" "'.$checked.'">
+            <input type="checkbox" class="custom-control-input" id="VisualLogo" onclick="ActivarLogo();" '.$checked.'>
             <label onclick="" class="custom-control-label" for="VisualLogo"></label>
             </div>
 
@@ -660,43 +660,6 @@ if (UserAdmin($RinteraUser) == TRUE) {
     }
     // echo $checkedList;
 
-    echo '<table class="tabla">';
-    echo '<tr>
-        
-       
-            <td  width=90% align=right>
-                <b style="font-weight:bold; font-size:10pt;">Visualizar Logotipo.<br></b>
-                <cite>Muestra la imagen cargada en el Perfil empresarial en la parte superior de la aplicacion; así como en otras partes donde corresponda.</cite>
-            </td>
-
-            <td align=left valign=top>  
-            <div class="custom-control custom-switch col-sm-6 " >
-            <input type="checkbox" class="custom-control-input" id="VisualLogo" onclick="ActivarLogo();" "'.$checked.'">
-            <label onclick="" class="custom-control-label" for="VisualLogo"></label>
-            </div>
-
-            
-            </td>
-        </tr>             
-        ';
-    
-
-        echo '<tr>              
-            <td  width=90% align=right>
-                <b style="font-weight:bold; font-size:10pt;">Color Principal<br></b>
-                
-            </td>
-
-            <td align=left valign=top>  
-            
-            <input type="color" class="form-control" id="ColorPrincipal" onclick="" value="'.Preference("ColorPrincipal", "", "").'" >
-            
-            
-            </td>
-        </tr>             
-        ';
-
-
 
 
         
@@ -796,7 +759,9 @@ if (UserAdmin($RinteraUser) == TRUE) {
        
         <td  width=90% align=right colspan=2>';
 
-    echo '<label class="form-control-label" >UsuariosForaneosQuery:</label><br>';
+    echo '<label class="form-control-label" >UsuariosForaneosQuery:</label><br>
+    <cite>Considera que Rintera añadira <b style="color:blue;">and IdUser=IdUsuario</b></cite>
+    ';
 
     echo '<textarea class="Query ">'.Preference("UsuariosForaneosQuery", "", "").'</textarea>';
         

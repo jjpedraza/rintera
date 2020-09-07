@@ -41,7 +41,7 @@ if($f = $rc -> fetch_array())
 }
 
 $Error="";
-
+// echo $UsuariosForaneaos;
 // var_dump($UsuariosForaneosIdCon);
 if ($UsuariosForaneaos == "TRUE") {
     if 	($UsuariosForaneosIdCon <> "" ){
@@ -91,9 +91,9 @@ if ($UsuariosForaneaos == "TRUE") {
 
 
 
-    if (isset($dbUser)) {
-    
-        $sql = $QueryUsuariosForaneos;
+		//Validaciond e consulta
+		if (isset($dbUser)) {
+    	$sql = $QueryUsuariosForaneos;
         $RUser= $dbUser -> query($sql);
         if($FUser = $RUser -> fetch_array()){
             // var_dump($FUser);
@@ -102,17 +102,18 @@ if ($UsuariosForaneaos == "TRUE") {
         } else {
             
             $Error = $Error."Fallo de conección al Consultar los Usuarios";
-        }
-    } else {
-        $Error = $Error."Fallo interno";
-    }
+		}
+		} else {
+			$Error = $Error."Fallo de conección";
+		}
+  
     
 
-} else {
+} 
+
+else {
     //Conección a la base Local de rintera
-    $dbUser = $db0;
-    if (isset($dbUser)) {
-    
+    	$dbUser = $db0;
         $sql = "select * from users";
         $RUser= $dbUser -> query($sql);
         if($FUser = $RUser -> fetch_array()){
@@ -123,10 +124,10 @@ if ($UsuariosForaneaos == "TRUE") {
             
             $Error = $Error."Fallo de conección al Consultar los Usuarios";
         }
-    } else {
-        $Error = $Error."Fallo interno";
-    }    
+
 }
+
+
 
 
 echo $Error;

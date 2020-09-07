@@ -62,7 +62,7 @@ include ("header.php");
 <?php
 
 if (UserAdmin($RinteraUser)==TRUE){
-    if ($UsuariosForaneaos == FALSE){
+    if (Preference("UsuariosForaneos", "", "") == "FALSE"){
 
         if (isset($_GET['i1'])){//Se actualizo correctamente
             Toast("Se actualizo correctamente a ".$_GET['i1'],1,"");
@@ -280,7 +280,7 @@ if (UserAdmin($RinteraUser)==TRUE){
 
 
 
-        $sql ='   select *from users_html ';
+        $sql ='select *from users_html ';
         $IdTabla = "MiTabla";
         $Clase = "container ";
         $db= 0 ;
