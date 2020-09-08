@@ -1,24 +1,188 @@
 <?php
 include ("head.php");
 
-$Query = "select nitavu, nombre from empleados"; $ClaseDiv = "container"; $ClaseTabla = ""; $IdCon = 1; 
-$Tipo = 1; // 0 = html, 1= build, 2 = PDF, 3 = Excel, 4 = Word
-$Tabla = TableFromMySQL($Query, $ClaseDiv,$ClaseTabla, $IdCon,$Tipo);
-if ($Tabla <> FALSE){
-    echo $Tabla;
+// $Query = "select nitavu, nombre from empleados"; $ClaseDiv = "container"; $ClaseTabla = ""; $IdCon = 1; 
+// $Tipo = 1; // 0 = html, 1= build, 2 = PDF, 3 = Excel, 4 = Word
+// $Tabla = DataFromMySQL($Query, $ClaseDiv,$ClaseTabla, $IdCon,$Tipo);
+// if ($Tabla <> FALSE){
+//     echo $Tabla;
+// } else {
+//     echo "Error";
+// }
+
+
+$WSTipo= "1"; //Con Webservice de SQLSERVERTOSJSON
+$IdCon = 4; //Conecciones de la tabla dbs
+echo SQLSERVERTOJSON($IdCon,"select top 100 IdLote,IdDelegacion,IdPrograma from lotes",$WSTipo,"tabla");
+
+
+
+function SQLSERVERTOJSON($IdCon, $Query, $Tipo, $ClaseTabla)
+{
+//SQLSERVERTOJSON = https://github.com/prymecode/sqlservertojson
+require("rintera-config.php");	
+
+//1.- Obtener datos de conección
+$WS_Val = FALSE;
+$WS_Msg = "";
+$WSSQL = "select * from dbs where IdCon='".$IdCon."' AND Active=1 AND ConType =2"; //SQLSERVERTOJSON
+// echo $WSSQL;
+$WSCon= $db0 -> query($WSSQL);
+if($WSConF = $WSCon -> fetch_array())
+{
+    // var_dump($RConF);
+    // 1. Validacion de Datos necesarios
+    if ($WSConF['wsurl'] <>'' &&  $WSConF['wsmethod']<>'' && $WSConF['wsjson']<>'' 
+        // &&  $WSConF['wsP1_id'] && $WSConF['wsP1_value'] &&
+        //     $WSConF['wsP2_id'] && $WSConF['wsP2_value'] &&
+        //     $WSConF['wsP3_id'] && $WSConF['wsP3_value'] &&
+        //     $WSConF['wsP4_id'] && $WSConF['wsP4_value']
+        )    
+    {
+        $WSurl = $WSConF['wsurl'];
+        $WSmethod = $WSConF['wsmethod'];
+        $WSjson = $WSConF['wsjson'];
+        $WSparametros = $WSConF['parametros'];
+
+        $wsP1_id = $WSConF['wsP1_id'];  $wsP1_value = $WSConF['wsP1_value'];
+        $wsP2_id = $WSConF['wsP2_id'];  $wsP2_value = $WSConF['wsP2_value'];
+        $wsP3_id = $WSConF['wsP3_id'];  $wsP3_value = $WSConF['wsP3_value'];
+        $wsP4_id = $WSConF['wsP4_id'];  $wsP4_value = $WSConF['wsP4_value'];
+
+        $WS_Val = TRUE;
+        // echo "OK";
+
+                
+        $url = $WSurl;            
+        $sql = $Query;
+        $token = $wsP1_value;
+
+        //Peticion
+        $myObj = new stdClass;
+        $myObj->token = $token;
+        $myObj->sql = $sql;
+        $myJSON = json_encode($myObj,JSON_UNESCAPED_SLASHES);
+        
+        $datos_post = http_build_query(
+            $myObj
+        );
+
+        $opciones = array('http' =>
+            array(
+                'method'  => 'POST',
+                'header'  => 'Content-type: application/x-www-form-urlencoded',
+                'content' => $datos_post
+            )
+        );
+        
+        $context = stream_context_create($opciones);            
+        $archivo_web = file_get_contents($url, false, $context);            
+        $data = json_decode($archivo_web);
+    
+        switch ($Tipo) {
+            case 0:
+                return $archivo_web;
+            break;
+
+            case 1:                            
+                // //Recorrido
+                $jsonIterator = new RecursiveIteratorIterator(
+                    new RecursiveArrayIterator(json_decode($archivo_web, TRUE)),
+                    RecursiveIteratorIterator::SELF_FIRST
+                );
+            
+                // var_dump( $jsonIterator);
+                $tabla= "<table  width=100% border=0 class='".$ClaseTabla."'>";          
+                $tabla_content = ""; $tabla_th = "";  
+                $row=0; $rowC = 0;
+                $limit = 0 ; foreach ($jsonIterator as $key => $val) {
+                    if (is_numeric($key)){ //rows
+                    // echo $limit."=".$key."=".$val."<br>";
+                     $limit = 0;
+                    }
+                    else {
+                        // echo "*".$limit."=".$key."=".$val."<br>";
+                        $limit = $limit  + 1;
+                    }
+                    
+                }
+                // echo "limit=".$limit;
+
+                //Construccion de <th>
+                foreach ($jsonIterator as $key => $val) {
+                    if (is_numeric($key)){ //rows                        
+                        $rowC = 0;
+                    } else {
+                        if ($row < $limit){
+                            if ($rowC == 0){$tabla_th.="<tr>";}                            
+                            $tabla_th.="<th>".$key."</th>";
+                        }                        
+                    $rowC = $rowC + 1;
+                    $row = $row + 1;
+                    }
+                }
+                $tabla_th.="</tr>";
+                $row =0; $rowC = 0;
+                
+                // echo "limit=".$limit;
+                foreach ($jsonIterator as $key => $val) {
+                    if (is_numeric($key)){ //rows                        
+                        $rowC = 0;
+                    }
+                    else {                    
+                        if ($rowC == 0){$tabla_content.="<tr>";}
+                        if ($rowC == $limit){$tabla_content.="</tr>"; }                             
+                        $tabla_content.="<td>".$val."</td>";                       
+                    $rowC = $rowC + 1;
+                    $row = $row + 1;
+                    }
+                
+                
+                }
+                
+                
+                $tabla.=$tabla_th.$tabla_content."</table>";                
+                return $tabla;
+                break;
+        
+        
+                default:
+        }             
+                
+        
+        
+    } else {
+        $WS_Msg.="Parametros insuficientes";
+    }
 } else {
-    echo "Error";
+    $WS_Msg.="Error de consulta a la base de datos";
+}
+// echo $WS_Msg;
+return $WS_Val;
+    
 }
 
 
 
-function TableFromMySQL($Query, $ClaseDiv, $ClaseTabla, $IdCon, $Tipo){
+
+
+
+
+
+
+
+
+
+
+
+
+
+function DataFromMySQL($Query, $ClaseDiv, $ClaseTabla, $IdCon, $Tipo){
     require("rintera-config.php");	
     $TablaHTML = "";
 
 
-    $len = 16;    $cadena_base =  'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';   $cadena_base .= '0123456789' ; 
-    $limite = strlen($cadena_base) - 1;      
+    $len = 16;    $cadena_base =  'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';   $cadena_base .= '0123456789' ;  $limite = strlen($cadena_base) - 1;      
     $STR = '';  for ($i=0; $i < $len; $i++){ $STR .= $cadena_base[rand(0, $limite)]; }  $IdDiv = $STR;
     $STR = '';  for ($i=0; $i < $len; $i++){ $STR .= $cadena_base[rand(0, $limite)]; }  $IdTabla = $STR;
     
@@ -121,111 +285,47 @@ if ($Con_Val == TRUE){
 include("con_close.php");
 
 
+}
 
 
+function jsonToTable ($data)
+{
+    $data = json_decode($data);
+    $table = '
+    <table class="json-table" width="100%">
+    ';
 
-	
-	// if ($db == 0){
-    //     $r= $db0 -> query($sql);
     
-
-
-
-
-
-	// if ($db == 1){
-
-    //     $r1= $db1 -> query($sql);
-    //     $tbCont = '<div id="'.$IdDiv.'" class="'.$Clase.'">
-    //     <table id="'.$IdTabla.'" class="display" style="width:100%" class="tabla" style="font-size:8pt;">';
-    // $tabla_titulos = ""; $cuantas_columnas = 0;
-    //     $r1_1 = $db1 -> query($sql); while($finfo = $r1_1->fetch_field())
-    //     {//OBTENER LAS COLUMNAS
-
-    //             /* obtener posición del puntero de campo */
-    //             $currentfield = $r1_1->current_field;       
-    //             $tabla_titulos=$tabla_titulos."<th style='text-transform:uppercase; font-size:9pt;'>".$finfo->name."</th>";
-    //             $cuantas_columnas = $cuantas_columnas + 1;        
+    foreach ($data as $key => $value) {
+    //     $table .= '
+    //     <tr valign="top">
+    //     ';
+    //     if ( ! is_numeric($key)) {
+    //         $table .= '
+    //         <td>
+    //             <strong>'. $key .':</strong>
+    //         </td>
+    //         <td>
+    //         ';
+    //     } else {
+    //         $table .= '
+    //         <td colspan="2">
+    //         ';
     //     }
-
-    //     $tbCont = $tbCont."  
-    //     <thead>
-    //     <tr>
-    //         ".$tabla_titulos."  
+    //     if (is_object($value) || is_array($value)) {
+    //         $table .= jsonToTable($value);
+    //     } else {
+    //         $table .= $value;
+    //     }
+    //     $table .= '
+    //         </td>
     //     </tr>
-    //     </thead>"; //Encabezados
-    //     $tbCont = $tbCont."<tbody class='tabla'>";
-    //     $cuantas_filas=0;
-    //     $r1 = $db1 -> query($sql); while($f1 = $r1-> fetch_row())
-    //     {//LISTAR COLUMNAS
-
-    //         $tbCont = $tbCont."<tr>";        
-    //         for ($i = 1; $i <= $cuantas_columnas; $i++) {      
-    //             $tbCont = $tbCont."<td style='font-size:10pt;'>".$f1[$i-1]."</td>";       
-    //             }
-
-    //         $tbCont = $tbCont."</tr>";
-    //         $cuantas_filas = $cuantas_filas + 1;        
-    //     }
-
-    //     $tbCont = $tbCont."</tbody>";
-    //     $tbCont = $tbCont."</table></div>";
-	
-
-    // }
-
-
-    // if ($db == 0 OR $db==1){
-	// echo  $tbCont;
-	// 	switch ($Tipo) {
-	// 		case 1: //Scroll Vertical
-	// 				echo '<script>
-	// 				$(document).ready(function() {
-	// 					$("#'.$IdTabla.'").DataTable( {
-	// 						"scrollY":        "200px",
-	// 						"scrollCollapse": true,
-	// 						"paging":         false,
-	// 						"language": {
-	// 							"decimal": ",",
-	// 							"thousands": "."
-	// 						}
-	// 					} );
-	// 				} );
-	// 				</script>';
-	// 			break;
-
-	// 		case 2: //Scroll Horizontal
-	// 				echo '<script>
-	// 				$(document).ready(function() {
-	// 					$("#'.$IdTabla.'").DataTable( {
-	// 						"scrollX": true,
-	// 						"scrollCollapse": true,
-	// 						"paging":         true,
-	// 						"language": {
-	// 							"decimal": ",",
-	// 							"thousands": "."
-	// 						}
-	// 					} );
-	// 				} );
-	// 				</script>';
-	// 			break;
-			
-	// 		default:
-	// 			echo '<script>
-	// 			$(document).ready(function() {
-	// 				$("#'.$IdTabla.'").DataTable( {
-	// 					"language": {
-	// 						"decimal": ",",
-	// 						"thousands": "."
-	// 					}
-	// 				} );
-	// 			} );
-	// 			</script>';
-	// 	}
-    // } else {
-    // 	echo "Error: no se ha seleccionado una db para la Tabla Dinamica";
-    // }
-
+    //     ';
+    }
+    $table .= '
+    </table>
+    ';
+    return $table;
 }
 
 include ("footer.php");
