@@ -8,9 +8,12 @@ $Con_Msg = "";
 // $Con_IdCon = 1;
 $Con_Tsql = "select * from dbs where IdCon='".$Con_IdCon."' AND Active=1 AND ConType <=1";
 // echo $Con_Tsql;
+
 $RCon= $db0 -> query($Con_Tsql);
+// var_dump($RCon);
 if($RConF = $RCon -> fetch_array())
 {
+    // var_dump($RConF);
     // var_dump($RConF);
     // 1. Validacion de Datos necesarios
     if ($RConF['dbhost'] <>'' &&  $RConF['dbname']<>'' && $RConF['dbuser']<>'' && $RConF['dbpassword']<>'')    {
@@ -29,6 +32,7 @@ if($RConF = $RCon -> fetch_array())
                 $ConPing= $LaConeccion -> query($ConSql);
                 if($FPing = $ConPing -> fetch_array()){
                     $Con_Val = TRUE;
+                    // echo "OK";
                 } else {
                     $Con_Msg = $Con_Msg.""."Error de conección. ";       
                 }
