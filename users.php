@@ -35,7 +35,7 @@ require ("components.php");
 </head>
 <body>
 
-<?php Init();?>
+
 <div id='PreLoader'>
     <div id='Loader'>
         <img src='img/loader_classic.gif'><br>      

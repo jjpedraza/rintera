@@ -132,7 +132,7 @@ else {
 
 echo $Error;
 
-
+$StringFecha = date('Ymd')."_".  date("His");
 
 
 

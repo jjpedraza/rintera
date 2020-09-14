@@ -866,4 +866,225 @@ function TestConectionWS($IdCon){
         
 
 
+
+
+function TableToPDF($TablaHTML, $IdUser, $titulo, $descripcion, $PageSize, $orientacion, $id_rep, $info_leyenda ){	
+    require("rintera-config.php");
+    require('lib/pdf/tcpdf.php');
+    $info_leyenda =  $info_leyenda. " IdUser: ".$IdUser." | ".$fecha.":".$hora;        
+    $LogoFile = "Logo.png";
+    $t1 = $TablaHTML;
+    $t2="";
+    $t3="";
+
+    // ob_end_clean();  
     
+    class PDFReporteUniversal extends TCPDF {
+        public $str;
+        public $titulo;
+        public $descripcion;
+        public $id_rep;
+        public $info_leyenda;
+        public $orientacion;
+        public $PageSize;
+    
+        public function Header() {
+            if ($this->PageSize == "0"){ //Configuracion CARTA
+                if ($this->orientacion == 'L') { //horizontal CARTA						
+                    $image_file = K_PATH_IMAGES.'../../../../img/Logo.png';
+                    $icono = K_PATH_IMAGES.'user.png';		
+                    $this->Image($image_file, 15, 7, 15, '', 'PNG', '', 'T', false, 300, '', false, false, 0, false, false, false);
+                    $this->SetFont('helvetica', 'B', 10);
+                    $LogitudTitulo=150;
+                    $this->Text(57, 7, ''.substr($this->titulo,0,$LogitudTitulo).""); 
+                    $this->Text(57, 9.5, ''.substr($this->titulo,$LogitudTitulo + 1 , $LogitudTitulo ).""); 			
+                    $this->SetFont('helvetica', 'I', 6);
+                    $LogitudTitulo=200;
+                    $this->Text(57, 12, ''.substr($this->descripcion,0,$LogitudTitulo).""); 
+                    $this->Text(57, 13.5, ''.substr($this->descripcion,$LogitudTitulo + 1 , $LogitudTitulo).""); 
+                    $this->Text(57, 15.5, ''.substr($this->descripcion,($LogitudTitulo * 2) + 1 , $LogitudTitulo).""); 
+    
+                } else { //VERTICAL CARTA
+                    $image_file = K_PATH_IMAGES.'../../../../img/Logo.png';
+                    $icono = K_PATH_IMAGES.'user.png';		
+                    $this->Image($image_file, 15, 7, 40, '', 'PNG', '', 'T', false, 300, '', false, false, 0, false, false, false);
+                    $this->SetFont('helvetica', 'B', 10);
+                    $LogitudTitulo=100;
+                    $this->Text(57, 7, ''.substr($this->titulo,0,$LogitudTitulo).""); 
+                    $this->Text(57, 9.5, ''.substr($this->titulo,$LogitudTitulo + 1 , $LogitudTitulo ).""); 			
+                    $this->SetFont('helvetica', 'I', 6);
+                    $LogitudTitulo=140;
+                    $this->Text(57, 12, ''.substr($this->descripcion,0,$LogitudTitulo).""); 
+                    $this->Text(57, 13.5, ''.substr($this->descripcion,$LogitudTitulo + 1 , $LogitudTitulo).""); 
+                    $this->Text(57, 15.5, ''.substr($this->descripcion,($LogitudTitulo * 2) + 1 , $LogitudTitulo).""); 
+                    
+                }
+            } else {//OFICIO
+                if ($this->orientacion == 'L') { //horizontal OFICIO.
+                    $image_file = K_PATH_IMAGES.'../../../../img/Logo.png';
+                    $icono = K_PATH_IMAGES.'user.png';		
+                    $this->Image($image_file, 15, 7, 40, '', 'PNG', '', 'T', false, 300, '', false, false, 0, false, false, false);
+                    $this->SetFont('helvetica', 'B', 10);
+                    $LogitudTitulo=220;
+                    $this->Text(57, 7, ''.substr($this->titulo,0,$LogitudTitulo).""); 
+                    $this->Text(57, 9.5, ''.substr($this->titulo,$LogitudTitulo + 1 , $LogitudTitulo ).""); 			
+                    $this->SetFont('helvetica', 'I', 6);
+                    $LogitudTitulo=280;
+                    $this->Text(57, 12, ''.substr($this->descripcion,0,$LogitudTitulo).""); 
+                    $this->Text(57, 13.5, ''.substr($this->descripcion,$LogitudTitulo + 1 , $LogitudTitulo).""); 
+                    $this->Text(57, 15.5, ''.substr($this->descripcion,($LogitudTitulo * 2) + 1 , $LogitudTitulo).""); 
+    
+                } else { //VERTICAL OFICIO
+                    $image_file = K_PATH_IMAGES.'../../../../img/Logo.png';
+                    $icono = K_PATH_IMAGES.'user.png';		
+                    $this->Image($image_file, 15, 7, 40, '', 'PNG', '', 'T', false, 300, '', false, false, 0, false, false, false);
+                    $this->SetFont('helvetica', 'B', 10);
+                    $LogitudTitulo=100;
+                    $this->Text(57, 7, ''.substr($this->titulo,0,$LogitudTitulo).""); 
+                    $this->Text(57, 9.5, ''.substr($this->titulo,$LogitudTitulo + 1 , $LogitudTitulo ).""); 			
+                    $this->SetFont('helvetica', 'I', 6);
+                    $LogitudTitulo=140;
+                    $this->Text(57, 12, ''.substr($this->descripcion,0,$LogitudTitulo).""); 
+                    $this->Text(57, 13.5, ''.substr($this->descripcion,$LogitudTitulo + 1 , $LogitudTitulo).""); 
+                    $this->Text(57, 15.5, ''.substr($this->descripcion,($LogitudTitulo * 2) + 1 , $LogitudTitulo).""); 
+    
+                }
+            }
+    
+    
+ }    
+
+
+ public function Footer() {
+    if ($this->PageSize == "0"){ //Configuracion CARTA
+        if ($this->orientacion == 'L') { //horizontal CARTA						
+            $this->SetY(-15);		
+            $this->SetFont('helvetica', 'I', 6);	 
+            $this->SetTextColor(0,0,0);
+            $linea= "_______________________________________________________________________________________________________________________________________________________________________________________________________________________________________";
+            $paginas = "Pag. ".$this->getAliasNumPage().'/'.$this->getAliasNbPages();	
+            $this->Text(14.5,199, $linea); 	 
+            $LogitudTitulo=205;
+            $this->SetFont('helvetica', 'B', 9); $this->Text(15,201.5, $paginas); 	 
+            $this->SetFont('helvetica', 'I', 6); $this->Text(40,201.5, "[".$this->id_rep."] ".substr($this->info_leyenda,0,$LogitudTitulo).""); 	 
+            $this->SetFont('helvetica', 'I', 6); $this->Text(40,203.5, "".substr($this->info_leyenda,$LogitudTitulo + 1,$LogitudTitulo ).""); 	 
+    
+
+        } else { //VERTICAL CARTA
+            $this->SetY(-15);		
+            $this->SetFont('helvetica', 'I', 6);	 
+            $this->SetTextColor(0,0,0);
+            $linea= "_______________________________________________________________________________________________________________________________________________________________________________________________________________________________________";
+            $paginas = "Pag. ".$this->getAliasNumPage().'/'.$this->getAliasNbPages();	
+            $this->Text(14.5,262.5, $linea); 	 
+            $LogitudTitulo=150;
+            $this->SetFont('helvetica', 'B', 9); $this->Text(15,265, $paginas); 	 
+            $this->SetFont('helvetica', 'I', 6); $this->Text(40,265, "[".$this->id_rep."] ".substr($this->info_leyenda,0,$LogitudTitulo).""); 	 
+            $this->SetFont('helvetica', 'I', 6); $this->Text(40,267, "".substr($this->info_leyenda,$LogitudTitulo + 1,$LogitudTitulo ).""); 	 
+            
+        }
+    } else {//OFICIO
+        if ($this->orientacion == 'L') { //horizontal OFICIO
+            $this->SetY(-15);		
+            $this->SetFont('helvetica', 'I', 6);	 
+            $this->SetTextColor(0,0,0);
+            $linea= "______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________";
+            $paginas = "Pag. ".$this->getAliasNumPage().'/'.$this->getAliasNbPages();	
+            $this->Text(14.5,199, $linea); 	 
+            $LogitudTitulo=205;
+            $this->SetFont('helvetica', 'B', 9); $this->Text(15,201.5, $paginas); 	 
+            $this->SetFont('helvetica', 'I', 6); $this->Text(40,201.5, "[".$this->id_rep."] ".substr($this->info_leyenda,0,$LogitudTitulo).""); 	 
+            $this->SetFont('helvetica', 'I', 6); $this->Text(40,203.5, "".substr($this->info_leyenda,$LogitudTitulo + 1,$LogitudTitulo ).""); 	 
+
+
+        } else { //VERTICAL OFICIO
+            // $this->SetY(-15);		
+            $this->SetFont('helvetica', 'I', 6);	 
+            $this->SetTextColor(0,0,0);
+            $linea= "_______________________________________________________________________________________________________________________________________________________________";
+            $paginas = "Pag. ".$this->getAliasNumPage().'/'.$this->getAliasNbPages();	
+            $this->Text(14.5,325, $linea); 	 
+            $LogitudTitulo=150;
+            $this->SetFont('helvetica', 'B', 9); $this->Text(15,327, $paginas); 	 
+            $this->SetFont('helvetica', 'I', 6); $this->Text(40,327.5, "[".$this->id_rep."] ".substr($this->info_leyenda,0,$LogitudTitulo).""); 	 
+            $this->SetFont('helvetica', 'I', 6); $this->Text(40,329.8, "".substr($this->info_leyenda,$LogitudTitulo + 1,$LogitudTitulo ).""); 	 
+
+        }
+    }
+
+
+}
+}
+$pdf = new PDFReporteUniversal(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+
+$pdf->SetCreator(PDF_CREATOR);
+// $pdf->SetAuthor($autor);
+// $pdf->SetTitle("d".strtoupper($titulo));
+// $pdf->SetSubject("x".$titulo);
+// $pdf->SetKeywords('Reporte ITAVU');
+// $pdf->SetHeaderData('pdf_logo.jpg', '30', strtoupper("".$titulo).'', $descripcion."\nImpreso: ".fecha_larga($fecha).", ".hora12($hora)." por ".nitavu_nombre($nitavu)."(".$nitavu.")");
+
+//   $pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', 6));
+//   $pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+//   $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);    
+$pdf->SetMargins(PDF_MARGIN_LEFT, 20, PDF_MARGIN_RIGHT);
+//   $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+// $pdf->SetHeaderMargin(20);
+// $pdf->SetFooterMargin(50);
+
+//   $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);  
+$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);  
+$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);  
+if (@file_exists(dirname(__FILE__).'lib/pdf/lang/eng.php')) {require_once(dirname(__FILE__).'lib/pdf/lang/eng.php'); $pdf->setLanguageArray($l); }
+
+$pdf->titulo = $titulo;
+$pdf->descripcion = $descripcion;
+$pdf->orientacion = $orientacion;
+$pdf->PageSize = $PageSize;
+$pdf->info_leyenda = $info_leyenda;
+$pdf->id_rep = $id_rep;
+
+$pdf->SetFont('helvetica', '', 7);  
+
+//   $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+if ($PageSize == "LEGAL")  {
+    if ($orientacion == "P"){
+        $pdf->SetAutoPageBreak(TRUE, 30);
+    } else {
+        $pdf->SetAutoPageBreak(TRUE, 15);
+    }
+    
+} else {
+
+}
+
+
+$pdf->AddPage($orientacion,$PageSize);     
+
+$pdf->writeHTML($t1, true, false, true, 0, '');
+
+//Est apartado se acomoda sin importar si es vertical o horizontal, asi como el tamaño de la hoja
+if($t2<>'' or $t3<>'') {	//Agregamos una nueva hoja para los anexos
+$pdf->AddPage($orientacion, $PageSize);
+$pdf->writeHTML($t2, true, false, true, 0, ''); //Anexo1
+$pdf->writeHTML($t3, true, false, true, 0, ''); //Anexo2
+
+}
+
+
+
+//Finalizamos el reporte
+$pdf->lastPage();	  
+
+//   $pdf->Output('reporte_'.$id_rep.'.pdf', 'I');
+$directorio = __DIR__;
+// $directorio = str_replace("unica", "tmp", $directorio);
+$archivo = $directorio."\\tmp\\".$StringFecha."_".$id_rep."_".$IdUser.".pdf";  
+$archivoWeb = "tmp/".$StringFecha."_".$id_rep."_".$IdUser.".pdf";  
+$pdf->Output($archivo, 'F');   
+
+return $archivoWeb;
+
+
+
+}

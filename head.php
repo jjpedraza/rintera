@@ -49,5 +49,11 @@ require ("components.php");
 background-color: <?php echo Preference("ColorDeFondo", "", ""); ?>;
 ">
 <?php
-Init();
+// Init();
 ?>
+
+<div id='PreLoader'>
+    <div id='Loader'>
+        <img src='img/loader_classic.gif'><br>
+    </div>
+</div>

@@ -2,11 +2,11 @@
 include ("head.php");
 
 //consulta mediante DataFromMySQL
-$Query = "select nitavu, nombre from empleados"; 
+$Query = "select nitavu, nombre from empleados limit 10"; 
 $ClaseDiv = "container"; $ClaseTabla = ""; 
 $IdCon = 1;  // Id de coneccion, de la tabla dbs
-$Tipo = 1; // 0 = html, 1= DataTable, 2 = PDF, 3 = Excel, 4 = Word
-$Tabla = DataFromMySQL($Query, $ClaseDiv,$ClaseTabla, $IdCon,$Tipo);
+$Tipo = 2; // 0 = html, 1= DataTable, 2 = PDF, 3 = Excel, 4 = Word
+$Tabla = DataFromMySQL($Query, $ClaseDiv,$ClaseTabla, $IdCon,$Tipo, $RinteraUser);
 echo $Tabla;
 
 
@@ -284,7 +284,7 @@ if($WSConF = $WSCon -> fetch_array())
 
 
 
-function DataFromMySQL($Query, $ClaseDiv, $ClaseTabla, $IdCon, $Tipo){
+function DataFromMySQL($Query, $ClaseDiv, $ClaseTabla, $IdCon, $Tipo, $IdUser){
     require("rintera-config.php");	
     $TablaHTML = "";
 
@@ -305,14 +305,14 @@ if ($Con_Val == TRUE){
             // var_dump($f);
 
             $tbCont = '<div id="'.$IdDiv.'" class="'.$ClaseDiv.'">
-            <table id="'.$IdTabla.'"  style="width:100%" class="'.$ClaseTabla.'" style="font-size:8pt;">';
+            <table  id="'.$IdTabla.'"  style="width:100%; " class="'.$ClaseTabla.'" style="font-size:8pt;">';
             $tabla_titulos = ""; $cuantas_columnas = 0;
             $r2 = $LaConeccion -> query($Query); while($finfo = $r2->fetch_field())
             {//OBTENER LAS COLUMNAS
 
                     /* obtener posición del puntero de campo */
                     $currentfield = $r2->current_field;       
-                    $tabla_titulos=$tabla_titulos."<th >".$finfo->name."</th>";
+                    $tabla_titulos=$tabla_titulos.'<th bgcolor="#A5A5A5" color="white">'.strtoupper($finfo->name)."</th>";
                     $cuantas_columnas = $cuantas_columnas + 1;        
             }
             unset($r2);
@@ -330,7 +330,15 @@ if ($Con_Val == TRUE){
 
                 $tbCont = $tbCont."<tr>";        
                 for ($i = 1; $i <= $cuantas_columnas; $i++) {      
-                    $tbCont = $tbCont."<td >".$f[$i-1]."</td>";       
+                    if ($cuantas_filas%2==0){
+                        $tbCont = $tbCont.'<td bgcolor="white" >'.$f[$i-1]."</td>";       
+                        
+                    }else{
+                        $tbCont = $tbCont.'<td  bgcolor="#F0F0E1" >'.$f[$i-1]."</td>";       
+                        
+                    }
+
+                    
                     }
 
                 $tbCont = $tbCont."</tr>";
@@ -360,6 +368,30 @@ if ($Con_Val == TRUE){
                                 } );
                             } );
                             </script>';
+                break;
+
+                case 2: // PDF
+                    // $IdUser = $RinteraUser;
+                    $titulo = "Titulo del Reporte";
+                    $descripcion = "La Descripcion";
+                    $PageSize = "0"; // 0= carta y 1 == oficio
+                    $orientacion = "L";
+                    $id_rep = 0;
+                    $info_leyenda = "x";
+                    $ArchivoDelReporte = TableToPDF($TablaHTML, $IdUser, $titulo, $descripcion, $PageSize, $orientacion,$id_rep,$info_leyenda);
+                    echo "<iframe id='pdfPresenter' src='".$ArchivoDelReporte."'
+                    style='
+                        width: 100%;
+                        height: 94%;
+                        position: absolute;
+                        border: 0px;
+                    '
+                    >
+                    
+                    </iframe>";
+
+                    // echo "<script>pdf('".$ArchivoDelReporte."');</script>";
+
                 break;
                 
             default:
