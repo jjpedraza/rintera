@@ -2,23 +2,26 @@
 include ("head.php");
 
 //consulta mediante DataFromMySQL
-$Query = "select nitavu, nombre from empleados limit 10"; 
-$ClaseDiv = "container"; $ClaseTabla = ""; 
-$IdCon = 1;  // Id de coneccion, de la tabla dbs
-$Tipo = 2; // 0 = html, 1= DataTable, 2 = PDF, 3 = Excel, 4 = Word
-$Tabla = DataFromMySQL($Query, $ClaseDiv,$ClaseTabla, $IdCon,$Tipo, $RinteraUser);
-echo $Tabla;
+// $Query = "select nitavu, nombre from empleados limit 10"; 
+// $ClaseDiv = "container"; $ClaseTabla = ""; 
+// $IdCon = 1;  // Id de coneccion, de la tabla dbs
+// $Tipo = 2; // 0 = html, 1= DataTable, 2 = PDF, 3 = Excel, 4 = Word
+// $Tabla = DataFromMySQL($Query, $ClaseDiv,$ClaseTabla, $IdCon,$Tipo, $RinteraUser);
+// echo $Tabla;
 
 
-// //Consulta mediante el Webservice
-// $WSTipo= 2; //0 = json del webservice, 1 = tabla html, 2 = DataTable
-// $IdCon = 4; //Conecciones de la tabla dbs
-// $ClaseDiv = ""; $ClaseTabla = ""; //sugerencia= clase tabla
-// echo DataFromSQLSERVERTOJSON($IdCon,"select top 15 IdLote,IdDelegacion,IdPrograma from lotes",$WSTipo,$ClaseTabla,$ClaseDiv);
+//Consulta mediante el Webservice
+$WSTipo= 3; //0 = json del webservice, 1 = tabla html, 2 = DataTable, 3 pdf
+$IdCon = 4; //Conecciones de la tabla dbs
+$ClaseDiv = ""; $ClaseTabla = ""; //sugerencia= clase tabla
+$IdUser = $RinteraUser;
+echo DataFromSQLSERVERTOJSON($IdCon,"select top 15 IdLote,IdDelegacion,IdPrograma from lotes",$WSTipo,$ClaseTabla,$ClaseDiv, $RinteraUser);
 
 
 
-function DataFromSQLSERVERTOJSON($IdCon, $Query, $Tipo, $ClaseTabla, $ClaseDiv)
+
+
+function DataFromSQLSERVERTOJSON($IdCon, $Query, $Tipo, $ClaseTabla, $ClaseDiv, $IdUser)
 {
 //SQLSERVERTOJSON = https://github.com/prymecode/sqlservertojson
 require("rintera-config.php");	
@@ -250,6 +253,133 @@ if($WSConF = $WSCon -> fetch_array())
                             </script>';
                 break;
         
+
+                case 3: //PDF
+                    
+                        $tabla = "";
+                        // //Recorrido del contenido
+                        $jsonIterator = new RecursiveIteratorIterator(
+                            new RecursiveArrayIterator(json_decode($archivo_web, TRUE)),
+                            RecursiveIteratorIterator::SELF_FIRST
+                        );
+                    
+                        // var_dump( $jsonIterator);
+                        $tabla= "<table  id='".$IdTabla."' width=100% border=0 class='".$ClaseTabla."'>";          
+                        $tabla_content = ""; $tabla_th = "";  
+                        $row=0; $rowC = 0;
+                        $limit = 0 ; foreach ($jsonIterator as $key => $val) {
+                            if (is_numeric($key)){ //rows
+                            // echo $limit."=".$key."=".$val."<br>";
+                            $limit = 0;
+                            }
+                            else {
+                                // echo "*".$limit."=".$key."=".$val."<br>";
+                                $limit = $limit  + 1;
+                            }
+                            
+                        }
+                        // echo "limit=".$limit;
+    
+                        //Construccion de <th>
+                        foreach ($jsonIterator as $key => $val) {
+                            if (is_numeric($key)){ //rows                        
+                                $rowC = 0;
+                            } else {
+                                if ($row < $limit){
+                                    if ($rowC == 0){$tabla_th.="<tr>";}                            
+                                    
+                                    $tabla_th.='<td  bgcolor="#555555" color="white">'.strtoupper($key)."</td>"; //cambiar th por td para datatable
+                                }                        
+                            $rowC = $rowC + 1;
+                            $row = $row + 1;
+                            }
+                        }
+                        $tabla_th =  "<thead>".$tabla_th."</tr></thead>";
+                        // echo "<table border=1>".$tabla_th."</table>";
+                        $row =1; $rowC = 1;
+                        
+                        // echo "limit=".$limit."<hr>";
+                        foreach ($jsonIterator as $key => $val) {
+                            
+                            if (is_numeric($key)){ //rows                        
+                                // $rowC = 1;
+                            }
+                            else {           
+                                
+                                if ($rowC == 1){
+                                    $tabla_content.="<tr>"; 
+                                    // echo "---".$limit."<br>";
+                                }
+                                // echo "rowC=".$rowC."(".$row.")<br>";
+                                // $tabla_content.="<td>".$row."(".$rowC.")".$val."</td>";                  
+                                // $tabla_content.="<td>".$val."</td>";     
+
+                                if ($row%2==0){
+                                    $tabla_content = $tabla_content.'<td bgcolor="white" >'.$val."</td>";       
+                                    
+                                }else{
+                                    $tabla_content = $tabla_content.'<td  bgcolor="#F0F0E1" >'.$val."</td>";       
+                                    
+                                }
+                                
+                                if ($rowC == $limit){
+                                    $tabla_content.="</tr>";
+                                    $rowC = 1;
+                                    //  echo "===".$limit."<br>"; 
+                                
+                                }  else {
+                                    $rowC = $rowC + 1;       
+                                }  
+                                
+                                   
+                                
+                                $row = $row + 1;
+                            
+                            }
+                            
+                        
+                        
+                        }                                       
+                        $tabla.=$tabla_th."<tbody class='".$ClaseTabla."'>".$tabla_content."</tbody></table>";     // tabla constuida a partir del ws
+                        $TablaHTML = $tabla;
+
+                        $titulo = "Titulo del Reporte";
+                        $descripcion = "La Descripcion";
+                        $PageSize = "0"; // 0= carta y 1 == oficio
+                        $orientacion = "L";
+                        $id_rep = 0;
+                        $info_leyenda = "x";
+                        $ArchivoDelReporte = TableToPDF($TablaHTML, $IdUser, $titulo, $descripcion, $PageSize, $orientacion,$id_rep,$info_leyenda);
+                        echo "<iframe id='pdfPresenter' src='".$ArchivoDelReporte."'
+                        style='
+                            width: 100%;
+                            height: 94%;
+                            position: absolute;
+                            border: 0px;
+                        '
+                        >
+                        
+                        </iframe>";
+
+
+                break;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                 default:
         }             
                 
@@ -427,7 +557,6 @@ include("con_close.php");
 
 
 }
-
 
 
 include ("footer.php");
