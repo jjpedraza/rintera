@@ -2,11 +2,13 @@
 include ("head.php");
 
 //consulta mediante DataFromMySQL
-$Query = "select nitavu, nombre from empleados limit 10"; 
+// $Query = "select nitavu, nombre from empleados limit 10"; 
+
 $ClaseDiv = "container"; $ClaseTabla = ""; 
 $IdCon = 1;  // Id de coneccion, de la tabla dbs
-$Tipo = 4; // 0 = html, 1= DataTable, 2 = PDF, 3 = Excel, 4 = Word
-$Tabla = DataFromMySQL($Query, $ClaseDiv,$ClaseTabla, $IdCon,$Tipo, $RinteraUser);
+$Tipo = 3; // 0 = html, 1= DataTable, 2 = PDF, 3 = Excel, 4 = Word
+$id_rep = 16;
+$Tabla = DataFromMySQL($ClaseDiv,$ClaseTabla, $Tipo, $RinteraUser,$id_rep);
 echo $Tabla;
 
 

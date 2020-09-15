@@ -408,6 +408,39 @@ function UserAdmin($IdUser){
         
 }
 
+
+function QueryReporte($id_rep){
+    require("rintera-config.php");   
+    // var_dump($dbUser);
+    $sql = "select * from reportes WHERE id_rep ='".$id_rep."'";        
+    // echo $sql;    
+    $r= $db0 -> query($sql);
+    if($f = $r -> fetch_array())
+    {
+        return $f['sql1'];
+    } else {
+        return "FALSE";
+    }
+        
+}
+
+
+function IdConReporte($id_rep){
+    require("rintera-config.php");   
+    // var_dump($dbUser);
+    $sql = "select * from reportes WHERE id_rep ='".$id_rep."'";        
+    // echo $sql;    
+    $r= $db0 -> query($sql);
+    if($f = $r -> fetch_array())
+    {
+        return $f['IdCon'];
+    } else {
+        return "FALSE";
+    }
+        
+}
+
+
 function getData()
 {    
     $url = 'https://v3nt4s.store/ws/rintera.html'; 
@@ -1706,8 +1739,22 @@ if($WSConF = $WSCon -> fetch_array())
 
 
 
-function DataFromMySQL($Query, $ClaseDiv, $ClaseTabla, $IdCon, $Tipo, $IdUser){
+function DataFromMySQL($ClaseDiv, $ClaseTabla, $Tipo, $IdUser,$id_rep){
     require("rintera-config.php");	
+    $Query = QueryReporte($id_rep); echo "Query = ".$Query."<br>";
+    $IdCon = IdConReporte($id_rep); echo "IdCon=".$IdCon."<br>";
+
+    if ($Query == "FALSE") {
+        return "ERROR: Datos insuficientes en el reporte (Query).";
+        exit();
+    } 
+    
+    if ($IdCon == "FALSE") {
+        return "ERROR: Datos insuficientes en el reporte (IdCon).";
+        exit();
+    } 
+
+    
     $TablaHTML = "";
 
 
@@ -1822,10 +1869,10 @@ if ($Con_Val == TRUE){
                     $descripcion = "La Descripcion";
                     $PageSize = "0"; // 0= carta y 1 == oficio
                     $orientacion = "L";
-                    $id_rep = 0;
+                    // $id_rep = 0;
                     $info_leyenda = "x";
                     // $ArchivoDelReporte = TableToPDF($TablaHTML, $IdUser, $titulo, $descripcion, $PageSize, $orientacion,$id_rep,$info_leyenda);
-                    $ArchivoDelReporte = "excel.php?IdUser=".$IdUser."&id_rep=";
+                    $ArchivoDelReporte = "excel.php?IdUser=".$IdUser."&id_rep=".$id_rep;
                     echo "<iframe id='pdfPresenter' src='".$ArchivoDelReporte."'
                     style='
                         width: 100%;
