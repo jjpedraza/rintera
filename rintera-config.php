@@ -45,11 +45,13 @@ $Error="";
 // var_dump($UsuariosForaneosIdCon);
 if ($UsuariosForaneaos == "TRUE") {
     if 	($UsuariosForaneosIdCon <> "" ){
+        // var_dump($UsuariosForaneosIdConType);
         if ($UsuariosForaneosIdConType  <=1) {
 
                   
                 if ($QueryUsuariosForaneos <> '') {
-                    $sql = "select * from dbs where IdCon='".$UsuariosForaneosIdCon."'";        
+                    $sql = "select * from dbs where IdCon='".$UsuariosForaneosIdCon."'";    
+                    // echo $sql;    
                     $r= $db0 -> query($sql);    
                     if($Fdb = $r -> fetch_array())
                     {    
@@ -58,7 +60,9 @@ if ($UsuariosForaneaos == "TRUE") {
                             $dbUser_user = $Fdb['dbuser'];
                             $dbUser_pass = $Fdb['dbpassword'];
                             $dbUser_name = $Fdb['dbname'];
-                        
+                            // echo "dbname=".$dbUser_name;
+
+                            // echo "OK";
                             if (function_exists('mysqli_connect')) {		
                                 $dbUser = new mysqli($dbUser_host,$dbUser_user,$dbUser_pass,$dbUser_name);
                                 $acentos = $dbUser->query("SET NAMES 'utf8'"); // para los acentos                            
@@ -89,48 +93,57 @@ if ($UsuariosForaneaos == "TRUE") {
         $Error = $Error."IdCon para Foraneos Vacia ";
     }
 
+// var_dump($dbUser);
 
+		
+           
+                
 
-		//Validaciond e consulta
-		if (isset($dbUser)) {
-    	$sql = $QueryUsuariosForaneos;
-        $RUser= $dbUser -> query($sql);
-        if($FUser = $RUser -> fetch_array()){
-            // var_dump($FUser);
-            
-            
-        } else {
-            
-            $Error = $Error."Fallo de conección al Consultar los Usuarios";
-		}
-		} else {
-			$Error = $Error."Fallo de conección";
-		}
-  
-    
+} else {
+                //Conección a la base Local de rintera
+                    // $dbUser = $db0;
+                    // $sql = "select * from users";
+                    // $RUser= $dbUser -> query($sql);
+                    // if($FUser = $RUser -> fetch_array()){
+                    //     // var_dump($FUser);
+                        
+                        
+                    // } else {
+                        
+                    //     $Error = $Error."Fallo de conección al Consultar los Usuarios";
+                    // }
 
-} 
-
-else {
-    //Conección a la base Local de rintera
-    	$dbUser = $db0;
-        $sql = "select * from users";
-        $RUser= $dbUser -> query($sql);
-        if($FUser = $RUser -> fetch_array()){
-            // var_dump($FUser);
-            
-            
-        } else {
-            
-            $Error = $Error."Fallo de conección al Consultar los Usuarios";
-        }
 
 }
 
 
 
+if (isset($dbUser)) {
+    $sql = $QueryUsuariosForaneos;
+    $RUser= $dbUser -> query($sql);
+    
+    if ($dbUser->query($sql) == TRUE) {
+        // echo "OK USERS";
+        
+        // if($FUser = $RUser -> fetch_array()){
+        //     var_dump($FUser);                
+            
+        // } else {
+            
+            
+        // }
+        // } else {
+        //     $Error = $Error."Fallo de conección";
+        // }
+
+        } else {
+            $Error = $Error."Fallo de conección al Consultar los Usuarios.!";
+        }
+    }
 
 echo $Error;
+
+
 
 $StringFecha = date('Ymd')."_".  date("His");
 

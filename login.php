@@ -95,7 +95,7 @@ require("components.php");
         } else {
             $sql = $QueryUsuariosForaneos . " and IdUser='" . $txtIdUser . "'";
         }
-
+        echo $sql;
         $rc = $dbUser->query($sql);
         // var_dump($dbUser);
         // echo $sql;

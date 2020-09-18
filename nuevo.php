@@ -259,12 +259,12 @@ if (UserAdmin($RinteraUser)==TRUE){
                        
          
     } else {
-        echo "<br><label>Usuario Administrador: (".$db1_name.")</label><br>";
+        echo "<br><label>Usuario Administrador: </label><br>";
         echo "<select name='ReporteIdUser' id='ReporteIdUser' class='form-control'>";
         echo "<option value=''>Seleccione</option>";
         //Complementmos la consulta a la base de nuestro cliente
         $sql = $QueryUsuariosForaneos." order by UserName";
-
+        echo $sql;
         $r= $db1 -> query($sql);
     }
         while($f = $r -> fetch_array()) {   
