@@ -14,7 +14,7 @@ $ClaseDiv = ""; $ClaseTabla = ""; //sugerencia= clase tabla
 $IdUser = $IdUser;
 $Query =  QueryReporte($id_rep);
 $IdCon = IdConReporte($id_rep); 
-
+$Tipo = 0;
 
 if ($Query == "FALSE") {
     echo "<img src='icons/excel.png' style='width:15px'>ERROR: Reporte ".$id_rep." con datos insuficientes";    
@@ -23,30 +23,31 @@ if ($Query == "FALSE") {
     // 1 = MySQL
     // 2 = WebService SQLSERVERTOJSON
     // 3 = Webservice MSSQL ASP (este envia por post o get sql con la consulta)
-    switch ($IdCon) {
-        case 0:
-            $ClaseDiv = "container"; $ClaseTabla = ""; 
-            $Tipo = 0; // 0 = html, 1= DataTable, 2 = PDF, 3 = Excel, 4 = Word            
-            $Contenido = DataFromMySQL($ClaseDiv,$ClaseTabla, $Tipo, $RinteraUser,$id_rep);
-            break;
-        case 1:
-            $ClaseDiv = "container"; $ClaseTabla = ""; 
-            $Tipo = 0; // 0 = html, 1= DataTable, 2 = PDF, 3 = Excel, 4 = Word            
-            $Contenido = DataFromMySQL($ClaseDiv,$ClaseTabla, $Tipo, $RinteraUser,$id_rep);
-            break;
-        case 2:
-            $Contenido =  DataFromSQLSERVERTOJSON($IdCon,$Query,$WSTipo,$ClaseTabla,$ClaseDiv, $IdUser);
-            break;
-        
-        case 3:
-            echo "en el abismo programatico...";
+    $ConType = ConType($IdCon);
+    // var_dump($ConType);
+// $Tipo = 1; // 0 = html, 1= DataTable, 2 = PDF, 3 = Excel, 4 = Word
+$Contenido = "";
+switch ($ConType) {
+    case 0:  //rintera
+        $Contenido = DataFromMySQL($ClaseDiv,$ClaseTabla, $Tipo, $IdUser, $id_rep);
+        break;
 
-            break;
-    }
+    case 1:  //MySQL        
+        $Contenido = DataFromMySQL($ClaseDiv,$ClaseTabla, $Tipo, $IdUser,$id_rep);
+        break;
+
+    case 2:  //MSQLSERVERTOJSON      
+        
+        // $Data =  DataFromSQLSERVERTOJSON($IdCon, $Tipo,$ClaseTabla,$ClaseDiv, $IdUser);
+        $Contenido =  DataFromSQLSERVERTOJSON($id_rep, $Tipo, $ClaseTabla, $ClaseDiv, $IdUser);
+        break;
     
+}
+
     
-    $Titulo = "El Titulo ";
-    $Descripcion = "La Descripcion";
+    // var_dump($Contenido);
+    $Titulo = TituloReporte($id_rep);
+    $Descripcion = DescripcionReporte($id_rep);
     $Archivo = $StringFecha."_".$id_rep."_".$IdUser.".xls";
     $ContenidoFinal = "<h1>".$Titulo."</h1><p>".$Descripcion."</p>".$Contenido;
     header('Content-type: application/vnd.ms-excel;charset=iso-8859-15');
@@ -54,6 +55,12 @@ if ($Query == "FALSE") {
     echo $ContenidoFinal;
 
 
+    // header('Content-type: application/vnd.ms-word;charset=iso-8859-15');
+    // header('Content-Disposition: attachment; filename='.$Archivo.'.doc');
+    // echo $ContenidoFinal;
+    
+    
+    
 }
 
 

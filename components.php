@@ -429,7 +429,7 @@ function IdConReporte($id_rep){
     require("rintera-config.php");   
     // var_dump($dbUser);
     $sql = "select * from reportes WHERE id_rep ='".$id_rep."'";        
-    // echo $sql;    
+    
     $r= $db0 -> query($sql);
     if($f = $r -> fetch_array())
     {
@@ -439,6 +439,39 @@ function IdConReporte($id_rep){
     }
         
 }
+
+
+function TituloReporte($id_rep){
+    require("rintera-config.php");   
+    // var_dump($dbUser);
+    $sql = "select * from reportes WHERE id_rep ='".$id_rep."'";        
+    
+    $r= $db0 -> query($sql);
+    if($f = $r -> fetch_array())
+    {
+        return $f['rep_name'];
+    } else {
+        return "FALSE";
+    }
+        
+}
+
+
+function DescripcionReporte($id_rep){
+    require("rintera-config.php");   
+    // var_dump($dbUser);
+    $sql = "select * from reportes WHERE id_rep ='".$id_rep."'";        
+    
+    $r= $db0 -> query($sql);
+    if($f = $r -> fetch_array())
+    {
+        return $f['rep_description'];
+    } else {
+        return "FALSE";
+    }
+        
+}
+
 
 
 function getData()
@@ -1125,11 +1158,18 @@ return $archivoWeb;
 
 
 
-function DataFromSQLSERVERTOJSON($IdCon, $Query, $Tipo, $ClaseTabla, $ClaseDiv, $IdUser)
+function DataFromSQLSERVERTOJSON($id_rep, $Tipo, $ClaseTabla, $ClaseDiv, $IdUser)
 {
 //SQLSERVERTOJSON = https://github.com/prymecode/sqlservertojson
 require("rintera-config.php");	
+$Query = QueryReporte($id_rep);
+    // echo "Query = ".$Query."<br>";
 
+$IdCon = IdConReporte($id_rep); 
+    // echo "IdCon=".$IdCon."<br>";
+
+
+// $Tipo = 1; // 0 = html, 1= DataTable, 2 = PDF, 3 = Excel, 4 = Word
 $len = 16;    $cadena_base =  'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';   $cadena_base .= '0123456789' ;  $limite = strlen($cadena_base) - 1;      
 $STR = '';  for ($i=0; $i < $len; $i++){ $STR .= $cadena_base[rand(0, $limite)]; }  $IdDiv = $STR;
 $STR = '';  for ($i=0; $i < $len; $i++){ $STR .= $cadena_base[rand(0, $limite)]; }  $IdTabla = $STR;
@@ -1191,11 +1231,11 @@ if($WSConF = $WSCon -> fetch_array())
         $data = json_decode($archivo_web);
     
         switch ($Tipo) {
-            case 0:
-                return $archivo_web;
-            break;
+            // case 0:
+            //     return $archivo_web;
+            // break;
 
-            case 1:          
+            case 0: //HTML         
                 $tabla = "";                  
                 // //Recorrido del contenido
                 $jsonIterator = new RecursiveIteratorIterator(
@@ -1244,7 +1284,7 @@ if($WSConF = $WSCon -> fetch_array())
                     else {                    
                         if ($rowC == 0){$tabla_content.="<tr>";}
                         if ($rowC == $limit){$tabla_content.="</tr>"; }                             
-                        $tabla_content.="<td border=1>".$val."</td>";                       
+                        $tabla_content.="<td >".$val."</td>";                       
                     $rowC = $rowC + 1;
                     $row = $row + 1;
                     }
@@ -1257,7 +1297,7 @@ if($WSConF = $WSCon -> fetch_array())
                 return $tabla;
                 break;
         
-                case 2: // Interactivo
+                case 1: // Interactivo
                     $tabla = "";
                     // //Recorrido del contenido
                     $jsonIterator = new RecursiveIteratorIterator(
@@ -1266,7 +1306,7 @@ if($WSConF = $WSCon -> fetch_array())
                     );
                 
                     // var_dump( $jsonIterator);
-                    $tabla= "<table  id='".$IdTabla."' width=100% border=1 class='".$ClaseTabla."'>";          
+                    $tabla= "<table  id='".$IdTabla."' width=100% border=0 class='".$ClaseTabla."'>";          
                     $tabla_content = ""; $tabla_th = "";  
                     $row=0; $rowC = 0;
                     $limit = 0 ; foreach ($jsonIterator as $key => $val) {
@@ -1290,7 +1330,7 @@ if($WSConF = $WSCon -> fetch_array())
                             if ($row < $limit){
                                 if ($rowC == 0){$tabla_th.="<tr>";}                            
                                 
-                                $tabla_th.="<td border=1>".$key."</td>"; //cambiar th por td para datatable
+                                $tabla_th.="<td >".$key."</td>"; //cambiar th por td para datatable
                             }                        
                         $rowC = $rowC + 1;
                         $row = $row + 1;
@@ -1358,7 +1398,7 @@ if($WSConF = $WSCon -> fetch_array())
                 break;
         
 
-                case 3: //PDF
+                case 2: //PDF
                     
                         $tabla = "";
                         // //Recorrido del contenido
@@ -1400,7 +1440,7 @@ if($WSConF = $WSCon -> fetch_array())
                         }
                         $tabla_th =  "<thead>".$tabla_th."</tr></thead>";
                         // echo "<table border=1>".$tabla_th."</table>";
-                        $row =1; $rowC = 1;
+                        $row =1; $rowC = 1; $L = 0;
                         
                         // echo "limit=".$limit."<hr>";
                         foreach ($jsonIterator as $key => $val) {
@@ -1412,14 +1452,18 @@ if($WSConF = $WSCon -> fetch_array())
                                 
                                 if ($rowC == 1){
                                     $tabla_content.="<tr>"; 
+                                    $L = $L+1;
+                                    
                                     // echo "---".$limit."<br>";
                                 }
                                 // echo "rowC=".$rowC."(".$row.")<br>";
                                 // $tabla_content.="<td>".$row."(".$rowC.")".$val."</td>";                  
                                 // $tabla_content.="<td>".$val."</td>";     
+                               
 
-                                if ($row%2==0){
-                                    $tabla_content = $tabla_content.'<td bgcolor="white" >'.$val."</td>";       
+                                if ($L%2==0){
+                                    $tabla_content = $tabla_content.'<td bgcolor="white" >'.$val."</td>";    
+                                    
                                     
                                 }else{
                                     $tabla_content = $tabla_content.'<td  bgcolor="#F0F0E1" >'.$val."</td>";       
@@ -1447,8 +1491,8 @@ if($WSConF = $WSCon -> fetch_array())
                         $tabla.=$tabla_th."<tbody class='".$ClaseTabla."'>".$tabla_content."</tbody></table>";     // tabla constuida a partir del ws
                         $TablaHTML = $tabla;
 
-                        $titulo = "Titulo del Reporte";
-                        $descripcion = "La Descripcion";
+                        $titulo = TituloReporte($id_rep);
+                        $descripcion = DescripcionReporte($id_rep);
                         $PageSize = "0"; // 0= carta y 1 == oficio
                         $orientacion = "L";
                         $id_rep = 0;
@@ -1469,7 +1513,7 @@ if($WSConF = $WSCon -> fetch_array())
                 break;
 
 
-                case 4: //Excel
+                case 3: //Excel
                     
                     $tabla = "";
                     // //Recorrido del contenido
@@ -1511,7 +1555,7 @@ if($WSConF = $WSCon -> fetch_array())
                     }
                     $tabla_th =  "<thead>".$tabla_th."</tr></thead>";
                     // echo "<table border=1>".$tabla_th."</table>";
-                    $row =1; $rowC = 1;
+                    $row =1; $rowC = 1; $L = 0;
                     
                     // echo "limit=".$limit."<hr>";
                     foreach ($jsonIterator as $key => $val) {
@@ -1523,17 +1567,18 @@ if($WSConF = $WSCon -> fetch_array())
                             
                             if ($rowC == 1){
                                 $tabla_content.="<tr>"; 
+                                $L = $L+1;
                                 // echo "---".$limit."<br>";
                             }
                             // echo "rowC=".$rowC."(".$row.")<br>";
                             // $tabla_content.="<td>".$row."(".$rowC.")".$val."</td>";                  
                             // $tabla_content.="<td>".$val."</td>";     
 
-                            if ($row%2==0){
-                                $tabla_content = $tabla_content.'<td bgcolor="white" >'.$val."</td>";       
+                            if ($L%2==0){
+                                $tabla_content = $tabla_content.'<td bgcolor="white"  style="background-color:white;">'.$val."</td>";       
                                 
                             }else{
-                                $tabla_content = $tabla_content.'<td  bgcolor="#F0F0E1" >'.$val."</td>";       
+                                $tabla_content = $tabla_content.'<td  bgcolor="#F0F0E1" style="background-color:#F0F0E1;" >'.$val."</td>";       
                                 
                             }
                             
@@ -1558,14 +1603,15 @@ if($WSConF = $WSCon -> fetch_array())
                     $tabla.=$tabla_th."<tbody class='".$ClaseTabla."'>".$tabla_content."</tbody></table>";     // tabla constuida a partir del ws
                     $TablaHTML = $tabla;
 
-                    $titulo = "Titulo del Reporte";
-                    $descripcion = "La Descripcion";
+                    $titulo = TituloReporte($id_rep);
+                    $descripcion = DescripcionReporte($id_rep);
                     $PageSize = "0"; // 0= carta y 1 == oficio
                     $orientacion = "L";
-                    $id_rep = 0;
+                    // $id_rep = 0;
                     $info_leyenda = "x";
                     // $ArchivoDelReporte = TableToPDF($TablaHTML, $IdUser, $titulo, $descripcion, $PageSize, $orientacion,$id_rep,$info_leyenda);
-                    $ArchivoDelReporte = "excel.php?IdUser=".$IdUser."&id_rep=";
+                    $ArchivoDelReporte = "excel.php?IdUser=".$IdUser."&id_rep=".$id_rep;
+                    
                     echo "<iframe id='pdfPresenter' src='".$ArchivoDelReporte."'
                     style='
                         width: 100%;
@@ -1580,7 +1626,7 @@ if($WSConF = $WSCon -> fetch_array())
 
             break;
 
-            case 5: //Word
+            case 4: //Word
                     
                 $tabla = "";
                 // //Recorrido del contenido
@@ -1669,14 +1715,14 @@ if($WSConF = $WSCon -> fetch_array())
                 $tabla.=$tabla_th."<tbody class='".$ClaseTabla."'>".$tabla_content."</tbody></table>";     // tabla constuida a partir del ws
                 $TablaHTML = $tabla;
 
-                $titulo = "Titulo del Reporte";
-                $descripcion = "La Descripcion";
+                $titulo = TituloReporte($id_rep);
+                $descripcion = DescripcionReporte($id_rep);
                 $PageSize = "0"; // 0= carta y 1 == oficio
                 $orientacion = "L";
-                $id_rep = 0;
+                // $id_rep = 0;
                 $info_leyenda = "x";
                 // $ArchivoDelReporte = TableToPDF($TablaHTML, $IdUser, $titulo, $descripcion, $PageSize, $orientacion,$id_rep,$info_leyenda);
-                $ArchivoDelReporte = "word.php?IdUser=".$IdUser."&id_rep=";
+                $ArchivoDelReporte = "word.php?IdUser=".$IdUser."&id_rep=".$id_rep;
                 echo "<iframe id='pdfPresenter' src='".$ArchivoDelReporte."'
                 style='
                     width: 100%;
@@ -1741,8 +1787,10 @@ if($WSConF = $WSCon -> fetch_array())
 
 function DataFromMySQL($ClaseDiv, $ClaseTabla, $Tipo, $IdUser,$id_rep){
     require("rintera-config.php");	
-    $Query = QueryReporte($id_rep); echo "Query = ".$Query."<br>";
-    $IdCon = IdConReporte($id_rep); echo "IdCon=".$IdCon."<br>";
+    $Query = QueryReporte($id_rep); 
+        // echo "Query = ".$Query."<br>";
+    $IdCon = IdConReporte($id_rep); 
+        // echo "IdCon=".$IdCon."<br>";
 
     if ($Query == "FALSE") {
         return "ERROR: Datos insuficientes en el reporte (Query).";
@@ -1824,6 +1872,7 @@ if ($Con_Val == TRUE){
                 break;
                
                 case 1: // Interactivo
+                    echo $TablaHTML;
                     echo '<script>
                             $(document).ready(function() {
                                 $("#'.$IdTabla.'").DataTable( {
@@ -1841,8 +1890,8 @@ if ($Con_Val == TRUE){
 
                 case 2: // PDF
                     // $IdUser = $RinteraUser;
-                    $titulo = "Titulo del Reporte";
-                    $descripcion = "La Descripcion";
+                    $titulo = TituloReporte($id_rep);
+                    $descripcion = DescripcionReporte($id_rep);
                     $PageSize = "0"; // 0= carta y 1 == oficio
                     $orientacion = "L";
                     $id_rep = 0;
@@ -1865,8 +1914,9 @@ if ($Con_Val == TRUE){
 
                 case 3: // EXCEL
                     // $IdUser = $RinteraUser;
-                    $titulo = "Titulo del Reporte";
-                    $descripcion = "La Descripcion";
+                    
+                    $titulo = TituloReporte($id_rep);
+                    $descripcion = DescripcionReporte($id_rep);
                     $PageSize = "0"; // 0= carta y 1 == oficio
                     $orientacion = "L";
                     // $id_rep = 0;
@@ -1891,14 +1941,15 @@ if ($Con_Val == TRUE){
                 
                 case 4: // Word
                     // $IdUser = $RinteraUser;
-                    $titulo = "Titulo del Reporte";
-                    $descripcion = "La Descripcion";
+                    
+                    $titulo = TituloReporte($id_rep);
+                    $descripcion = DescripcionReporte($id_rep);
                     $PageSize = "0"; // 0= carta y 1 == oficio
                     $orientacion = "L";
-                    $id_rep = 0;
+                    // $id_rep = 0;
                     $info_leyenda = "x";
                     // $ArchivoDelReporte = TableToPDF($TablaHTML, $IdUser, $titulo, $descripcion, $PageSize, $orientacion,$id_rep,$info_leyenda);
-                    $ArchivoDelReporte = "word.php?IdUser=".$IdUser."&id_rep=";
+                    $ArchivoDelReporte = "word.php?IdUser=".$IdUser."&id_rep=".$id_rep;
                     echo "<iframe id='pdfPresenter' src='".$ArchivoDelReporte."'
                     style='
                         width: 100%;
@@ -1929,6 +1980,7 @@ if ($Con_Val == TRUE){
         
 
         } else {
+            $Con_Msg .= "Error de Consulta, (array)";
             // return FALSE;
             return $Con_Msg;
         }
