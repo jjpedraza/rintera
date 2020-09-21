@@ -83,7 +83,10 @@ function SESSION_close($id){
 
 function Historia($IdUser, $IdApp, $Descripcion){
     require("rintera-config.php");
+    $fecha = date('Y-m-d');
+    $hora =  date ("H:i:s");
     $Descripcion = addslashes($Descripcion);    
+
     $sql = "INSERT INTO historia
     (IdUser, fecha, hora, Descripcion, IdApp)
         VALUES
@@ -546,7 +549,7 @@ function DynamicTable_MySQL($sql, $IdDiv, $IdTabla, $Clase, $Tipo, $db){
 	//$sql = "select * from Colorines limit 20";
 	//DynamicTable_MySQL($sql, "Colorines", "Colorines_Tabla", "Colorines_ClaseCSS", 0, 0);
 
-	require("rintera-config.php");	
+	require_once("rintera-config.php");	
 	if ($db == 0){
         $r= $db0 -> query($sql);
         $tbCont = '<div id="'.$IdDiv.'" class="'.$Clase.'">
@@ -728,7 +731,7 @@ function AcordionCard_Data($IdCard, $Text, $IdCollapsed, $Color){
 
 
 function TestConectionDB($IdCon){
-require("rintera-config.php");   
+require_once("rintera-config.php");   
 $sql = "select * from dbs where IdCon='".$IdCon."'";
 $rc= $db0 -> query($sql);
 if($f = $rc -> fetch_array())
@@ -1161,7 +1164,7 @@ return $archivoWeb;
 function DataFromSQLSERVERTOJSON($id_rep, $Tipo, $ClaseTabla, $ClaseDiv, $IdUser)
 {
 //SQLSERVERTOJSON = https://github.com/prymecode/sqlservertojson
-require("rintera-config.php");	
+require_once("rintera-config.php");	
 $Query = QueryReporte($id_rep);
     // echo "Query = ".$Query."<br>";
 
@@ -2041,6 +2044,7 @@ function Reporte($id_rep, $Tipo, $ClaseDiv, $ClaseTabla, $IdUser ){
 }
 
 function Error($Mensaje){
+    require("rintera-config.php");	
     echo "<div id='Error'
 
     style='
@@ -2055,5 +2059,148 @@ function Error($Mensaje){
     ><table width=100%><tr><td
     style='color:white;'
     >".$Mensaje."</td><td width=50px><a href='index.php' class='btn btn-Warning'>Reintentar</a></td></tr></table></div>";
+    
+    Historia("","ERROR",$Mensaje);
+    $CorreoDestino = "printepolis@gmail.com";
+    $Asunto = "Error: ".$fecha;
+    $ContenidoDelCorreo = "<p>".$fecha.":".$hora.". Rintera: Ha habido un error <b>".$Error."</b> </p>";
+    EnviarCorreo($CorreoDestino, $Asunto, $ContenidoDelCorreo);
+
 
 }
+
+
+
+function EnviarCorreo($mail_dest, $asunto, $contenido){
+    //sleep(3);//retraso programado
+    if (Preference("MailSend", "", "") == "TRUE") {
+        $mail_dest_name= "";
+        $replymail = 'itavu.informatica@tam.gob.mx';
+        $replymail_name='Dpto. de Informatica de ITAVU';
+
+        require("rintera-config.php");    
+        require_once('lib/mailer/PHPMailerAutoload.php');
+        
+        $footer="
+        <br><br>    
+        <hr><p style=color:gray; font-family:Verdana, Geneva, sans-serif; font-size:10pt;> 
+            Este correo electronico es enviado de manera automatizada mendiante Rintera.<br>	
+            ".Preference("Mail-Footer", "", "")."       
+        </p>";
+
+        
+        $footer = $footer.'';
+        $contenido = "<p charset=UTF-8>".$contenido."</p><hr>Desde:".InfPC().$footer;
+        
+        $MailHost = Preference("Mail-Host", "", ""); // var_dump($MailHost);
+        $MailPort = Preference("Mail-Port", "", ""); //var_dump($MailPort);
+        $MailSMTPSecure = Preference("Mail-SMTPSecure", "", ""); //var_dump($MailSMTPSecure);
+        $MailUsername = Preference("Mail-Username", "", ""); //var_dump($MailUsername);
+        $MailPassword = Preference("Mail-Password", "", ""); //var_dump($MailPassword);
+
+        ////////CONFIGURACION DEL CORREO DE LA PLATAFORMA////////
+            //date_default_timezone_set('Etc/UTC');        
+            $mail = new PHPMailer;
+            $mail->isSMTP(); $mail->SMTPDebug = 0; // 0 = off (for production use)// 1 = client messages// 2 = client and server messages
+            $mail->Debugoutput = 'html'; $mail->Host = $MailHost;  // use // $mail->Host = gethostbyname('smtp.gmail.com'); 
+            $mail->Helo = $MailHost;
+            $mail->Port = $MailPort; $mail->SMTPSecure = $MailSMTPSecure; $mail->SMTPAuth = true; 
+            $mail->Username = $MailUsername; $mail->Password = $MailPassword; //CUENTA MASTER
+            $mail->setFrom($MailUsername, $replymail_name); //Quie envia
+            $mail->addReplyTo($replymail, $replymail_name); //Reponder a nombre de 
+            $mail->addAddress($mail_dest, $mail_dest_name); //Set Destinatario
+            $mail->Subject = $asunto;  //Set asunto
+            //$mail->msgHTML(file_get_contents('contents.html'), dirname(__FILE__)); //--- PARA AÑADIR CONTENIDO DESDE UN ARCHIVO
+            $mail->msgHTML($contenido);
+            $mail->AltBody = 'El mensaje no puede ser entregado, debido a que su cliente de correo no puede leer el formato html';
+            //adjuntar imagenes //$mail->addAttachment('https:/plataformaitavu.tamaulipas.gob.mx/img/logo_copia.png');
+            $correo_historia="";
+            if (!$mail->send()) {//ERROR
+                // echo "Error al envia a ".$mail_dest;
+                return FALSE;
+            } else {
+                // echo "Envio con exito a ".$mail_dest;
+                return TRUE;
+
+            }
+        
+
+} else {
+    return FALSE;
+}
+ 
+}
+
+
+
+    
+function InfPC()
+{
+    $browser=array("IE","OPERA","MOZILLA","NETSCAPE","FIREFOX","SAFARI","CHROME");
+    $os=array("WIN","MAC","LINUX");
+    # definimos unos valores por defecto para el navegador y el sistema operativo
+    $info['browser'] = "OTHER";
+    $info['os'] = "OTHER";
+    # buscamos el navegador con su sistema operativo
+    foreach($browser as $parent)
+    {
+    $s = strpos(strtoupper($_SERVER['HTTP_USER_AGENT']), $parent);
+    $f = $s + strlen($parent);
+    $version = substr($_SERVER['HTTP_USER_AGENT'], $f, 15);
+    $version = preg_replace('/[^0-9,.]/','',$version);
+    if ($s)
+    {
+    $info['browser'] = $parent;
+    $info['version'] = $version;
+    
+    }
+    }
+    # obtenemos el sistema operativo
+    foreach($os as $val)
+    {
+    if (strpos(strtoupper($_SERVER['HTTP_USER_AGENT']),$val)!==false)
+    $info['os'] = $val;
+    }
+    # devolvemos el array de valores
+    if (getenv('HTTP_CLIENT_IP')) {
+        $ip = getenv('HTTP_CLIENT_IP');
+        } elseif (getenv('HTTP_X_FORWARDED_FOR')) {
+        $ip = getenv('HTTP_X_FORWARDED_FOR');
+        } elseif (getenv('HTTP_X_FORWARDED')) {
+        $ip = getenv('HTTP_X_FORWARDED');
+        } elseif (getenv('HTTP_FORWARDED_FOR')) {
+        $ip = getenv('HTTP_FORWARDED_FOR');
+        } elseif (getenv('HTTP_FORWARDED')) {
+        $ip = getenv('HTTP_FORWARDED');
+        } else {
+        // Método por defecto de obtener la IP del usuario
+        // Si se utiliza un proxy, esto nos daría la IP del proxy
+        // y no la IP real del usuario.
+        $ip = $_SERVER['REMOTE_ADDR'];
+        }
+    //echo getenv('HTTP_CLIENT_IP');
+    //echo getenv('HTTP_X_FORWADED_FOR');
+    //echo getenv('REMOTE_ADDR');
+    $infofull="";
+    //$infofull = $infofull. "Usuario: ".gethostname()."<br>";
+    $infofull = $infofull. "SO:".$info['os'].",";
+    $infofull = $infofull. "Navegador: ".$info['browser'].",";
+    $infofull = $infofull. "Version:".$info['version']."";
+    // $infofull = $infofull. "".$_SERVER['HTTP_USER_AGENT']."<br>";
+    
+    $red = "";
+    // if ($ip <> '' ){$red = $red."ip:".$ip;	}
+    if (strlen(getenv('HTTP_CLIENT_IP')) > 3 ){$red = $red." ".getenv('HTTP_CLIENT_IP');}
+    if (strlen(getenv('HTTP_X_FORWADED_FOR')) > 3 ){$red = $red.", ".getenv('HTTP_X_FORWADED_FOR');}
+    if (strlen(getenv('REMOTE_ADDR')) > 3 ){$red = $red.", ".getenv('REMOTE_ADDR');}
+
+    if ($red <> ''){
+        $infofull = $infofull.", Red: (".$red.")";
+    }
+    
+    
+    
+    
+    return $infofull;
+}
+

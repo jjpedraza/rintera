@@ -25,7 +25,7 @@ echo Reporte($id_rep, $Tipo, $ClaseDiv, $ClaseTabla, $RinteraUser );
 
 
 function Reporte($id_rep, $Tipo, $ClaseDiv, $ClaseTabla, $IdUser ){
-    require("rintera-config.php");	
+    require_once("rintera-config.php");	
     $IdCon = IdConReporte($id_rep);
     $ConType = ConType($IdCon);
 

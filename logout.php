@@ -1,5 +1,5 @@
 <?php 	require("components.php"); ?>
-<?php 	require("rintera-config.php"); ?>
+<?php 	require_once("rintera-config.php"); ?>
 <?php 
 
 

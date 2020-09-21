@@ -148,7 +148,7 @@ function url_origin($s, $use_forwarded_host=false) {
   }
   
 
-  function SESSION_closeRegenerate($id){
+function SESSION_closeRegenerate($id){
 require("rintera-config.php");
 	
 	$sql="UPDATE sessiones  SET cierre_fecha='".$fecha."', cierre_hora='".$hora."'  WHERE id='".$id."'";

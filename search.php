@@ -1,5 +1,5 @@
 <?php
-require("rintera-config.php");
+require_once("rintera-config.php");
 require("components.php");
 
 $ElToken = VarClean($_POST['Token']);

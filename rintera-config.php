@@ -6,6 +6,7 @@ $hora =  date ("H:i:s");
 $SesionName="R1nT3r4";
 
 require_once("preference.php");
+// require_once("components.php");
 //CONEXION DE LA BASE DE DATOS DE RINTERA	
 $db0_host = 'localhost';	
 $db0_user = 'root';
@@ -162,10 +163,17 @@ if ($Error ==''){
     style='color:white;'
     >".$Error."</td><td width=50px><a href='index.php' class='btn btn-Warning'>Reintentar</a></td></tr></table></div>";
 
+    // $CorreoDestino = "printepolis@gmail.com";
+    // $Asunto = "Error: ".$fecha;
+    // $ContenidoDelCorreo = "<p>".$fecha.":".$hora.". Rintera: Ha habido un error <b>".$Error."</b> </p>";
+    // EnviarCorreo($CorreoDestino, $Asunto, $ContenidoDelCorreo);
+
+
+
+
 
 
 }
-
 
 
 

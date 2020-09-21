@@ -38,7 +38,7 @@ padding:30px;
 <a href='index.php' class='btn btn-Primary'>Reintentar</a>
 
 <?php
-require("rintera-config.php");
+require_once("rintera-config.php");
 ?>
 
 

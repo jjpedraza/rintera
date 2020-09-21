@@ -1,5 +1,5 @@
 <?php
-require("rintera-config.php");
+require_once("rintera-config.php");
 require("components.php");
 
 
@@ -65,10 +65,13 @@ require("components.php");
 </head>
 
 <body>
-    <div id='Login'>
+    <?php
+    if ($Error == ''){
+    echo '
+        <div id="Login">
 
 
-        <form class="form-signin" style='text-align:center;' method='POST' action=''>
+        <form class="form-signin" style="text-align:center;" method="POST" action="">
 
             <h3><b>RINTERA:</b> Identificate!</h3>
             <label for="txtIdUser" class="sr-only">IdUser</label>
@@ -76,11 +79,15 @@ require("components.php");
             <label for="txtNIP" class="sr-only">Password</label><br>
             <input type="password" id="txtNIP" name="txtNIP" class="form-control" placeholder="Password" required>
             <br>
-            <input name='FormLogin' type='submit' class="btn btn-lg btn-primary btn-block" Value="Entrar">
+            <input name="FormLogin" type="submit" class="btn btn-lg btn-primary btn-block" Value="Entrar">
             <br><br>
         </form>
 
-    </div>
+    </div>';
+    }
+    
+
+    ?>
     <?php
 
 
