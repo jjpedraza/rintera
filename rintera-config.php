@@ -1,5 +1,5 @@
 <?php
-
+// require_once("components.php");
 
 $fecha = date('Y-m-d');
 $hora =  date ("H:i:s");
@@ -141,12 +141,30 @@ if (isset($dbUser)) {
         }
     }
 
-echo $Error;
-
-
-
 $StringFecha = date('Ymd')."_".  date("His");
 
+if ($Error ==''){
+
+} else {
+    
+    echo "<div id='Error'
+
+    style='
+    background-color:red;
+    color:white;
+    width:90%;
+    display:inline-block;
+    border-radius:10px;
+    margin:20px;
+    padding:20px;
+    '
+    ><table width=100%><tr><td
+    style='color:white;'
+    >".$Error."</td><td width=50px><a href='index.php' class='btn btn-Warning'>Reintentar</a></td></tr></table></div>";
+
+
+
+}
 
 
 

@@ -1,28 +1,11 @@
 
-<?php
-require ("rintera-config.php");
-require ("components.php");
-
-
-
-
-
-
-
-
-    include("seguridad.php");   
-    MiToken_CloseALL($RinteraUser);
-
-
-
-?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8">	
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title><?php echo Preference("RinteraName","","")." ".Preference("RinteraDescription","","")." by Rintera" ?></title>
+	<title>ERROR</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
     <meta http-equiv="x-ua-compatible" content="ie-edge">
 
@@ -45,15 +28,22 @@ require ("components.php");
 <link rel="shortcut icon" href="favicon.ico">
 <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
 </head>
-<body style="
-background-color: <?php echo Preference("ColorDeFondo", "", ""); ?>;
-">
+
+<body style='background-color:#fd7e14;
+color:white;
+padding:30px;
+'>
+
+
+<a href='index.php' class='btn btn-Primary'>Reintentar</a>
+
 <?php
-// Init();
+require("rintera-config.php");
 ?>
 
-<div id='PreLoader'>
-    <div id='Loader'>
-        <img src='img/loader_classic.gif'><br>
-    </div>
-</div>
+
+
+</body>
+
+
+</html>

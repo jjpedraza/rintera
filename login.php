@@ -95,42 +95,49 @@ require("components.php");
         } else {
             $sql = $QueryUsuariosForaneos . " and IdUser='" . $txtIdUser . "'";
         }
-        echo $sql;
+        // echo $sql;
         $rc = $dbUser->query($sql);
         // var_dump($dbUser);
         // echo $sql;
-        if ($f = $rc->fetch_array()) {
-            // var_dump($f);
+        if ($dbUser->query($sql) == TRUE){
+            // echo "OK";
+        
+                if ($f = $rc->fetch_array()) {
+                    // var_dump($f);
 
-            if ($f['NIP'] == $txtNIP) {
+                    if ($f['NIP'] == $txtNIP) {
 
-                $IdUser = $f['IdUser'];    // variable de entorno      
-                session_name($SesionName);
-                session_start();
-                // session_regenerate_id();    
-                // echo "Id: ".session_id();            
-
-
-                $_SESSION['RinteraUser'] = $f['IdUser']; //session		
-                $_SESSION['RinteraUserName'] = $f['UserName']; //session		
-                $RinteraUser = $f['IdUser'];
-                global $RinteraUser; //generalize       
-
-                Historia($RinteraUser, 'RinteraLogin', 'Acceso Rintera' . InfoEquipo() . '');
-                SESSION_init(session_id(), $RinteraUser, $SesionName, InfoEquipo(), "");
+                        $IdUser = $f['IdUser'];    // variable de entorno      
+                        session_name($SesionName);
+                        session_start();
+                        // session_regenerate_id();    
+                        // echo "Id: ".session_id();            
 
 
+                        $_SESSION['RinteraUser'] = $f['IdUser']; //session		
+                        $_SESSION['RinteraUserName'] = $f['UserName']; //session		
+                        $RinteraUser = $f['IdUser'];
+                        global $RinteraUser; //generalize       
+
+                        Historia($RinteraUser, 'RinteraLogin', 'Acceso Rintera' . InfoEquipo() . '');
+                        SESSION_init(session_id(), $RinteraUser, $SesionName, InfoEquipo(), "");
 
 
-                echo '<script>window.location.replace("index.php?home=")</script>'; 
 
+
+                        echo '<script>window.location.replace("index.php?home=")</script>'; 
+
+                    } else {
+                        Toast("Password  Incorrecto", 2, "");
+                    }
+                } else {
+                    Toast("Usuario  Incorrecto", 2, "");
+                }
             } else {
-                Toast("Password  Incorrecto", 2, "");
+                Error("Error al obtener la consulta de los usuarios");
             }
-        } else {
-            Toast("Usuario  Incorrecto", 2, "");
         }
-    }
+       
 
     ?>
 
@@ -144,6 +151,12 @@ require("components.php");
 <script src="lib/bootstrap/js/bootstrap.min.js"></script>';
 
     ?>
+
+
+
+<?php
+
+?>
 </body>
 
 </html>
