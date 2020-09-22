@@ -29,19 +29,46 @@ if (MiToken_valida($ElToken, $IdUser, "Search")==TRUE){//Valido
         if (PermisoReporte_Ver($IdUser,$f['id_rep'])==TRUE){
             echo "<article>";
             echo "<table width=100% border=0><tr><td align=center valign=middle>  ";        
-            echo "<a href='?id=".$f['id_rep']."'>";
+            echo "<a href='r.php?id=".$f['id_rep']."'>";
         } else {
-            echo "<article style='background-color:#fbeee8;opacity:0.7;'>";
+            echo "<article style='background-color:#fbeee8;opacity:0.5;'>";
             echo "<table width=100% border=0><tr><td align=center valign=middle>  ";
             
         }
         
         switch ($f['out_type']) {
-            case 0:
+            case 0: //Pantalla
                 if ($f['var1']=='1' || $f['var2']=='1' || $f['var3']=='1'){
                     //PDF Interactivo
                     echo "<img class='icono32' 
-                            src='icons/pdf2.png' title='IdReporte=".$f['id_rep']." | "." | Orientacion: ".$f['orientacion']." | Formato: PDF. 
+                            src='icons/html.png' title='IdReporte=".$f['id_rep']." | "." | Orientacion: ".$f['orientacion']." | Formato: HTML Interactivo. 
+                            Este reporte requiere alimentarse con datos proporcionados por el usuario'>";
+                } else {//interactivo
+                    echo "<img class='icono32' src='icons/html0.png'
+                     title='IdReporte=".$f['id_rep']." | "." | Orientacion: ".$f['orientacion'].", Formato:HTML | 
+                     '>";
+                }
+            break;
+
+            
+            case 1: //Pantalla
+                if ($f['var1']=='1' || $f['var2']=='1' || $f['var3']=='1'){
+                    //PDF Interactivo
+                    echo "<img class='icono32' 
+                            src='icons/datatable.png' title='IdReporte=".$f['id_rep']." | "." | Orientacion: ".$f['orientacion']." | Formato: DataTable Interactivo. 
+                            Este reporte requiere alimentarse con datos proporcionados por el usuario'>";
+                } else {//interactivo
+                    echo "<img class='icono32' src='icons/datatable0.png'
+                     title='IdReporte=".$f['id_rep']." | "." | Orientacion: ".$f['orientacion'].", Formato:DataTable | 
+                     '>";
+                }
+            break;
+            
+            case 2: // PDF
+                if ($f['var1']=='1' || $f['var2']=='1' || $f['var3']=='1'){
+                    //PDF Interactivo
+                    echo "<img class='icono32' 
+                            src='icons/pdf2.png' title='IdReporte=".$f['id_rep']." | "." | Orientacion: ".$f['orientacion']." | Formato: PDF Interactivo. 
                             Este reporte requiere alimentarse con datos proporcionados por el usuario'>";
                 } else {//interactivo
                     echo "<img class='icono32' src='icons/pdf.png'
@@ -50,34 +77,35 @@ if (MiToken_valida($ElToken, $IdUser, "Search")==TRUE){//Valido
                 }
             break;
 
-            case 1:
+            case 3:
                 if ($f['var1']=='1' || $f['var2']=='1' || $f['var3']=='1'){
                     //PDF Interactivo
                     echo "<img class='icono32' 
-                            src='icons/excel2.png' title='IdReporte=".$f['id_rep']." | "." | Orientacion: ".$f['orientacion']." | Formato: PDF. 
+                            src='icons/excel2.png' title='IdReporte=".$f['id_rep']." | "." | Orientacion: ".$f['orientacion']." | Formato: Excel Interactivo. 
                             Este reporte requiere alimentarse con datos proporcionados por el usuario'>";
                 } else {//interactivo
                     echo "<img class='icono32' src='icons/excel.png'
-                     title='IdReporte=".$f['id_rep']." | "." | Orientacion: ".$f['orientacion'].", Formato:PDF | 
+                     title='IdReporte=".$f['id_rep']." | "." | Orientacion: ".$f['orientacion'].", Formato:Excel | 
                      '>";
                 }
             break;
 
-            case 2:
+            case 4:
                 if ($f['var1']=='1' || $f['var2']=='1' || $f['var3']=='1'){
                     //PDF Interactivo
                     echo "<img class='icono32' 
-                            src='icons/pantala2.png' title='IdReporte=".$f['id_rep']." | "." | Orientacion: ".$f['orientacion']." | Formato: PDF. 
+                            src='icons/word2.png' title='IdReporte=".$f['id_rep']." | "." | Orientacion: ".$f['orientacion']." | Formato: Word Interactivo. 
                             Este reporte requiere alimentarse con datos proporcionados por el usuario'>";
                 } else {//interactivo
-                    echo "<img class='icono32' src='icons/pantalla  .png'
-                     title='IdReporte=".$f['id_rep']." | "." | Orientacion: ".$f['orientacion'].", Formato:PDF | 
+                    echo "<img class='icono32' src='icons/word.png'
+                     title='IdReporte=".$f['id_rep']." | "." | Orientacion: ".$f['orientacion'].", Formato:Word | 
                      '>";
                 }
             break;
           
     
         }
+
         if (PermisoReporte_Ver($IdUser,$f['id_rep'])==TRUE){
         echo "</a>";
         }
@@ -95,25 +123,26 @@ if (MiToken_valida($ElToken, $IdUser, "Search")==TRUE){//Valido
 
         echo "<table width=100% border=0><tr><td align=left valign=middle>";
         if (PermisoReporte_Ver($IdUser,$f['id_rep'])==TRUE){
+            echo "<div style='height:20px;'></div>";
         } else {
             echo "<img src='icons/candado.png' style='width:15px;cursor:pointer;'
             title='Haga clic aquí para solicitar acceso'> Sin acceso";
         }
         echo "</td><td align=right valign=bottom width=20px>";
-        if (PermisoReporte_Share($IdUser,$f['id_rep'])==TRUE){
-            echo "<img src='icons/share.png'
+        // if (PermisoReporte_Share($IdUser,$f['id_rep'])==TRUE){
+        //     echo "<img src='icons/share.png'
         
-        style='
-            width:13px;
-            cursor:pointer;
-        '
-        >";
-        } else {
-            echo "<div  style='
-                width:13px;
-                cursor:pointer;
-            '></div>";
-        }
+        // style='
+        //     width:13px;
+        //     cursor:pointer;
+        // '
+        // >";
+        // } else {
+        //     echo "<div  style='
+        //         width:13px;
+        //         cursor:pointer;
+        //     '></div>";
+        // }
         echo "</td></tr></table>";
         echo "</article>";
         

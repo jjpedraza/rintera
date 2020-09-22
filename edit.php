@@ -77,29 +77,14 @@ if (UserAdmin($RinteraUser)==TRUE){
         echo "<br><label>¿Que base de datos usara la consulta? </label> <select id='db' class='form-control' name='db'>";
         
         
-        if ($fRep['basededatos']=='db0'){
-            echo "<option value='db0' selected>Rintera</opion>";
-        } else {
-            echo "<option value='db0'>Rintera</opion>";
+        $r= $db0 -> query("select * from dbs where Active=1");    
+        while($finfo = $r -> fetch_array()) {   
+            echo "<option value='".$finfo['IdCon']."'>".$finfo['ConName']."</opion>";
         }
-        
-        
-        if ($db1_ ==TRUE){
-            if ($fRep['basededatos']=='db1'){
-                echo "<option value='db1' selected>".$db1_name."</option>";
-            } else {
-                echo "<option value='db1'>".$db1_name."</option>";
-            }
-        }
-
-        if ($db2_ ==TRUE){
-            if ($fRep['basededatos']=='db2'){
-                echo "<option value='db2' selected>".$db2_name."</option>";
-            } else {
-                echo "<option value='db2'>".$db2_name."</option>";
-            }
-        }
-
+        echo "<option style='background-color:orange;color:white;' 
+        value='".$fRep['IdCon']."' selected>".ConName($fRep['IdCon'])."</opion>";
+        echo "</select>";
+        unset($r); unset($finfo);
         echo "</select>";
 
 
@@ -408,60 +393,75 @@ if (UserAdmin($RinteraUser)==TRUE){
     </div>';
     echo "<br><label>Formato:</label><br>";
     echo "<select name='Formato' id='Formato' class='form-control'>";
-    if ($fRep['out_type']=='0'){
-        echo '<option value="0" selected>PDF</option>';
-    } else {
-        echo '<option value="0" >PDF</option>';
-    }
-    
+    echo "<option value='0'>HTML</option>";
+    echo "<option value='1'>DataTable</option>";
+    echo "<option value='2'>PDF</option>";
+    echo "<option value='3'>Excel</option>";
+    echo "<option value='4'>Word</option>";
 
-    if ($fRep['out_type']=='1'){
-        echo '<option value="1" selected>Excel</option>';
-    } else {
-        echo '<option value="1" >Excel</option>';
-    }
-    
 
-    if ($fRep['out_type']=='2'){
-        echo '<option value="2" selected>Pantalla</option>';
-    } else {
-        echo '<option value="2" >Pantalla</option>';
+    switch ($fRep['out_type']) {
+        case 0:
+            echo "<option value='0' selected >HTML</option>";
+            break;
+        case 1:
+            echo "<option value='1' selected>DataTable</option>";
+            break;
+        case 2:
+            echo "<option value='2' selected>PDF</option>";
+            break;
+        case 3:
+            echo "<option value='3' selected>Excel</option>";
+            break;
+        case 4:
+            echo "<option value='4' selected>Word</option>";
+            break;
     }
+
+
     
     echo "</select>";
 
 
 
-   
-    if ($UsuariosForaneaos == FALSE){
-        echo "<br><label>Usuario Administrador:</label><br>";
-        echo "<select name='ReporteIdUser' id='ReporteIdUser' class='form-control'>";
-        echo "<option value=''>Seleccione</option>";
-        $sql = "select * from users";
 
-        $r= $db0 -> query($sql);
-                       
-         
+    if ($UsuariosForaneaos == "FALSE"){
+        echo "<br><label>Usuario Administrador: <a href='users.php' title='Haga clic para administrar los usuarios'><img src='icons/user_add.png' style='width:17px;'></a></label><br>";
+        echo "<select name='ReporteIdUser' id='ReporteIdUser' class='form-control'>";
+        echo "<option value=''>Seleccione</option>";         
     } else {
-        echo "<br><label>Usuario Administrador (".$db1_name."):</label><br>";
+        echo "<br><label>Usuario Administrador: </label><br>";
         echo "<select name='ReporteIdUser' id='ReporteIdUser' class='form-control'>";
-        echo "<option value=''>Seleccione</option>";
-        //Complementmos la consulta a la base de nuestro cliente
-        $sql = $QueryUsuariosForaneos." order by UserName";
+        echo "<option value=''>Seleccione</option>";        
+    }
+       
 
-        $r= $db1 -> query($sql);
+    if ($UsuariosForaneaos == "FALSE") {
+        $sql = "select * from users";
+    } else {
+        $sql = $QueryUsuariosForaneos . " order by UserName";
+    }
+    echo $sql;
+    $rc = $dbUser->query($sql); 
+    $SelUser_IdUser = "";
+    $SelUser_Name = "";
+    if ($dbUser->query($sql) == TRUE){
+        // echo "OK";
+        while($fu= $rc -> fetch_array()) {   
+            echo "<option value='".$fu['IdUser']."' title='IdUser=".$fu['IdUser']."'>".$fu['UserName']."</option>";
+            if ($fu['IdUser']==$fRep['admin']){
+                $SelUser_IdUser = $fu['IdUser'];
+                $SelUser_Name = $fu['UserName'];
+            }
+        }
+        
+        echo "<option value='".$SelUser_IdUser."' title='IdUser seleccionado=".$SelUser_IdUser."' selected>".$SelUser_Name."</option>";
+
+    } else {
+        Toast("ERROR al obtener la lista de usuarios",3,"");
     }
 
-        while($f = $r -> fetch_array()) {   
-            if ($fRep['admin']==$f['IdUser']){
-                echo "<option value='".$f['IdUser']."' selected>".$f['UserName']."</option>";
-            } else {
-                echo "<option value='".$f['IdUser']."'>".$f['UserName']."</option>";
-            }
-            
-            
-        }
-         
+    
 
     
     

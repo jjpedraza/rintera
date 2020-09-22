@@ -65,14 +65,11 @@ if (UserAdmin($RinteraUser)==TRUE){
 
         
         echo "<br><label>¿Que base de datos usara la consulta? </label> <select id='db' class='form-control' name='db'>";
-        echo "<option value='db0'>Rintera </option>";
-        if ($db1_==TRUE){ //Si esta habilida la segunda base
-            
-            echo "<option value='db1'>".$db1_name."</opion>";
+        $r= $db0 -> query("select * from dbs where Active=1");    
+        while($finfo = $r -> fetch_array()) {   
+            echo "<option value='".$finfo['IdCon']."'>".$finfo['ConName']."</opion>";
         }
-        if ($db2_ ==TRUE){
-            echo "<option value='db2'>".$db2_name."</option>";
-        }
+        unset($r); unset($finfo);
         echo "</select>";
 
 
@@ -241,39 +238,51 @@ if (UserAdmin($RinteraUser)==TRUE){
     </div>';
     echo "<br><label>Formato:</label><br>";
     echo "<select name='Formato' id='Formato' class='form-control'>";
-    echo "<option value='0'>PDF</option>";
-    echo "<option value='1'>Excel</option>";
-    echo "<option value='2'>Pantalla</option>";
+    echo "<option value='0'>HTML</option>";
+    echo "<option value='1'>DataTable</option>";
+    echo "<option value='2'>PDF</option>";
+    echo "<option value='3'>Excel</option>";
+    echo "<option value='4'>Word</option>";
+
     echo "</select>";
 
 
 
 
-    if ($UsuariosForaneaos == FALSE){
+    if ($UsuariosForaneaos == "FALSE"){
         echo "<br><label>Usuario Administrador: <a href='users.php' title='Haga clic para administrar los usuarios'><img src='icons/user_add.png' style='width:17px;'></a></label><br>";
         echo "<select name='ReporteIdUser' id='ReporteIdUser' class='form-control'>";
-        echo "<option value=''>Seleccione</option>";
-        $sql = "select * from users";
-
-        $r= $db0 -> query($sql);
-                       
-         
+        echo "<option value=''>Seleccione</option>";         
     } else {
         echo "<br><label>Usuario Administrador: </label><br>";
         echo "<select name='ReporteIdUser' id='ReporteIdUser' class='form-control'>";
-        echo "<option value=''>Seleccione</option>";
-        //Complementmos la consulta a la base de nuestro cliente
-        $sql = $QueryUsuariosForaneos." order by UserName";
-        echo $sql;
-        $r= $db1 -> query($sql);
+        echo "<option value=''>Seleccione</option>";        
     }
-        while($f = $r -> fetch_array()) {   
-            echo "<option value='".$f['IdUser']."'>".$f['UserName']."</option>";
+       
+
+    if ($UsuariosForaneaos == "FALSE") {
+        $sql = "select * from users";
+    } else {
+        $sql = $QueryUsuariosForaneos . " order by UserName";
+    }
+    echo $sql;
+    $rc = $dbUser->query($sql);    
+    if ($dbUser->query($sql) == TRUE){
+        // echo "OK";
+        while($fu= $rc -> fetch_array()) {   
+                echo "<option value='".$fu['IdUser']."' title='IdUser=".$fu['IdUser']."'>".$fu['UserName']."</option>";
         }
+
+    } else {
+        Toast("ERROR al obtener la lista de usuarios",3,"");
+    }
+
+    
+    
          
 
     
-    echo $sql;
+    // echo $sql;
     
     echo "</select>";
 

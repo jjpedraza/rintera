@@ -61,7 +61,7 @@ if ($OK ==TRUE){
     rep_description='".$rep_descripcion."',
     admin='".$ReporteIdUser."',
     orientacion='".$Orientacion."',
-    basededatos='".$db."',
+    IdCon='".$db."',
     PageSize='".$PageSize."',
     out_type='".$Formato."',
     var1='".$var1."',

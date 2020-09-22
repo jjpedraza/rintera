@@ -65,7 +65,7 @@ if ($OK ==TRUE){
         orientacion,
         estado,
         solicitante,
-        basededatos,
+        IdCon,
         PageSize,
         out_type,
         var1,

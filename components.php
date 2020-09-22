@@ -427,6 +427,20 @@ function QueryReporte($id_rep){
         
 }
 
+function ConName($IdCon){
+    require("rintera-config.php");   
+    // var_dump($dbUser);
+    $sql = "select * from dbs WHERE Idcon ='".$IdCon."'";        
+    
+    $r= $db0 -> query($sql);
+    if($f = $r -> fetch_array())
+    {
+        return $f['ConName'];
+    } else {
+        return "";
+    }
+        
+}
 
 function IdConReporte($id_rep){
     require("rintera-config.php");   
@@ -444,6 +458,7 @@ function IdConReporte($id_rep){
 }
 
 
+
 function TituloReporte($id_rep){
     require("rintera-config.php");   
     // var_dump($dbUser);
@@ -455,6 +470,25 @@ function TituloReporte($id_rep){
         return $f['rep_name'];
     } else {
         return "FALSE";
+    }
+        
+}
+
+
+function ReporteFooter($id_rep){
+    require("rintera-config.php");   
+    // var_dump($dbUser);
+    $sql = "select * from reportes WHERE id_rep ='".$id_rep."'";        
+    $Footer = "";
+    $r= $db0 -> query($sql);
+    if($f = $r -> fetch_array())
+    {
+        $Footer = "<p clasS='ReporteFooter'>
+        Reporte realizado el ".$f['fecha']." a las ".$f['hora']." por ".UserName($f['IdUser']).", el usuario <b>Administrador de este reporte es ".UserName($f['admin'])."</p>";
+
+        return $Footer;
+    } else {
+        return "";
     }
         
 }
@@ -475,6 +509,22 @@ function DescripcionReporte($id_rep){
         
 }
 
+
+
+function ReporteTipo($id_rep){
+    require("rintera-config.php");   
+    // var_dump($dbUser);
+    $sql = "select * from reportes WHERE id_rep ='".$id_rep."'";        
+    
+    $r= $db0 -> query($sql);
+    if($f = $r -> fetch_array())
+    {
+        return $f['out_type'];
+    } else {
+        return "FALSE";
+    }
+        
+}
 
 
 function getData()
@@ -502,7 +552,7 @@ function PermisoReporte_Ver($IdUser,$IdRep){
     require("rintera-config.php");   
     $sql = "select count(*) as n
     
-    from reportes_permisos WHERE IdUser ='".$IdUser."' and id_rep='".$IdRep."' and Ver=1";
+    from reportes_permisos WHERE IdUser ='".$IdUser."' and id_rep='".$IdRep."'";
     $rc= $db0 -> query($sql);
     
     
@@ -1163,6 +1213,7 @@ return $archivoWeb;
 
 function DataFromSQLSERVERTOJSON($id_rep, $Tipo, $ClaseTabla, $ClaseDiv, $IdUser)
 {
+
 //SQLSERVERTOJSON = https://github.com/prymecode/sqlservertojson
 require_once("rintera-config.php");	
 $Query = QueryReporte($id_rep);
@@ -1296,8 +1347,11 @@ if($WSConF = $WSCon -> fetch_array())
                 }
                 
                 
-                $tabla.=$tabla_th.$tabla_content."</table>";                
-                return $tabla;
+                $tabla.=$tabla_th.$tabla_content."</table>";     
+                $Titulo = TituloReporte($id_rep);
+                $Descripcion = DescripcionReporte($id_rep);           
+                var_dump($Descripcion);
+                return "<h1>".$Titulo."</h1><cite>".$Descripcion."</cite>".$tabla;
                 break;
         
                 case 1: // Interactivo
@@ -1870,12 +1924,12 @@ if ($Con_Val == TRUE){
             $TablaHTML = $tbCont;
 
             switch ($Tipo) {
-                case 0:  //HTML 
-                    return $TablaHTML;    
+                case 0:  //HTML                 
+                    return ReporteEncabezado($id_rep).$TablaHTML.ReporteFooter($id_rep);    
                 break;
                
                 case 1: // Interactivo
-                    echo $TablaHTML;
+                    echo  ReporteEncabezado($id_rep).$TablaHTML.ReporteFooter($id_rep);   
                     echo '<script>
                             $(document).ready(function() {
                                 $("#'.$IdTabla.'").DataTable( {
@@ -1936,7 +1990,7 @@ if ($Con_Val == TRUE){
                     >
                     
                     </iframe>";
-
+                    Toast("Archivo descargado",0,"");
                     // echo "<script>pdf('".$ArchivoDelReporte."');</script>";
 
                 break;
@@ -1963,7 +2017,7 @@ if ($Con_Val == TRUE){
                     >
                     
                     </iframe>";
-
+                    Toast("Archivo descargado",0,"");
                     // echo "<script>pdf('".$ArchivoDelReporte."');</script>";
 
                 break;
@@ -2015,6 +2069,8 @@ function Reporte($id_rep, $Tipo, $ClaseDiv, $ClaseTabla, $IdUser ){
     $IdCon = IdConReporte($id_rep);
     $ConType = ConType($IdCon);
 
+    // echo "Tipo = ".$Tipo;
+    // echo "ConType=".$ConType;
     //Validaciones
 
 
@@ -2204,3 +2260,33 @@ function InfPC()
     return $infofull;
 }
 
+
+function UserName($IdUser){
+    require("rintera-config.php");	
+    $UsuariosForaneaos = Preference("UsuariosForaneaos", "", "");   
+
+    if ($UsuariosForaneaos == "FALSE") {
+        $sql = "select * from users WHERE IdUser='".$IdUser."'";
+    } else {
+        $sql = $QueryUsuariosForaneos . " and IdUser='".$IdUser."'";
+    }
+
+    $rc = $dbUser->query($sql);    
+    if ($dbUser->query($sql) == TRUE){
+        if($f = $rc -> fetch_array())
+        {
+            return $f['UserName'];
+        } else {
+            return $IdUser;
+        }
+        
+
+    } else {
+        
+    }
+
+}
+
+function ReporteEncabezado($id_rep){
+    return $ReporteEncabezado = "<div class='EncabezadoReporte'><h4>".TituloReporte($id_rep)."</h4><cite style='font-size:10pt;'>".DescripcionReporte($id_rep)."</cite></div>";
+}

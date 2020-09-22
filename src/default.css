@@ -5,7 +5,26 @@
 @font-face{font-family:"Cursiva";src:url("Windsong.ttf") format("truetype")}
 @font-face{font-family:"Informal";src:url("CFCrayons-Regular.ttf") format("truetype")}
 @font-face{font-family:"Bold";src:url("OpenSans-ExtraBold.ttf") format("truetype")}
+#pdfPresenter{
+	left: 0px;
+}
+.EncabezadoReporte{
 
+}
+.ReporteFooter{
+	font-size: 8pt;
+
+}
+.ContenedorDeReporte{
+	width: 94%;
+	/* height: 100%; */
+	padding: 20px;
+	display: inline-block;
+	/* position: absolute; */
+	background-color: white;
+	margin: 10px;
+	border-radius: 10px;
+}
 .Etiqueta{
 	color: #716e6e;
 	background-color: #dfdfdf;

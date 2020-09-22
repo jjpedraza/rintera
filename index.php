@@ -118,7 +118,9 @@ echo "
 
             
     }
+    Search();
     </script>
+
 ";
 
 include ("footer.php");
