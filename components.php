@@ -2298,3 +2298,15 @@ function UserName($IdUser){
 function ReporteEncabezado($id_rep){
     return $ReporteEncabezado = "<div class='EncabezadoReporte'><h4>".TituloReporte($id_rep)."</h4><cite style='font-size:10pt;'>".DescripcionReporte($id_rep)."</cite></div>";
 }
+
+function GuardaBusqueda($IdUser, $Search){  
+    require("rintera-config.php");    
+    $sql = "INSERT INTO search 
+    (IdUser, Search) 
+    VALUES ('".$IdUser."', '".$Search."')";
+    // echo $sql;
+    if ($db0->query($sql) == TRUE)
+    {return TRUE;}
+    else {return FALSE;}
+
+}

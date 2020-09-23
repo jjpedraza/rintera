@@ -23,6 +23,10 @@ if (MiToken_valida($ElToken, $IdUser, "Search")==TRUE){//Valido
 
         
     ";
+    if ($busqueda <> ''){
+        GuardaBusqueda($IdUser,$busqueda);
+    }
+    
     // echo $sql;
     $r= $db0 -> query($sql);
     while($f = $r -> fetch_array()) {   
@@ -153,6 +157,20 @@ if (MiToken_valida($ElToken, $IdUser, "Search")==TRUE){//Valido
     Toast("Error vuelva a intentarlo",2,"");
 }
 
+$sql = "select * from reportes";
+$rb= $db0 -> query($sql);
+echo '<datalist id="busquedas" class="DataList">';
+while($fb = $rb -> fetch_array()) {   
+    echo "<option value='".$fb['rep_name']."' class='DataList'>";  
+
+}
+echo "</datalist>";
+
+
+echo "<script> 
+$('.InputBusqueda').css('background-color','".Preference("ColorPrincipal", "", "")."');
+$('.InputBusqueda').css('color','white');
+</script>";
 
 MiToken_Close($IdUser, "Search");             
 

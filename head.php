@@ -30,8 +30,8 @@ require ("components.php");
     <script src="lib/jquery-3.5.1.js"></script>
     <script src="lib/bootstrap/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="src/default.css">
-
-
+    <link href="lib/jquery.flexdatalist.css" rel="stylesheet" type="text/css">
+    <script src="lib/jquery.flexdatalist.js"></script>
 
     <link rel="stylesheet" type="text/css" href="lib/bootstrap/css/bootstrap.css">
     <link rel="stylesheet" href="lib/jquery.toast.min.css">

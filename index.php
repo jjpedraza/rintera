@@ -23,28 +23,31 @@ include("header.php");
 background-color: <?php echo Preference("ColorPrincipal", "", ""); ?>;
 '>
 
+<table width=100%><tr><td>
     <?php
 
     if (isset($_GET['q'])) {
 
         echo '
-    <input id="InputBusqueda" onkeypress="Search();"
+    <input id="InputBusqueda" list="busquedas"     data-min-length="1"
     style="
 
         background-color: '.Preference("ColorPrincipal", "", "").';
+        
 
     "
-    class="InputBusqueda" type="text" placeholder="¿Que Información necesitas?"  value="' . VarClean($_GET['q']) . '">
+    class="InputBusqueda flexdatalist" type="text" placeholder="¿Que Información necesitas?"  value="' . VarClean($_GET['q']) . '">
     ';
     } else {
         echo '
-    <input id="InputBusqueda" onkeypress="Search();"
+    <input id="InputBusqueda" list="busquedas"  data-min-length="1"
     style="
 
         background-color: '.Preference("ColorPrincipal", "", "").';
+       
 
     "
-    class="InputBusqueda" type="text" placeholder="¿Que Información necesitas?" >
+    class="InputBusqueda flexdatalist" type="text" placeholder="¿Que Información necesitas?" >
     ';
     }
 
@@ -60,21 +63,30 @@ background-color: <?php echo Preference("ColorPrincipal", "", ""); ?>;
     ?>
 
 </section>
+</td><td width=50px align=right valign=middle 
+style='
+background-color: <?php echo Preference("ColorPrincipal", "", ""); ?>;
+'
+>
+<button  class="Mbtn btn-Success"  onclick="Search();"> <img src='icons/buscar.png' style='width:50px;'></button>
 
+</td></table>
 <div style='
 background-color: <?php echo Preference("ColorPrincipal", "", ""); ?>;
 text-align: center;
 color: white;
 font-size: 10pt;  height:22px;
 
--webkit-box-shadow: -2px 3px 7px 0px rgba(0,0,0,0.75);
--moz-box-shadow: -2px 3px 7px 0px rgba(0,0,0,0.75);
-box-shadow: -2px 3px 7px 0px rgba(0,0,0,0.75);
+-webkit-box-shadow: 1px 5px 5px -3px rgba(0,0,0,0.75);
+-moz-box-shadow: 1px 5px 5px -3px rgba(0,0,0,0.75);
+box-shadow: 1px 5px 5px -3px rgba(0,0,0,0.75);
+margin-top: -2px;
 '>
     <div id='PreloaderBuscando' style='display:none;'>
         Buscando <img src='img/loader_bar.gif'>
     </div>
 </div>
+
 <section id='Resultados'>
     Resutlado de la buqueda
 

@@ -5,6 +5,15 @@
 @font-face{font-family:"Cursiva";src:url("Windsong.ttf") format("truetype")}
 @font-face{font-family:"Informal";src:url("CFCrayons-Regular.ttf") format("truetype")}
 @font-face{font-family:"Bold";src:url("OpenSans-ExtraBold.ttf") format("truetype")}
+.DataList
+{
+
+  
+    
+	font-size:30pt;
+}
+
+
 #pdfPresenter{
 	left: 0px;
 }
@@ -168,7 +177,7 @@ label{
 	height: 90px;
     width: 100%;
     display: inline-block;
-    position: absolute;
+    /* position: absolute; */
     border-width: 0px;
     /* background-color: rgb(24, 149, 198); */
     font-size: 24pt;

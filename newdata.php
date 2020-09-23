@@ -41,7 +41,7 @@ if ($rep_query == '' or strlen($rep_query)<=5){$OK = FALSE; $msg= $msg."<li>Debe
     </script>";}
 
     $ReporteIdUser = VarClean($_POST['ReporteIdUser']);
-    if ($ReporteIdUser == '' or strlen($ReporteIdUser)<=5){$OK = FALSE; $msg= $msg."<li>Se requiere seleccionar un Administrador del Reporte</li><script>$('#ReporteIdUser').css('background-color', '#ffeed8');</script>";}
+    if ($ReporteIdUser == ''){$OK = FALSE; $msg= $msg."<li>Se requiere seleccionar un Administrador del Reporte</li><script>$('#ReporteIdUser').css('background-color', '#ffeed8');</script>";}
     
 
 if ($OK ==TRUE){
