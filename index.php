@@ -68,7 +68,12 @@ style='
 background-color: <?php echo Preference("ColorPrincipal", "", ""); ?>;
 '
 >
-<button  class="Mbtn btn-Success"  onclick="Search();"> <img src='icons/buscar.png' style='width:50px;'></button>
+<button  class="Mbtn btn-Success"  onclick="Search();" style="
+background-color:  <?php echo Preference("ColorResaltado", "", ""); ?>;
+box-shadow: 0 3px  #4d4c49;
+
+"> 
+<img src='icons/busqueda.png' style='width:50px;'></button>
 
 </td></table>
 <div style='
@@ -108,24 +113,33 @@ if (UserAdmin($RinteraUser) == TRUE) {
 
 </div>
 
+
 <?php
+echo "
+<script> 
+$('.InputBusqueda').css('background-color','".Preference("ColorPrincipal", "", "")."');
+$('.InputBusqueda').css('color','white');
+</script>
+";
 echo "
     <script>
     function Search(){
         var busqueda = $('#InputBusqueda').val();
-        $('#PreloaderBuscando').show();                
-        $.ajax({
-            url: 'search.php',
-            type: 'post',        
-            data: {IdUser:'" . $RinteraUser . "', Token: '" . $MiToken . "',
-                busqueda:busqueda
+       
+            $('#PreloaderBuscando').show();                
+            $.ajax({
+                url: 'search.php',
+                type: 'post',        
+                data: {IdUser:'" . $RinteraUser . "', Token: '" . $MiToken . "',
+                    busqueda:busqueda
 
-            },
-        success: function(data){
-            $('#Resultados').html(data);
-            $('#PreloaderBuscando').hide();
-        }
-        });
+                },
+            success: function(data){
+                $('#Resultados').html(data);
+                $('#PreloaderBuscando').hide();
+            }
+            });
+       
 
 
             

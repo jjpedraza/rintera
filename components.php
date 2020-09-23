@@ -2299,14 +2299,39 @@ function ReporteEncabezado($id_rep){
     return $ReporteEncabezado = "<div class='EncabezadoReporte'><h4>".TituloReporte($id_rep)."</h4><cite style='font-size:10pt;'>".DescripcionReporte($id_rep)."</cite></div>";
 }
 
-function GuardaBusqueda($IdUser, $Search){  
+function GuardaBusqueda($IdUser, $Search){      
     require("rintera-config.php");    
+    if ($Search <>''){
     $sql = "INSERT INTO search 
     (IdUser, Search) 
     VALUES ('".$IdUser."', '".$Search."')";
     // echo $sql;
     if ($db0->query($sql) == TRUE)
     {return TRUE;}
-    else {return FALSE;}
+    else {return FALSE;}}
+    else {
+        return FALSE;
+
+    }
+
+}
+
+function UltimaBusqueda($IdUser){
+    require("rintera-config.php");	    
+    $sql = "select * from search where IdUser = '".$IdUser."' order by IdSearch DESC limit 1";
+    // echo $sql;
+    $rc = $db0->query($sql);    
+    if ($db0->query($sql) == TRUE){
+        if($f = $rc -> fetch_array())
+        {
+            return $f['Search'];
+        } else {
+            return "";
+        }
+        
+
+    } else {
+        
+    }
 
 }

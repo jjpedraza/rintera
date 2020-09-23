@@ -16,13 +16,29 @@ if (MiToken_valida($ElToken, $IdUser, "Search")==TRUE){//Valido
         text-align: center; 
     '>Resultados de <b>".$busqueda."</b>:</h1>";
     echo "<section id='Reportes'>";
-    $sql = "select * from reportes  WHERE
-    rep_name like '%".$busqueda."%' or
-    rep_description like '%".$busqueda."%' or
-    id_rep like '%".$busqueda."%' 
 
-        
-    ";
+    if ($busqueda == ''){
+        $busqueda = UltimaBusqueda($IdUser);
+        echo "<h3 style='        
+        font-size: 12pt;
+        text-align: center; 
+    
+        '>Ultima Busqueda <b>".$busqueda."</b></h3>";
+        if ($busqueda == ''){
+            $sql = "select * from reportes order by id_rep DESC limit 100";
+        } else {
+            $sql = "select * from reportes  WHERE
+            rep_name like '%".$busqueda."%' or
+            rep_description like '%".$busqueda."%' or
+            id_rep like '%".$busqueda."%'";
+        }
+
+    } else {
+        $sql = "select * from reportes  WHERE
+        rep_name like '%".$busqueda."%' or
+        rep_description like '%".$busqueda."%' or
+        id_rep like '%".$busqueda."%'";
+    }
     if ($busqueda <> ''){
         GuardaBusqueda($IdUser,$busqueda);
     }
