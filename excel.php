@@ -48,11 +48,11 @@ switch ($ConType) {
     // var_dump($Contenido);
     $Titulo = TituloReporte($id_rep);
     $Descripcion = DescripcionReporte($id_rep);
-    $Archivo = $StringFecha."_".$id_rep."_".$IdUser.".xls";
-    $ContenidoFinal = "<h1>".$Titulo."</h1><p>".$Descripcion."</p>".$Contenido;
+    $Archivo = $StringFecha."_".$id_rep."_".$IdUser."";
+    // $ContenidoFinal = "<h1>".$Titulo."</h1><p>".$Descripcion."</p>".$Contenido;
     header('Content-type: application/vnd.ms-excel;charset=iso-8859-15');
     header('Content-Disposition: attachment; filename='.$Archivo.'.xls');
-    echo $ContenidoFinal;
+    echo $Contenido;
 
 
     // header('Content-type: application/vnd.ms-word;charset=iso-8859-15');

@@ -47,7 +47,7 @@ switch ($ConType) {
     
 $Titulo = TituloReporte($id_rep);
 $Descripcion = DescripcionReporte($id_rep);
-    $Archivo = $StringFecha."_".$id_rep."_".$IdUser.".xls";
+    $Archivo = $StringFecha."_".$id_rep."_".$IdUser."";
     $ContenidoFinal = "<h1>".$Titulo."</h1><p>".$Descripcion."</p>".$Contenido;
     // header('Content-type: application/vnd.ms-excel;charset=iso-8859-15');
     // header('Content-Disposition: attachment; filename='.$Archivo.'.xls');
@@ -56,7 +56,7 @@ $Descripcion = DescripcionReporte($id_rep);
 
     header('Content-type: application/vnd.ms-word;charset=iso-8859-15');
     header('Content-Disposition: attachment; filename='.$Archivo.'.doc');
-    echo $ContenidoFinal;
+    echo $Contenido;
     
     
     

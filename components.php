@@ -1669,12 +1669,14 @@ if($WSConF = $WSCon -> fetch_array())
                     // $ArchivoDelReporte = TableToPDF($TablaHTML, $IdUser, $titulo, $descripcion, $PageSize, $orientacion,$id_rep,$info_leyenda);
                     $ArchivoDelReporte = "excel.php?IdUser=".$IdUser."&id_rep=".$id_rep;
                     
-                    echo "<iframe id='pdfPresenter' src='".$ArchivoDelReporte."'
+                    echo "<p>El Archivo del reporte se descargara automaticamente, si no es así 
+                    por favor da clic <a href='".$ArchivoDelReporte."' download>aquí<a/>";
+                    echo "<iframe id='wordPresenter' src='".$ArchivoDelReporte."'
                     style='
-                        width: 100%;
-                        height: 94%;
-                        position: absolute;
-                        border: 0px;
+                        width: 10px;
+                        height: 10px;
+                        border: 0px solid white;
+                       
                     '
                     >
                     
@@ -1780,12 +1782,14 @@ if($WSConF = $WSCon -> fetch_array())
                 $info_leyenda = "x";
                 // $ArchivoDelReporte = TableToPDF($TablaHTML, $IdUser, $titulo, $descripcion, $PageSize, $orientacion,$id_rep,$info_leyenda);
                 $ArchivoDelReporte = "word.php?IdUser=".$IdUser."&id_rep=".$id_rep;
-                echo "<iframe id='pdfPresenter' src='".$ArchivoDelReporte."'
+                echo "<p>El Archivo del reporte se descargara automaticamente, si no es así 
+                por favor da clic <a href='".$ArchivoDelReporte."' download>aquí<a/>";
+                echo "<iframe id='wordPresenter' src='".$ArchivoDelReporte."'
                 style='
-                    width: 100%;
-                    height: 94%;
-                    position: absolute;
-                    border: 0px;
+                    width: 10px;
+                    height: 10px;
+                    border: 0px solid white;
+                   
                 '
                 >
                 
@@ -1980,17 +1984,18 @@ if ($Con_Val == TRUE){
                     $info_leyenda = "x";
                     // $ArchivoDelReporte = TableToPDF($TablaHTML, $IdUser, $titulo, $descripcion, $PageSize, $orientacion,$id_rep,$info_leyenda);
                     $ArchivoDelReporte = "excel.php?IdUser=".$IdUser."&id_rep=".$id_rep;
-                    echo "<iframe id='pdfPresenter' src='".$ArchivoDelReporte."'
+                    echo "<p>El Archivo del reporte se descargara automaticamente, si no es así 
+                    por favor da clic <a href='".$ArchivoDelReporte."' download>aquí<a/>";
+                    echo "<iframe id='wordPresenter' src='".$ArchivoDelReporte."'
                     style='
-                        width: 100%;
-                        height: 94%;
-                        position: absolute;
-                        border: 0px;
+                        width: 10px;
+                        height: 10px;
+                        border: 0px solid white;
+                       
                     '
                     >
                     
                     </iframe>";
-                    Toast("Archivo descargado",0,"");
                     // echo "<script>pdf('".$ArchivoDelReporte."');</script>";
 
                 break;
@@ -2007,17 +2012,20 @@ if ($Con_Val == TRUE){
                     $info_leyenda = "x";
                     // $ArchivoDelReporte = TableToPDF($TablaHTML, $IdUser, $titulo, $descripcion, $PageSize, $orientacion,$id_rep,$info_leyenda);
                     $ArchivoDelReporte = "word.php?IdUser=".$IdUser."&id_rep=".$id_rep;
-                    echo "<iframe id='pdfPresenter' src='".$ArchivoDelReporte."'
+                    echo "<p>El Archivo del reporte se descargara automaticamente, si no es así 
+                    por favor da clic <a href='".$ArchivoDelReporte."' download>aquí<a/>";
+                    echo "<iframe id='wordPresenter' src='".$ArchivoDelReporte."'
                     style='
-                        width: 100%;
-                        height: 94%;
-                        position: absolute;
-                        border: 0px;
+                        width: 10px;
+                        height: 10px;
+                        border: 0px solid white;
+                       
                     '
                     >
                     
                     </iframe>";
-                    Toast("Archivo descargado",0,"");
+                    
+                    
                     // echo "<script>pdf('".$ArchivoDelReporte."');</script>";
 
                 break;
