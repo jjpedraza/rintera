@@ -2301,18 +2301,17 @@ function ReporteEncabezado($id_rep){
 
 function GuardaBusqueda($IdUser, $Search){      
     require("rintera-config.php");    
-    if ($Search <>''){
-    $sql = "INSERT INTO search 
-    (IdUser, Search) 
-    VALUES ('".$IdUser."', '".$Search."')";
-    // echo $sql;
-    if ($db0->query($sql) == TRUE)
-    {return TRUE;}
-    else {return FALSE;}}
-    else {
-        return FALSE;
-
+    if ($Search == ''|| $Search == ' ' || $Search == '  '){ return FALSE;} else {
+        $sql = "INSERT INTO search 
+        (IdUser, Search) 
+        VALUES ('".$IdUser."', '".$Search."')";
+        // echo $sql;
+        if ($db0->query($sql) == TRUE)
+        {return TRUE;}
+        else {return FALSE;}
     }
+    
+    
 
 }
 
