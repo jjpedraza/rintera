@@ -44,8 +44,10 @@ if (MiToken_valida($ElToken, $IdUser, "Search")==TRUE){//Valido
     }
     
     // echo $sql;
-    $r= $db0 -> query($sql);
+    $r= $db0 -> query($sql); 
+    $Resultados = 0;
     while($f = $r -> fetch_array()) {   
+        $Resultados = $Resultados + 1;
         if (PermisoReporte_Ver($IdUser,$f['id_rep'])==TRUE){
             echo "<article>";
             echo "<table width=100% border=0><tr><td align=center valign=middle>  ";        
@@ -166,6 +168,14 @@ if (MiToken_valida($ElToken, $IdUser, "Search")==TRUE){//Valido
         echo "</td></tr></table>";
         echo "</article>";
         
+    } 
+    if ($Resultados <= 0){    
+            echo "<p style='
+            color: white;
+            padding: 10px;
+            text-align: center;
+            border-radius: 10px;
+            'class='bg-warning'>Sin Resultados; intentelo con otra palabra </p>";    
     }
     echo "</section>";
 } else {    

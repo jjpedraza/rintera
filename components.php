@@ -2334,3 +2334,40 @@ function UltimaBusqueda($IdUser){
     }
 
 }
+
+
+function UltimasBusquedas($IdUser){
+    require("rintera-config.php");	    
+    $sql = "select * from search where IdUser = '".$IdUser."' order by IdSearch DESC limit 10";
+    // echo $sql;
+    $rx = $db0->query($sql);    
+    if ($db0->query($sql) == TRUE){
+        echo "<div id='UltimasBusquedas'  style='
+        margin: 10px;
+            margin-top: 10px;
+        background-color: ".Preference("ColorSecundario", "", "").";
+        padding: 10px;
+        border-radius: 10px;
+        margin-top: 74px;
+        '>";
+        echo "<h4 style='font-size:11pt; color:white;'>Mis Ultimas busquedas: </h4>";
+        echo "<table class='tabla'>";
+    
+        while($fx= $rx -> fetch_array()) {  
+            echo "<tr>";
+            echo "<td><a style='
+            display:block;
+            
+            
+            'href='index.php?q=".$fx['Search']."' title='haga clic aqui para realizar esta busqueda'>".$fx['Search']."</a></td>";
+            echo "</tr>";
+        }
+        echo "</table>";
+        echo "</div>";
+        
+
+    } else {
+        
+    }
+
+}

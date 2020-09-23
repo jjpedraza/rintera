@@ -63,7 +63,7 @@ if (UserAdmin($RinteraUser)==TRUE){
         echo "<input class='form-control' type='text' name='rep_description' id='rep_description' value='".$fRep['rep_description']."'>";
 
         echo '<br>
-        <label>Consulta a la Base de Datos: <br>
+        <label>Consulta a la Base de Datos: (solo comillas dobles ) <br>
         
         <b>Ejemplo:</b> 
         <cite>select * from mitabla where parametro=<b style="color:blue">{var1}</b>  and otroparametro=1</cite>
