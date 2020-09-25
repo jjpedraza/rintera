@@ -74,8 +74,7 @@ if (UserAdmin($RinteraUser)==TRUE){
         ';
 
         
-        echo "<br><label>¿Que base de datos usara la consulta? </label> <select id='db' class='form-control' name='db'>";
-        
+        echo "<br><label>¿Que base de datos usara la consulta? </label> <select id='db' class='form-control' name='db'>";      
         
         $r= $db0 -> query("select * from dbs where Active=1");    
         while($finfo = $r -> fetch_array()) {   
@@ -85,7 +84,7 @@ if (UserAdmin($RinteraUser)==TRUE){
         value='".$fRep['IdCon']."' selected>".ConName($fRep['IdCon'])."</opion>";
         echo "</select>";
         unset($r); unset($finfo);
-        echo "</select>";
+        
 
 
         echo "<br><label>Orientación</label><br>";
@@ -144,7 +143,7 @@ if (UserAdmin($RinteraUser)==TRUE){
         font-size: 10pt;">Configuracion de las variables:</b></center>
         <div id="accordion">
         <div class="card">
-        <div class="card-header" id="headingOne">
+        <div class="card-header DivVar1" id="headingOne">
             <h5 class="mb-0">
             <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne"
             style="
@@ -162,7 +161,7 @@ if (UserAdmin($RinteraUser)==TRUE){
             <div class="card-body">
             
             <br><label>¿Utilizaras var1?</label>
-            <select name="var1" class="form-control"  style="background-color:orange; color:white;" id="var1" >
+            <select name="var1" class="form-control"  style="background-color:orange; color:white;" id="var1" onclick="Var1_ON();">
             ';
             if ($fRep['var1']=='0'){
                 echo '<option value="0" selected>NO</option>';
@@ -171,16 +170,36 @@ if (UserAdmin($RinteraUser)==TRUE){
             }
             if ($fRep['var1']=='1'){
                 echo '<option value="1" selected>SI</option>';
+               
             } else {
                 echo '<option value="1" >SI</option>';
             }
             
+
+
             echo '
-            </select>
+            </select>';
+
+            echo '
+            <script>
+                function Var1_ON(){
+                    Var1 =  $("#var1").val();
+                    console.log(Var1);
+                    if ( Var1 == 1 ){
+                        $(".DivVar1").css("background-color", "#bbdb76");                
+                    } else {
+                        $(".DivVar1").css("background-color", "white");                
+                    }
+                }
+                Var1_ON();
+
+            </script>';
+
+            echo '
             
 
             <br><label>Tipo:</label>
-            <select name="var1_type"  id="var1_type" class="form-control">';
+            <select name="var1_type"  id="var1_type" class="form-control" onclick="Activardb1();">';
 
             
             if ($fRep['var1_type']=='text'){
@@ -201,11 +220,38 @@ if (UserAdmin($RinteraUser)==TRUE){
                 echo '<option value="date" >Fecha</option>';
             }
 
+            if ($fRep['var1_type']=='option'){
+                echo '<option value="option"  selected>Lista desplegable</option>';
+            } else {
+                echo '<option value="option">Lista desplegable</option>';
+            }
+
             
 
             echo '
           
-            </select>
+            </select>';
+
+            
+
+
+            echo "<span id='db1'><br><label>¿Desde que base de datos? </label> <select id='var1_IdCon' class='form-control' name='var1_IdCon'>";      
+        
+            $rg= $db0 -> query("select * from dbs where Active=1");    
+            while($finfo = $rg -> fetch_array()) {   
+                echo "<option value='".$finfo['IdCon']."'>".$finfo['ConName']."</opion>";
+            }
+            echo "<option style='background-color:orange;color:white;' 
+            value='".$fRep['var1_IdCon']."' selected>".ConName($fRep['var1_IdCon'])."</opion>";
+            echo "</select></span>";
+            unset($rg); unset($finfo);
+            
+    
+
+            echo '
+
+
+
 
             <br><label>Texto para mostrar:</label>';
 
@@ -214,7 +260,25 @@ if (UserAdmin($RinteraUser)==TRUE){
 
             <br><label>Consulta de llenado (MySQL): <cite>Los controles buscaran value y data, tomalo en cuenta</cite></label>
             <textarea name="var1_sql" id="var1_sql" class="Query form-control" style="background-color: #c3c6b1;
-            color: #304a4d;">'.$fRep['var1_sql'].'</textarea>
+            color: #304a4d;">'.$fRep['var1_sql'].'</textarea>';
+
+            echo '
+            <script>
+            function Activardb1(){
+                // console.log($("#var1_type option:selected").val());
+                if ($("#var1_type option:selected").val() == "option"){
+                    $("#db1").show();
+                } else {
+                    $("#db1").hide();
+                }    
+                
+            }
+            Activardb1();
+            </script>
+            ';
+
+
+            echo '
 
 
 
@@ -227,7 +291,7 @@ if (UserAdmin($RinteraUser)==TRUE){
 
 
         <div class="card">
-        <div class="card-header" id="headingTwo">
+        <div class="card-header DivVar2" id="headingTwo">
             <h5 class="mb-0">
             <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo"
             style="
@@ -243,7 +307,7 @@ if (UserAdmin($RinteraUser)==TRUE){
             <div class="card-body">
 
             <br><label>¿Utilizaras var2?</label>
-            <select name="var1" class="form-control"  style="background-color:orange; color:white;" id="var2" >
+            <select name="var1" class="form-control"  style="background-color:orange; color:white;" id="var2" onclick="Var2_ON();">
             ';
             if ($fRep['var2']=='0'){
                 echo '<option value="0" selected>NO</option>';
@@ -257,11 +321,28 @@ if (UserAdmin($RinteraUser)==TRUE){
             }
             
             echo '
-            </select>
+            </select>';
+
+            echo '
+            <script>
+                function Var2_ON(){
+                    Var2 =  $("#var2").val();
+                    console.log(Var2);
+                    if ( Var2 == 1 ){
+                        $(".DivVar2").css("background-color", "#bbdb76");                
+                    } else {
+                        $(".DivVar2").css("background-color", "white");                
+                    }
+                }
+                Var2_ON();
+
+            </script>';
+
+            echo '
             
 
             <br><label>Tipo:</label>
-            <select name="var2_type"  id="var2_type" class="form-control">';
+            <select name="var2_type"  id="var2_type" class="form-control"  onclick="Activardb2();">';
 
             
             if ($fRep['var2_type']=='text'){
@@ -282,11 +363,44 @@ if (UserAdmin($RinteraUser)==TRUE){
                 echo '<option value="date" >Fecha</option>';
             }
 
-            
+            if ($fRep['var2_type']=='option'){
+                echo '<option value="option" selected>Lista desplegable</option>';
+            } else {
+                echo '<option value="option" >Lista desplegable</option>';
+            }
+
+            echo "</select>";
+
+            echo "<span id='db2'><br><label>¿Desde que base de datos? </label> 
+            <select id='var2_IdCon' class='form-control' name='var2_IdCon''>";      
+        
+            $rg= $db0 -> query("select * from dbs where Active=1");    
+            while($finfo = $rg -> fetch_array()) {   
+                echo "<option value='".$finfo['IdCon']."'>".$finfo['ConName']."</opion>";
+            }
+            echo "<option style='background-color:orange;color:white;' 
+            value='".$fRep['var2_IdCon']."' selected>".ConName($fRep['var2_IdCon'])."</opion>";
+            echo "</select></span>";
+            unset($rg); unset($finfo);
+
+            echo '
+            <script>
+            function Activardb2(){
+                // console.log($("#var1_type option:selected").val());
+                if ($("#var2_type option:selected").val() == "option"){
+                    $("#db2").show();
+                } else {
+                    $("#db2").hide();
+                }    
+                
+            }
+            Activardb2();
+            </script>
+            ';
 
             echo '
           
-            </select>
+           
 
             <br><label>Texto para mostrar:</label>';
 
@@ -308,7 +422,7 @@ if (UserAdmin($RinteraUser)==TRUE){
         </div>
         </div>
         <div class="card">
-        <div class="card-header" id="headingThree">
+        <div class="card-header DivVar3" id="headingThree">
             <h5 class="mb-0">
             <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree"
             style="
@@ -323,7 +437,7 @@ if (UserAdmin($RinteraUser)==TRUE){
         <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion" style="background-color:rgb(218, 220, 221);"> 
             <div class="card-body">
             <br><label>¿Utilizaras var3?</label>
-            <select name="var3" class="form-control"  style="background-color:orange; color:white;" id="var3" >
+            <select name="var3" class="form-control"  style="background-color:orange; color:white;" id="var3" onclick="Var3_ON();">
             ';
             if ($fRep['var3']=='0'){
                 echo '<option value="0" selected>NO</option>';
@@ -337,11 +451,28 @@ if (UserAdmin($RinteraUser)==TRUE){
             }
             
             echo '
-            </select>
+            </select>';
+
+            echo '
+            <script>
+                function Var3_ON(){
+                    Var3 =  $("#var3").val();
+                    console.log(Var3);
+                    if ( Var3 == 1 ){
+                        $(".DivVar3").css("background-color", "#bbdb76");                
+                    } else {
+                        $(".DivVar3").css("background-color", "white");                
+                    }
+                }
+                Var3_ON();
+
+            </script>';
+
+            echo '
             
 
             <br><label>Tipo:</label>
-            <select name="var3_type"  id="var3_type" class="form-control">';
+            <select name="var3_type"  id="var3_type" class="form-control" onclick="Activardb3();">';
 
             
             if ($fRep['var3_type']=='text'){
@@ -362,11 +493,44 @@ if (UserAdmin($RinteraUser)==TRUE){
                 echo '<option value="date" >Fecha</option>';
             }
 
+            if ($fRep['var3_type']=='option'){
+                echo '<option value="option" selected>Lista desplegable</option>';
+            } else {
+                echo '<option value="option" >Lista desplegable</option>';
+            }
+            echo "</select>";
             
+            echo "<span id='db3'><br><label>¿Desde que base de datos? </label>
+             <select id='var3_IdCon' class='form-control' name='var3_IdCon' >";      
+        
+            $rg= $db0 -> query("select * from dbs where Active=1");    
+            while($finfo = $rg -> fetch_array()) {   
+                echo "<option value='".$finfo['IdCon']."'>".$finfo['ConName']."</opion>";
+            }
+            echo "<option style='background-color:orange;color:white;' 
+            value='".$fRep['var3_IdCon']."' selected>".ConName($fRep['var3_IdCon'])."</opion>";
+            echo "</select></span>";
+            unset($rg); unset($finfo);
+
+
+            echo '
+            <script>
+            function Activardb3(){
+                // console.log($("#var1_type option:selected").val());
+                if ($("#var3_type option:selected").val() == "option"){
+                    $("#db3").show();
+                } else {
+                    $("#db3").hide();
+                }    
+                
+            }
+            Activardb3();
+            </script>
+            ';
 
             echo '
           
-            </select>
+           
 
             <br><label>Texto para mostrar:</label>';
 
@@ -503,6 +667,11 @@ if (UserAdmin($RinteraUser)==TRUE){
             var var3_label = $('#var3_label').val();
             var var3_sql = $('#var3_sql').val();
 
+
+            var var1_IdCon = $('#var1_IdCon').val();
+            var var2_IdCon = $('#var2_IdCon').val();
+            var var3_IdCon = $('#var3_IdCon').val();
+
             var ReporteIdUser = $('#ReporteIdUser').val();
 
             
@@ -536,7 +705,12 @@ if (UserAdmin($RinteraUser)==TRUE){
                     var3_type:var3_type,
                     var3_label:var3_label,
                     var3_sql:var3_sql,
-                    Formato:Formato
+                    Formato:Formato,
+
+                    var1_IdCon: var1_IdCon,
+                    var2_IdCon: var2_IdCon,
+                    var3_IdCon: var3_IdCon,
+                    ReporteIdUser:ReporteIdUser
 
 
         

@@ -5,6 +5,20 @@
 @font-face{font-family:"Cursiva";src:url("Windsong.ttf") format("truetype")}
 @font-face{font-family:"Informal";src:url("CFCrayons-Regular.ttf") format("truetype")}
 @font-face{font-family:"Bold";src:url("OpenSans-ExtraBold.ttf") format("truetype")}
+.globo{
+
+}
+
+.Elemento{
+	width:30%;
+	/* background-color:peru; */
+	display: inline-block;
+	padding: 2px;
+	margin:2px;
+	vertical-align: top;
+
+
+}
 .DataList
 {
 
@@ -527,7 +541,7 @@ hr {
 .btn-Primary:active{box-shadow:0 0 #015288;top:6px;}
 
 .btn-Secondary{background-color:#9077DF;color:white;font-family:"Regular";box-shadow:0 3px #735AC4;;}
-.btn-Secondary:hover{box-shadow:0 1px #735AC4;F;background-color:#9077DF;top:2px;}
+.btn-Secondary:hover{box-shadow:0 1px #735AC4;background-color:#9077DF;top:2px;}
 .btn-Secondary:active{box-shadow:0 0 #735AC4;top:6px;}
 
 .btn-Success{background-color:#8CC749;color:white;font-family:"Regular";box-shadow:0 3px #72A23C;;}
@@ -636,6 +650,9 @@ display:inline-block;
 #Login {
 	width:50%;
 }
+.Elemento{
+	width:40%;
+}
 }
 
 @media only screen and (max-width:600px){
@@ -721,6 +738,12 @@ margin-lefT:2px; margin-right: 2px; }
 
 .Panel {
 	width: 90%;
+}
+.Elemento{
+	width:100%;
+}
+#UltimasBusquedas{
+	display: none;
 }
 }
 :root {

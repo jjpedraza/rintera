@@ -498,11 +498,51 @@ function DescripcionReporte($id_rep){
     require("rintera-config.php");   
     // var_dump($dbUser);
     $sql = "select * from reportes WHERE id_rep ='".$id_rep."'";        
-    
+    $LaDescripcion="";
     $r= $db0 -> query($sql);
     if($f = $r -> fetch_array())
     {
-        return $f['rep_description'];
+        $LaDescripcion = $f['rep_description'];
+        if (isset($_POST['var1_str'])){
+            $LaDescripcion.= "<span style='
+            background-color: ".Preference("ColorResaltado", "", "").";
+            padding: 4px;
+            border-radius: 3px;
+            margin: 10px;
+            color: white;
+            font-weight: bold;
+            display:inline-block;
+            '>".$f['var1_label']."=".$_POST['var1_str']."</span>";
+            
+        }
+
+        if (isset($_POST['var2_str'])){
+            $LaDescripcion.= "<span style='
+            background-color: ".Preference("ColorResaltado", "", "").";
+            padding: 4px;
+            border-radius: 3px;
+            margin: 10px;
+            color: white;
+            font-weight: bold;
+            display:inline-block;
+            '>".$f['var2_label']."=".$_POST['var2_str']."</span>";
+            
+        }
+
+
+        if (isset($_POST['var3_str'])){
+            $LaDescripcion.= "<span style='
+            background-color: ".Preference("ColorResaltado", "", "").";
+            padding: 4px;
+            border-radius: 3px;
+            margin: 10px;
+            color: white;
+            font-weight: bold;
+            display:inline-block;
+            '>".$f['var3_label']."=".$_POST['var3_str']."</span>";
+            
+        }
+        return $LaDescripcion;
     } else {
         return "FALSE";
     }
@@ -1215,7 +1255,7 @@ function DataFromSQLSERVERTOJSON($id_rep, $Tipo, $ClaseTabla, $ClaseDiv, $IdUser
 {
 
 //SQLSERVERTOJSON = https://github.com/prymecode/sqlservertojson
-require_once("rintera-config.php");	
+require("rintera-config.php");	
 $Query = QueryReporte($id_rep);
     // echo "Query = ".$Query."<br>";
 
@@ -1232,7 +1272,9 @@ $WS_Val = FALSE;
 $WS_Msg = "";
 $WSSQL = "select * from dbs where IdCon='".$IdCon."' AND Active=1 AND ConType =2"; //SQLSERVERTOJSON
 // echo $WSSQL;
-$WSCon= $db0 -> query($WSSQL);
+// var_dump($db0);
+$WSCon = $db0 -> query($WSSQL);
+
 if($WSConF = $WSCon -> fetch_array())
 {
     // var_dump($RConF);
@@ -1350,7 +1392,7 @@ if($WSConF = $WSCon -> fetch_array())
                 $tabla.=$tabla_th.$tabla_content."</table>";     
                 $Titulo = TituloReporte($id_rep);
                 $Descripcion = DescripcionReporte($id_rep);           
-                var_dump($Descripcion);
+                // var_dump($Descripcion);
                 return "<h1>".$Titulo."</h1><cite>".$Descripcion."</cite>".$tabla;
                 break;
         
@@ -1849,7 +1891,25 @@ if($WSConF = $WSCon -> fetch_array())
 function DataFromMySQL($ClaseDiv, $ClaseTabla, $Tipo, $IdUser,$id_rep){
     require("rintera-config.php");	
     $Query = QueryReporte($id_rep); 
-        // echo "Query = ".$Query."<br>";
+    
+    if (isset($_POST['var1_str'])){
+        $var1_str = VarClean($_POST['var1_str']);
+        $Query = str_replace("{var1}", $var1_str, $Query); //actualizamos la consulta
+    }
+
+    if (isset($_POST['var2_str'])){
+        $var2_str = VarClean($_POST['var2_str']);
+        $Query = str_replace("{var2}", $var2_str, $Query); //actualizamos la consulta
+    }
+
+    if (isset($_POST['var3_str'])){
+        $var3_str = VarClean($_POST['var3_str']);
+        $Query = str_replace("{var3}", $var3_str, $Query); //actualizamos la consulta
+    }
+
+    // echo $Query;
+    echo "<script>$('#FormVar').hide();</script>";
+    // echo "Query = ".$Query."<br>";
     $IdCon = IdConReporte($id_rep); 
         // echo "IdCon=".$IdCon."<br>";
 

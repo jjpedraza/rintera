@@ -19,18 +19,21 @@ $Formato = VarClean($_POST['Formato']);
 $var1 = VarClean($_POST['var1']);
 $var1_type = VarClean($_POST['var1_type']);
 $var1_label = VarClean($_POST['var1_label']);
-$var1_sql = VarClean($_POST['var1_sql']);
+$var1_sql = $_POST['var1_sql'];
 
-$var2 = VarClean($_POST['var1']);
-$var2_type = VarClean($_POST['var1_type']);
-$var2_label = VarClean($_POST['var1_label']);
-$var2_sql = VarClean($_POST['var1_sql']);
+$var2 = VarClean($_POST['var2']);
+$var2_type = VarClean($_POST['var2_type']);
+$var2_label = VarClean($_POST['var2_label']);
+$var2_sql = $_POST['var2_sql'];
 
-$var3 = VarClean($_POST['var2']);
-$var3_type = VarClean($_POST['var2_type']);
-$var3_label = VarClean($_POST['var2_label']);
-$var3_sql = VarClean($_POST['var2_sql']);
+$var3 = VarClean($_POST['var3']);
+$var3_type = VarClean($_POST['var3_type']);
+$var3_label = VarClean($_POST['var3_label']);
+$var3_sql = $_POST['var3_sql'];
 
+$var1_IdCon = VarClean($_POST['var1_IdCon']);
+$var2_IdCon = VarClean($_POST['var2_IdCon']);
+$var3_IdCon = VarClean($_POST['var3_IdCon']);
 // echo strlen($rep_query);
 //VALIDACION DE CAPTURA
 $OK = TRUE; $msg="";
@@ -43,6 +46,39 @@ if ($rep_query == '' or strlen($rep_query)<=5){$OK = FALSE; $msg= $msg."<li>Debe
     $ReporteIdUser = VarClean($_POST['ReporteIdUser']);
     if ($ReporteIdUser == ''){$OK = FALSE; $msg= $msg."<li>Se requiere seleccionar un Administrador del Reporte</li><script>$('#ReporteIdUser').css('background-color', '#ffeed8');</script>";}
     
+
+// var_dump($var1_sql);
+if ($var1_type  == 'option' AND $var1_sql ==''){$OK = FALSE; 
+    $msg= $msg."<li>Usaste Lista Desplegable en la Variable {var1}. DEBES LLENAR UN QUERY EN SQL con resultado value y data</li>
+    <script>$('#var1_sql').css('background-color', '#ffeed8');</script>";
+}
+
+
+if ($var2_type  == 'option' AND $var2_sql ==''){$OK = FALSE; 
+    $msg= $msg."<li>Usaste Lista Desplegable en la Variable {var2}. DEBES LLENAR UN QUERY EN SQL con resultado value y data</li>
+    <script>$('#var2_sql').css('background-color', '#ffeed8');</script>";
+}
+
+if ($var3_type  == 'option' AND  $var3_sql ==''){$OK = FALSE; 
+    $msg= $msg."<li>Usaste Lista Desplegable en la Variable {var3}. DEBES LLENAR UN QUERY EN SQL con resultado value y data</li>
+    <script>$('#var3_sql').css('background-color', '#ffeed8');</script>";
+}
+
+if ($var1_type  == 'option' AND  $var1_IdCon ==''){$OK = FALSE; 
+    $msg= $msg."<li>Usaste Lista Desplegable en la Variable {var1}. DEBES Seleccionar una base de datos</li>
+    <script>$('#var1_IdCon').css('background-color', '#ffeed8');</script>";
+}
+
+if ($var2_type  == 'option' AND  $var2_IdCon ==''){$OK = FALSE; 
+    $msg= $msg."<li>Usaste Lista Desplegable en la Variable {var2}. DEBES Seleccionar una base de datos</li>
+    <script>$('#var2_IdCon').css('background-color', '#ffeed8');</script>";
+}
+
+if ($var3_type  == 'option' AND  $var3_IdCon ==''){$OK = FALSE; 
+    $msg= $msg."<li>Usaste Lista Desplegable en la Variable {var3}. DEBES Seleccionar una base de datos</li>
+    <script>$('#var3_IdCon').css('background-color', '#ffeed8');</script>";
+}
+
 
 if ($OK ==TRUE){
     //Listo empezamos a trabajar
@@ -79,7 +115,9 @@ if ($OK ==TRUE){
         var3_label,
         var1_sql,
         var2_sql,
-        var3_sql, admin
+        var3_sql, admin,
+        var1_Idcon, var2_IdCon, var3_IdCon
+
     )
 
    VALUES (
@@ -106,10 +144,14 @@ if ($OK ==TRUE){
     '".$var3."',
     '".$var3_type."',
     '".$var3_label."',
-    '".$var1_label."',
-    '".$var2_label."',
-    '".$var3_label."',
-    '".$ReporteIdUser."')";
+    '".$var1_sql."',
+    '".$var2_sql."',
+    '".$var3_sql."',
+    '".$ReporteIdUser."',
+    '".$var1_IdCon."',
+    '".$var2_IdCon."',
+    '".$var3_IdCon."'    
+    )";
     
     // echo $sql;
     // mensaje($sql,'login.php');
