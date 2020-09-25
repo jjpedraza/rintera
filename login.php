@@ -1,5 +1,5 @@
 <?php
-require_once("rintera-config.php");
+require("rintera-config.php");
 require("components.php");
 
 
@@ -103,8 +103,9 @@ require("components.php");
             $sql = $QueryUsuariosForaneos . " and IdUser='" . $txtIdUser . "'";
         }
         // echo $sql;
+        // var_dump($sql);
         $rc = $dbUser->query($sql);
-        // var_dump($dbUser);
+        
         // echo $sql;
         if ($dbUser->query($sql) == TRUE){
             // echo "OK";

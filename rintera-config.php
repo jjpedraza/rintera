@@ -67,7 +67,7 @@ if ($UsuariosForaneaos == "TRUE") {
                             if (function_exists('mysqli_connect')) {		
                                 $dbUser = new mysqli($dbUser_host,$dbUser_user,$dbUser_pass,$dbUser_name);
                                 $acentos = $dbUser->query("SET NAMES 'utf8'"); // para los acentos                            
-                                
+                                // var_dump($dbUser);
 
                                 
                                 // echo "Exito";p
@@ -94,15 +94,15 @@ if ($UsuariosForaneaos == "TRUE") {
         $Error = $Error."IdCon para Foraneos Vacia ";
     }
 
-// var_dump($dbUser);
+
 
 		
            
                 
 
 } else {
-                //Conección a la base Local de rintera
-                    // $dbUser = $db0;
+                // Conección a la base Local de rintera
+                    $dbUser = $db0;
                     // $sql = "select * from users";
                     // $RUser= $dbUser -> query($sql);
                     // if($FUser = $RUser -> fetch_array()){
@@ -118,29 +118,29 @@ if ($UsuariosForaneaos == "TRUE") {
 }
 
 
-
-if (isset($dbUser)) {
-    $sql = $QueryUsuariosForaneos;
-    $RUser= $dbUser -> query($sql);
+// var_dump($dbUser);
+// if (isset($dbUser)) {
+//     $sql = $QueryUsuariosForaneos;
+//     $RUser= $dbUser -> query($sql);
     
-    if ($dbUser->query($sql) == TRUE) {
-        // echo "OK USERS";
+//     if ($dbUser->query($sql) == TRUE) {
+//         // echo "OK USERS";
         
-        // if($FUser = $RUser -> fetch_array()){
-        //     var_dump($FUser);                
+//         // if($FUser = $RUser -> fetch_array()){
+//         //     var_dump($FUser);                
             
-        // } else {
+//         // } else {
             
             
-        // }
-        // } else {
-        //     $Error = $Error."Fallo de conección";
-        // }
+//         // }
+//         // } else {
+//         //     $Error = $Error."Fallo de conección";
+//         // }
 
-        } else {
-            $Error = $Error."Fallo de conección al Consultar los Usuarios.!";
-        }
-    }
+//         } else {
+//             $Error = $Error."Fallo de conección al Consultar los Usuarios.!";
+//         }
+//     }
 
 $StringFecha = date('Ymd')."_".  date("His");
 

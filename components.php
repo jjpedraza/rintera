@@ -484,7 +484,9 @@ function ReporteFooter($id_rep){
     if($f = $r -> fetch_array())
     {
         $Footer = "<p clasS='ReporteFooter'>
-        Reporte realizado el ".$f['fecha']." a las ".$f['hora']." por ".UserName($f['IdUser']).", el usuario <b>Administrador de este reporte es ".UserName($f['admin'])."</p>";
+        Reporte realizado el ".$f['fecha']." a las ".$f['hora']." por ".UserName($f['IdUser']).", el usuario <b>Administrador de este reporte es ".UserName($f['admin']).".<br>
+        * Información extraida desde ".IdConInfo($f['IdCon'])."</p>
+        ";
 
         return $Footer;
     } else {
@@ -493,6 +495,25 @@ function ReporteFooter($id_rep){
         
 }
 
+function ReporteFooter2($id_rep){
+    require("rintera-config.php");   
+    // var_dump($dbUser);
+    $sql = "select * from reportes WHERE id_rep ='".$id_rep."'";        
+    $Footer = "";
+    // echo $sql;
+    $r= $db0 -> query($sql);
+    if($f = $r -> fetch_array())
+    {
+        $Footer = "Reporte creado el ".$f['fecha']." a las ".$f['hora']." por ".UserName($f['IdUser']).", el usuario Administrador es ".UserName($f['admin']).".
+       DATA desde ".IdConInfo($f['IdCon'])."
+        ";
+
+        return $Footer;
+    } else {
+        return "";
+    }
+        
+}
 
 function DescripcionReporte($id_rep){
     require("rintera-config.php");   
@@ -879,6 +900,20 @@ function ConType($IdCon){
         
 }
 
+
+function IdConInfo($IdCon){
+    require("rintera-config.php");   
+    
+    $sql = "select * from dbs WHERE Idcon='".$IdCon."'";
+    $rc= $db0 -> query($sql);
+    if($f = $rc -> fetch_array())
+    {
+        return " ".$f['ConName'] ;
+    } else{
+        return "";
+    }
+        
+}
 
 
 function TestConectionWS($IdCon){
@@ -1325,7 +1360,7 @@ if($WSConF = $WSCon -> fetch_array())
         $context = stream_context_create($opciones);            
         $archivo_web = file_get_contents($url, false, $context);            
         $data = json_decode($archivo_web);
-    
+        // var_dump($archivo_web);
         switch ($Tipo) {
             // case 0:
             //     return $archivo_web;
@@ -1393,7 +1428,7 @@ if($WSConF = $WSCon -> fetch_array())
                 $Titulo = TituloReporte($id_rep);
                 $Descripcion = DescripcionReporte($id_rep);           
                 // var_dump($Descripcion);
-                return "<h1>".$Titulo."</h1><cite>".$Descripcion."</cite>".$tabla;
+                return "<h1>".$Titulo."</h1><cite>".$Descripcion."</cite>".$tabla." ".ReporteFooter($id_rep);
                 break;
         
                 case 1: // Interactivo
@@ -1475,7 +1510,7 @@ if($WSConF = $WSCon -> fetch_array())
                     $tabla.=$tabla_th."<tbody class='".$ClaseTabla."'>".$tabla_content."</tbody></table>";     // tabla constuida a partir del ws
                     // echo $tabla;
                     //Escribimos en el dom
-                    echo "<div id='".$IdDiv."' class='".$ClaseDiv."'>".$tabla."</div>";
+                    echo "<div id='".$IdDiv."' class='".$ClaseDiv."'>".ReporteEncabezado($id_rep).$tabla.ReporteFooter($id_rep)."</div>";
                     
                     
 
@@ -1594,15 +1629,17 @@ if($WSConF = $WSCon -> fetch_array())
                         $descripcion = DescripcionReporte($id_rep);
                         $PageSize = "0"; // 0= carta y 1 == oficio
                         $orientacion = "L";
-                        $id_rep = 0;
-                        $info_leyenda = "x";
+                        // $id_rep = 0;
+                        $info_leyenda = "*".ReporteFooter2($id_rep);
+                        // var_dump($info_leyenda);
                         $ArchivoDelReporte = TableToPDF($TablaHTML, $IdUser, $titulo, $descripcion, $PageSize, $orientacion,$id_rep,$info_leyenda);
                         echo "<iframe id='pdfPresenter' src='".$ArchivoDelReporte."'
                         style='
-                            width: 100%;
-                            height: 94%;
-                            position: absolute;
-                            border: 0px;
+                        width: 100%;
+                        height: 94%;
+                        position: fixed;
+                        border: 0px;
+                        z-index: 500;
                         '
                         >
                         
