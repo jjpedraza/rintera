@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/prymecode/rintera#readme",
   "dependencies": {
+    "bootstrap": "^4.5.2",
     "jquery": "^3.5.1"
   }
 }
