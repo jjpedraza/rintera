@@ -1,5 +1,5 @@
 <?php
-require("lib/var_clean.php");
+require("var_clean.php");
 require("tokens.php");
 require_once("preference.php");
 
