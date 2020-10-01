@@ -1,0 +1,25 @@
+{
+  "name": "rintera",
+  "version": "1.0.0",
+  "description": "Gestor de Reportes SQL",
+  "main": "index.php",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/prymecode/rintera.git"
+  },
+  "keywords": [
+    "Rintera"
+  ],
+  "author": "Juan Jose Pedraza",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/prymecode/rintera/issues"
+  },
+  "homepage": "https://github.com/prymecode/rintera#readme",
+  "dependencies": {
+    "jquery": "^3.5.1"
+  }
+}
