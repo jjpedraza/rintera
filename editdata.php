@@ -36,6 +36,7 @@ $var3_sql = $_POST['var3_sql'];
 $var3_IdCon = VarClean($_POST['var3_IdCon']);
 
 
+
 // echo strlen($rep_query);
 //VALIDACION DE CAPTURA
 $OK = TRUE; $msg="";
@@ -45,36 +46,36 @@ if ($rep_query == '' or strlen($rep_query)<=5){$OK = FALSE; $msg= $msg."<li>Debe
     $('#rep_query').css('border-width', '4px');
     </script>";}
 
-$ReporteIdUser = VarClean($_POST['ReporteIdUser']);
-if ($ReporteIdUser == '' ){$OK = FALSE; $msg= $msg."<li>Se requiere seleccionar un Administrador del Reporte</li><script>$('#ReporteIdUser').css('background-color', '#ffeed8');</script>";}
+// $ReporteIdUser = VarClean($_POST['ReporteIdUser']);
+// if ($ReporteIdUser == '' ){$OK = FALSE; $msg= $msg."<li>Se requiere seleccionar un Administrador del Reporte</li><script>$('#ReporteIdUser').css('background-color', '#ffeed8');</script>";}
 
-if ($var1_type  == 'option' AND $var1_sql ==''){$OK = FALSE; 
+if ($var1_type  == 'option' AND $var1_sql =='' AND $var1==1){$OK = FALSE; 
     $msg= $msg."<li>Usaste Lista Desplegable en la Variable {var1}. DEBES LLENAR UN QUERY EN SQL con resultado value y data</li>
     <script>$('#var1_sql').css('background-color', '#ffeed8');</script>";
 }
 
 
-if ($var2_type  == 'option' AND $var2_sql ==''){$OK = FALSE; 
+if ($var2_type  == 'option' AND $var2_sql =='' AND $var2==1){$OK = FALSE; 
     $msg= $msg."<li>Usaste Lista Desplegable en la Variable {var2}. DEBES LLENAR UN QUERY EN SQL con resultado value y data</li>
     <script>$('#var2_sql').css('background-color', '#ffeed8');</script>";
 }
 
-if ($var3_type  == 'option' AND  $var3_sql ==''){$OK = FALSE; 
+if ($var3_type  == 'option' AND  $var3_sql =='' AND $var3==1){$OK = FALSE; 
     $msg= $msg."<li>Usaste Lista Desplegable en la Variable {var3}. DEBES LLENAR UN QUERY EN SQL con resultado value y data</li>
     <script>$('#var3_sql').css('background-color', '#ffeed8');</script>";
 }
 
-if ($var1_type  == 'option' AND  $var1_IdCon ==''){$OK = FALSE; 
+if ($var1_type  == 'option' AND  $var1_IdCon =='' AND $var1==1){$OK = FALSE; 
     $msg= $msg."<li>Usaste Lista Desplegable en la Variable {var1}. DEBES Seleccionar una base de datos</li>
     <script>$('#var1_IdCon').css('background-color', '#ffeed8');</script>";
 }
 
-if ($var2_type  == 'option' AND  $var2_IdCon ==''){$OK = FALSE; 
+if ($var2_type  == 'option' AND  $var2_IdCon =='' AND $var2==1){$OK = FALSE; 
     $msg= $msg."<li>Usaste Lista Desplegable en la Variable {var2}. DEBES Seleccionar una base de datos</li>
     <script>$('#var2_IdCon').css('background-color', '#ffeed8');</script>";
 }
 
-if ($var3_type  == 'option' AND  $var3_IdCon ==''){$OK = FALSE; 
+if ($var3_type  == 'option' AND  $var3_IdCon =='' AND $var3==1){$OK = FALSE; 
     $msg= $msg."<li>Usaste Lista Desplegable en la Variable {var3}. DEBES Seleccionar una base de datos</li>
     <script>$('#var3_IdCon').css('background-color', '#ffeed8');</script>";
 }
@@ -93,7 +94,7 @@ if ($OK ==TRUE){
     rep_name='".$rep_name."',
     sql1='".$rep_query."',
     rep_description='".$rep_descripcion."',
-    admin='".$ReporteIdUser."',
+    IdUser='".$IdUser."',
     orientacion='".$Orientacion."',
     IdCon='".$db."',
     PageSize='".$PageSize."',
@@ -144,7 +145,7 @@ if ($OK ==TRUE){
     }
 
 } else {
-    Toast("Te faltan algunos datos",2,"");
+    Toast("Te faltan algunos datos ",2,"");
     // MiToken_Close($IdUser, $ElToken);             
     echo "<div>Por favor llena los siguientes datos: <ul>".$msg."</ul></div>";
 }

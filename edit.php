@@ -37,20 +37,54 @@ if (UserAdmin($RinteraUser)==TRUE){
   $rP= $db0 -> query($sql);  
   if($fRep = $rP -> fetch_array())
   {
+
+echo "<center><h4>".$fRep['rep_name']."</h4>";
+echo "<cite>".$fRep['rep_description']."</cite></center>";
+echo "<div id='Respuesta' style='
+// background-color: #fff7b3;
+padding: 10px;
+font-size: 8pt;
+color: #573800;
+margin-bottom: 11px;
+margin: 10px;
+border-radius: 5px;
+display:none;
+'>
+
+</div>";
+echo '
+  <div class="accordion width" id="TabsReportes">
+  <div class="card">
+    <div class="card-header" data-toggle="collapse" data-target="#xcollapseOne" 
+    style="
+    background-color:#ecd3b5;
+    cursor:pointer;
+    "
+   
+    >';
+echo 'Configuración de Reporte
+</div>';
+
+echo '
+    <div id="xcollapseOne" class="collapse  width" data-parent="#TabsReportes" 
+    style="
+    background-color:rgb(244, 229, 211);
+    cursor:pointer;
+    box-shadow: inset 2px 26px 19px -20px rgba(0, 0, 0, 0.3);
+"
+    >
+    <div class="card-body" style="
+
+    ">';
+
       
-    echo "<div id='NuevoReporte' >";
-    echo "<h3 style='text-align: center;
-    color: #fff;
-    background-color: rgb(24, 149, 198);
-    font-size: 13pt;
-    padding: 10px; margin-bottom:0px;
-    font-family: ExtraBold' title='ID de Reporte = ".$fRep['id_rep']."'>Reporte ".$fRep['rep_name']."</h3>";
-    echo "<div id='R' style='background-color: #fdf6e7;
-    padding: 10px;'></div>";
+   
 
     
    echo '
-<div class="container-fluid">
+<div class="container-fluid"
+
+>
     <div class="row">
         <div class="col-sm-8" style="" >
         
@@ -135,7 +169,7 @@ if (UserAdmin($RinteraUser)==TRUE){
         </div>
         <div class="col-sm-4" 
         style="
-        background-color: #eceeee;
+        background-color: #eef0f04f;
         height:100%;
         "
         >
@@ -589,48 +623,48 @@ if (UserAdmin($RinteraUser)==TRUE){
 
 
 
-    if ($UsuariosForaneaos == "FALSE"){
-        echo "<br><label>Usuario Administrador: <a href='users.php' title='Haga clic para administrar los usuarios'><img src='icons/user_add.png' style='width:17px;'></a></label><br>";
-        echo "<select name='ReporteIdUser' id='ReporteIdUser' class='form-control'>";
-        echo "<option value=''>Seleccione</option>";         
-    } else {
-        echo "<br><label>Usuario Administrador: </label><br>";
-        echo "<select name='ReporteIdUser' id='ReporteIdUser' class='form-control'>";
-        echo "<option value=''>Seleccione</option>";        
-    }
+    // if ($UsuariosForaneaos == "FALSE"){
+    //     echo "<br><label>Usuario Administrador: <a href='users.php' title='Haga clic para administrar los usuarios'><img src='icons/user_add.png' style='width:17px;'></a></label><br>";
+    //     echo "<select name='ReporteIdUser' id='ReporteIdUser' class='form-control'>";
+    //     echo "<option value=''>Seleccione</option>";         
+    // } else {    
+    //     echo "<br><label>Usuario Administrador: </label><br>";
+    //     echo "<select name='ReporteIdUser' id='ReporteIdUser' class='form-control'>";
+    //     echo "<option value=''>Seleccione</option>";        
+    // }
        
 
-    if ($UsuariosForaneaos == "FALSE") {
-        $sql = "select * from users";
-    } else {
-        $sql = $QueryUsuariosForaneos . " order by UserName";
-    }
-    echo $sql;
-    $rc = $dbUser->query($sql); 
-    $SelUser_IdUser = "";
-    $SelUser_Name = "";
-    if ($dbUser->query($sql) == TRUE){
-        // echo "OK";
-        while($fu= $rc -> fetch_array()) {   
-            echo "<option value='".$fu['IdUser']."' title='IdUser=".$fu['IdUser']."'>".$fu['UserName']."</option>";
-            if ($fu['IdUser']==$fRep['admin']){
-                $SelUser_IdUser = $fu['IdUser'];
-                $SelUser_Name = $fu['UserName'];
-            }
-        }
+    // if ($UsuariosForaneaos == "FALSE") {
+    //     $sql = "select * from users";
+    // } else {
+    //     $sql = $QueryUsuariosForaneos . " order by UserName";
+    // }
+    // echo $sql;
+    // $rc = $dbUser->query($sql); 
+    // $SelUser_IdUser = "";
+    // $SelUser_Name = "";
+    // if ($dbUser->query($sql) == TRUE){
+    //     // echo "OK";
+    //     while($fu= $rc -> fetch_array()) {   
+    //         echo "<option value='".$fu['IdUser']."' title='IdUser=".$fu['IdUser']."'>".$fu['UserName']."</option>";
+    //         if ($fu['IdUser']==$fRep['admin']){
+    //             $SelUser_IdUser = $fu['IdUser'];
+    //             $SelUser_Name = $fu['UserName'];
+    //         }
+    //     }
         
-        echo "<option value='".$SelUser_IdUser."' title='IdUser seleccionado=".$SelUser_IdUser."' selected>".$SelUser_Name."</option>";
+    //     echo "<option value='".$SelUser_IdUser."' title='IdUser seleccionado=".$SelUser_IdUser."' selected>".$SelUser_Name."</option>";
 
-    } else {
-        Toast("ERROR al obtener la lista de usuarios",3,"");
-    }
-
-    
+    // } else {
+    //     Toast("ERROR al obtener la lista de usuarios",3,"");
+    // }
 
     
+
     
     
-    echo "</select>";
+    
+    // echo "</select>";
 
 
     echo '
@@ -715,8 +749,9 @@ if (UserAdmin($RinteraUser)==TRUE){
 
         
                 },
-                success: function(data){
-                    $('#R').html(data);
+                success: function(data){                    
+                    $('#Respuesta').html(data);
+                    $('#Respuesta').show();
                     $('#PreLoader').hide();
                 }
             });
@@ -743,6 +778,116 @@ if (UserAdmin($RinteraUser)==TRUE){
         </div>
     </div>
 </div>';
+
+echo '  </div>
+</div>
+</div>';
+
+
+echo '
+<div class="card">
+    <div class=" card-r" data-toggle="collapse" data-target="#UsuariosThis"
+    style="
+        padding: 0.75rem 1.25rem;
+        background-color: #bbd1d9;
+        color: #4b7180;
+        cursor: pointer;
+        "
+    >';
+    echo 'Usuarios de Este Reporte';
+    echo '</div>';
+
+    echo '<div id="UsuariosThis" class="collapse  width" data-parent="#TabsReportes"
+        style="
+            background-color: #d9e7ec;
+            box-shadow: inset 2px 26px 19px -20px rgba(0, 0, 0, 0.3);
+        "
+        >';
+        echo '<div class="card-body">';
+            echo "Text 2";
+        echo '</div>';
+    echo '</div>';
+echo '</div>';
+
+
+
+echo '
+<div class="card">
+    <div class=" card-r " data-toggle="collapse" data-target="#Estadistica"
+    style="
+        padding: 0.75rem 1.25rem;
+        background-color: #b1dfb0;
+        color: #45773a;
+        cursor: pointer;
+        "
+    >';
+    echo 'Estadistica';
+    echo '</div>';
+
+    echo '<div id="Estadistica" class="collapse  show width" data-parent="#TabsReportes"
+        style="
+            background-color: #d3ead2;
+            box-shadow: inset 2px 26px 19px -20px rgba(0, 0, 0, 0.3);
+            padding-bottom:100%;
+        "
+        >';
+        echo '<div class="card-body">';
+            echo "Estadistica 2";
+            $QueryEstadistica = "
+            SELECT 
+                (select count(*) from historia WHERE IdApp='VIO' and Descripcion='18') as Vistas,
+                (select count(*) from historia WHERE IdApp='VIO' and Descripcion='18' and IdUser='admin') as MisVistas,
+                (select count(DISTINCT IdUser) from historia WHERE IdApp='VIO' and Descripcion='18') as Usuarios,
+                (select IdUser  from historia WHERE IdApp='VIO' and Descripcion='18' order by fecha DESC, hora DESC
+                limit 1) as UltimoUsuario,
+                (select CONCAT(fecha,' a las ',hora, 'hr')  from historia WHERE IdApp='VIO' and Descripcion='18' 
+                order by fecha DESC, hora DESC limit 1) as UltimaVisita
+                
+            ";
+            $r= $db0 -> query($QueryEstadistica);    
+            echo "<table class='tabla'>";
+            while($fe = $r -> fetch_array()) {   
+                
+                echo "<tr><td align=right>Visitas</td><td align=left>".$fe['Vistas']."</td></tr>";
+                echo "<tr><td align=right>Mis Visitas</td><td align=left>".$fe['MisVistas']."</td></tr>";
+                echo "<tr><td align=right>Usuarios</td><td align=left>".$fe['Usuarios']."</td></tr>";
+                echo "<tr><td align=right>Ultimo Usuario que visito</td><td align=left>".$fe['UltimoUsuario']."</td></tr>";
+                echo "<tr><td align=right>La Ultima Visita</td><td align=left>".$fe['UltimaVisita']."</td></tr>";
+                
+            }
+            echo "</table>";
+            unset($r); unset($fe);
+            $Div = "Grafica"; $Valor=5;
+            echo "
+                <script>
+
+                const type = 'donut'
+                const title = '# Kittens Love #'
+                
+                var chart = c3.generate({
+                    data: {
+                        columns: [
+                            ['Yoko', 50],
+                            ['Linda', 50],
+                        ],
+                        type
+                    },
+                    donut: { title }
+                });
+                
+                
+  
+                </script>  
+                <div id='chart' /></div>
+                        
+            
+            ";
+
+        echo '</div>';
+    echo '</div>';
+echo '</div>';
+
+
     //echo "</form>";
 } else {
     // Toast("No se ha localizado tu Reporte ".$IdRep,2,"");
@@ -753,7 +898,20 @@ if (UserAdmin($RinteraUser)==TRUE){
     LocationFull("index.php");
 }
 ?>
+<!-- <script>
+const horizontalAccordions = $(".accordion.width");
 
+horizontalAccordions.each((index, element) => {
+	const accordion = $(element);
+  const collapse = accordion.find(".collapse");
+  const bodies = collapse.find("> *");
+  accordion.height(accordion.height());  
+  bodies.width(bodies.eq(0).width());
+  collapse.not(".show").each((index, element) => {
+  	$(element).parent().find("[data-toggle='collapse']").addClass("collapsed");
+  });
+});
+</script> -->
 
 
 <?php include ("footer.php"); ?>

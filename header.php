@@ -24,7 +24,11 @@ box-shadow: inset 0px -36px 13px -31px rgba(0,0,0,0.39);
             $ArchivoLogo = "img/Logo.jpg";
          }
 
-         echo "<img src='".$ArchivoLogo."' style='height:50px; padding:2px;'>";
+         if (Preference("LogoColorInverso", "", "")=='TRUE') {
+            echo "<img src='".$ArchivoLogo."' style='height:50px; padding:2px; filter: invert(100%) brightness(183%);'>";
+         } else {
+            echo "<img src='".$ArchivoLogo."' style='height:50px; padding:2px;'>";
+         }
          echo "</a>";
         echo "</td>";
     }

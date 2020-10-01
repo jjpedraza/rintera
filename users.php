@@ -280,10 +280,11 @@ if (UserAdmin($RinteraUser)==TRUE){
 
 
 
-        $sql ='select *from users_html ';
+        $sql ='select * from users_html';
         $IdTabla = "MiTabla";
         $Clase = "container ";
-        $db= 0 ;
+        $db= 0 ;        
+        
         DynamicTable_MySQL($sql, "DivUsuarios", $IdTabla, $Clase, 0, $db);
         }
         echo "</div>";

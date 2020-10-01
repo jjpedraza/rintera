@@ -39,45 +39,46 @@ $ClaseDiv  = "ContenedorDeReporte"; $ClaseTabla = "tabla";
                 text-align: left;
                 '>Este Reporte Requiere los siguientes datos:</p>";
 
+
+                
+
+
                 if ($Rep['var1']==1){
-                    echo "<div class='Elemento'>";
-                    
+                    echo "<div class='Elemento'>";                   
                     echo "<label>".$Rep['var1_label']."</label>";
                     if ($Rep['var1_type']=="option"){
-                        echo "<select name='var1_str' required>";
-                            if ($Rep['ConType']<=1) {
-                                
-
-                            } else { //con webservice
-
-                                
-                            }
-
-                        // $r= $db0 -> query($sql);
-                        // while($f = $r -> fetch_array()) {               
-                        //     echo "<option value='".$f['IdCon']."'>".$f['ConName']."</option>";
-                        // }
-                
-                        // echo "<option>".$Rep['']."</option>";
-                        
+                        echo "<select name='var1_str'  class='form-control' required>";
+                        echo var_select($id_rep,1);                        
                         echo "</select>";
-
                     } else {
                         echo "<input class='form-control' type='".$Rep['var1_type']."' value='' name='var1_str' required>";
                     }
                     echo "</div>";
                 }
+                
                 if ($Rep['var2']==1){
-                    echo "<div class='Elemento'>";
+                    echo "<div class='Elemento'>";                   
                     echo "<label>".$Rep['var2_label']."</label>";
-                    echo "<input class='form-control' type='".$Rep['var2_type']."' value='' name='var2_str' required>";
+                    if ($Rep['var2_type']=="option"){
+                        echo "<select name='var2_str'  class='form-control' required>";
+                        echo var_select($id_rep,2);                        
+                        echo "</select>";
+                    } else {
+                        echo "<input class='form-control' type='".$Rep['var2_type']."' value='' name='var2_str' required>";
+                    }
                     echo "</div>";
                 }
 
                 if ($Rep['var3']==1){
-                    echo "<div class='Elemento'>";
+                    echo "<div class='Elemento'>";                   
                     echo "<label>".$Rep['var3_label']."</label>";
-                    echo "<input class='form-control' type='".$Rep['var3_type']."' value='' name='var3_str' required>";
+                    if ($Rep['var3_type']=="option"){
+                        echo "<select name='var3_str'  class='form-control' required>";
+                        echo var_select($id_rep,2);                        
+                        echo "</select>";
+                    } else {
+                        echo "<input class='form-control' type='".$Rep['var3_type']."' value='' name='var3_str' required>";
+                    }
                     echo "</div>";
                 }
 
@@ -89,20 +90,32 @@ $ClaseDiv  = "ContenedorDeReporte"; $ClaseTabla = "tabla";
 
                 if (isset($_POST['btnReporte'])){
                     $Data =  Reporte($id_rep, $Tipo, $ClaseDiv, $ClaseTabla, $RinteraUser );
+                    Historia($RinteraUser, "VIO", "".$id_rep."");
                     echo $Data;
                 }
             } else { // Sin Variables
                 $Data =  Reporte($id_rep, $Tipo, $ClaseDiv, $ClaseTabla, $RinteraUser );
+                Historia($RinteraUser, "VIO", "".$id_rep."");
                 echo $Data;
             }
 
         } else {
             Error("No se encontro información el reporte ".$id_rep);
+            $Parametros = "";
+            if (isset($_POST['var1_str'])){$Parametros.= "".$_POST['var1_str'];}
+            if (isset($_POST['var2_str'])){$Parametros.= ", ".$_POST['var2_str'];}
+            if (isset($_POST['var3_str'])){$Parametros.= ", ".$_POST['var3_str'];}
+            if ($Parametros == ''){
+                Historia($RinteraUser, "Reporte", "No encontro informacion del reporte ".$id_rep."");
+            } else {
+                Historia($RinteraUser, "Reporte", "No encontro informacion del reporte ".$id_rep." con los parametros: ".$Parametros);
+            }
         }
         
 
     } else {
         Error("No se encontro el reporte ".$id_rep);
+        Historia($RinteraUser, "Reporte", "No encontro el reporte ".$id_rep."");
     }
 
    

@@ -457,7 +457,71 @@ function IdConReporte($id_rep){
         
 }
 
+function QueryVar($id_rep, $IdVar){
+    require("rintera-config.php");   
+    // var_dump($dbUser);
+    $sql = "select * from reportes WHERE id_rep ='".$id_rep."'";        
+    
+    $r= $db0 -> query($sql);
+    if($f = $r -> fetch_array())
+    {
 
+        switch ($IdVar) {
+            case 1:
+                return $f['var1_sql'];                
+                break;
+
+            case 2:
+                return $f['var2_sql'];                
+                break;
+
+                    
+            case 3:
+                return $f['var3_sql'];                
+                break;
+        
+        }
+        
+        
+    } else {
+        return "FALSE";
+    }
+        
+}
+
+
+
+function IdConVar($id_rep, $IdVar){
+    require("rintera-config.php");   
+    // var_dump($dbUser);
+    $sql = "select * from reportes WHERE id_rep ='".$id_rep."'";        
+    
+    $r= $db0 -> query($sql);
+    if($f = $r -> fetch_array())
+    {
+
+        switch ($IdVar) {
+            case 1:
+                return $f['var1_IdCon'];                
+                break;
+
+            case 2:
+                return $f['var2_IdCon'];                
+                break;
+
+                    
+            case 3:
+                return $f['var3_IdCon'];                
+                break;
+        
+        }
+        
+        
+    } else {
+        return "FALSE";
+    }
+        
+}
 
 function TituloReporte($id_rep){
     require("rintera-config.php");   
@@ -523,47 +587,23 @@ function DescripcionReporte($id_rep){
     $r= $db0 -> query($sql);
     if($f = $r -> fetch_array())
     {
-        $LaDescripcion = $f['rep_description'];
+        $LaDescripcion = $f['rep_description'].". ";
         if (isset($_POST['var1_str'])){
-            $LaDescripcion.= "<span style='
-            background-color: ".Preference("ColorResaltado", "", "").";
-            padding: 4px;
-            border-radius: 3px;
-            margin: 10px;
-            color: white;
-            font-weight: bold;
-            display:inline-block;
-            '>".$f['var1_label']."=".$_POST['var1_str']."</span>";
+            $LaDescripcion.= "".$f['var1_label']."=".$_POST['var1_str'].". ";
             
         }
 
         if (isset($_POST['var2_str'])){
-            $LaDescripcion.= "<span style='
-            background-color: ".Preference("ColorResaltado", "", "").";
-            padding: 4px;
-            border-radius: 3px;
-            margin: 10px;
-            color: white;
-            font-weight: bold;
-            display:inline-block;
-            '>".$f['var2_label']."=".$_POST['var2_str']."</span>";
+            $LaDescripcion.= "".$f['var2_label']."=".$_POST['var2_str']."." ;
             
         }
 
 
         if (isset($_POST['var3_str'])){
-            $LaDescripcion.= "<span style='
-            background-color: ".Preference("ColorResaltado", "", "").";
-            padding: 4px;
-            border-radius: 3px;
-            margin: 10px;
-            color: white;
-            font-weight: bold;
-            display:inline-block;
-            '>".$f['var3_label']."=".$_POST['var3_str']."</span>";
+            $LaDescripcion.= "".$f['var3_label']."=".$_POST['var3_str'].". ";
             
         }
-        return $LaDescripcion;
+        return " ".$LaDescripcion."";
     } else {
         return "FALSE";
     }
@@ -655,16 +695,18 @@ function PermisoReporte_Share($IdUser,$IdRep){
 
 
 
-function DynamicTable_MySQL($sql, $IdDiv, $IdTabla, $Clase, $Tipo, $db){
+function DynamicTable_MySQL($QueryD, $IdDiv, $IdTabla, $Clase, $Tipo, $db){
 	//Tipo == 0 = Basica, 1 = ScrollVertical, 2 = Scroll Horizontal
 	//$sql = "select * from Colorines limit 20";
 	//DynamicTable_MySQL($sql, "Colorines", "Colorines_Tabla", "Colorines_ClaseCSS", 0, 0);
 
-	require_once("rintera-config.php");	
-	if ($db == 0){
+    require("rintera-config.php");	
+        $sql = $QueryD;
+        // echo $sql;
         $r= $db0 -> query($sql);
         $tbCont = '<div id="'.$IdDiv.'" class="'.$Clase.'">
         <table id="'.$IdTabla.'" class="display" style="width:100%" class="tabla" style="font-size:8pt;">';
+
         $tabla_titulos = ""; $cuantas_columnas = 0;
         $r2 = $db0 -> query($sql); while($finfo = $r2->fetch_field())
         {//OBTENER LAS COLUMNAS
@@ -699,56 +741,14 @@ function DynamicTable_MySQL($sql, $IdDiv, $IdTabla, $Clase, $Tipo, $db){
         $tbCont = $tbCont."</table></div>";
 	
 
-    }
+    
 
 
 
 
 
 
-	if ($db == 1){
-
-        $r1= $db1 -> query($sql);
-        $tbCont = '<div id="'.$IdDiv.'" class="'.$Clase.'">
-        <table id="'.$IdTabla.'" class="display" style="width:100%" class="tabla" style="font-size:8pt;">';
-    $tabla_titulos = ""; $cuantas_columnas = 0;
-        $r1_1 = $db1 -> query($sql); while($finfo = $r1_1->fetch_field())
-        {//OBTENER LAS COLUMNAS
-
-                /* obtener posición del puntero de campo */
-                $currentfield = $r1_1->current_field;       
-                $tabla_titulos=$tabla_titulos."<th style='text-transform:uppercase; font-size:9pt;'>".$finfo->name."</th>";
-                $cuantas_columnas = $cuantas_columnas + 1;        
-        }
-
-        $tbCont = $tbCont."  
-        <thead>
-        <tr>
-            ".$tabla_titulos."  
-        </tr>
-        </thead>"; //Encabezados
-        $tbCont = $tbCont."<tbody class='tabla'>";
-        $cuantas_filas=0;
-        $r1 = $db1 -> query($sql); while($f1 = $r1-> fetch_row())
-        {//LISTAR COLUMNAS
-
-            $tbCont = $tbCont."<tr>";        
-            for ($i = 1; $i <= $cuantas_columnas; $i++) {      
-                $tbCont = $tbCont."<td style='font-size:10pt;'>".$f1[$i-1]."</td>";       
-                }
-
-            $tbCont = $tbCont."</tr>";
-            $cuantas_filas = $cuantas_filas + 1;        
-        }
-
-        $tbCont = $tbCont."</tbody>";
-        $tbCont = $tbCont."</table></div>";
-	
-
-    }
-
-
-    if ($db == 0 OR $db==1){
+    
 	echo  $tbCont;
 		switch ($Tipo) {
 			case 1: //Scroll Vertical
@@ -795,9 +795,7 @@ function DynamicTable_MySQL($sql, $IdDiv, $IdTabla, $Clase, $Tipo, $db){
 				} );
 				</script>';
 		}
-    } else {
-    	echo "Error: no se ha seleccionado una db para la Tabla Dinamica";
-    }
+    
 
 }
 
@@ -1971,10 +1969,14 @@ function DataFromMySQL($ClaseDiv, $ClaseTabla, $Tipo, $IdUser,$id_rep){
     // echo "IdDiv=".$IdDiv."<br>"."IdTabla=".$IdTabla."<br>";
 
     
-$Con_IdCon = $IdCon; include("con_init.php");
+$Con_IdCon = IdConReporte($id_rep);
+ include("con_init.php");
 
 if ($Con_Val == TRUE){    
+    
     if ($r = $LaConeccion -> query($Query)){
+        // var_dump($LaConeccion);
+        // var_dump($Query);
         if($f = $r -> fetch_array()){
         
             // var_dump($f);
@@ -2059,7 +2061,7 @@ if ($Con_Val == TRUE){
                     style='
                         width: 100%;
                         height: 94%;
-                        position: absolute;
+                        position: fixed;
                         border: 0px;
                     '
                     >
@@ -2116,6 +2118,7 @@ if ($Con_Val == TRUE){
                         width: 10px;
                         height: 10px;
                         border: 0px solid white;
+
                        
                     '
                     >
@@ -2142,7 +2145,16 @@ if ($Con_Val == TRUE){
         
 
         } else {
-            $Con_Msg .= "Error de Consulta, (array)";
+            $Con_Msg .= "<br><br><br><p>No se han encontrado resultados!. Intentelo nuevamente con otro criterio</p>";
+            $Parametros = "";
+            if (isset($_POST['var1_str'])){$Parametros.= "".$_POST['var1_str'];}
+            if (isset($_POST['var2_str'])){$Parametros.= ", ".$_POST['var2_str'];}
+            if (isset($_POST['var3_str'])){$Parametros.= ", ".$_POST['var3_str'];}
+            if ($Parametros == ''){
+                Historia($IdUser, "Reporte", "No encontro informacion del reporte ".$id_rep."");
+            } else {
+                Historia($IdUser, "Reporte", "No encontro informacion del reporte ".$id_rep." con los parametros: ".$Parametros);
+            }
             // return FALSE;
             return $Con_Msg;
         }
@@ -2466,5 +2478,216 @@ function UltimasBusquedas($IdUser){
     } else {
         
     }
+
+}
+
+
+
+function var_select($id_rep, $IdVar)
+{
+
+//SQLSERVERTOJSON = https://github.com/prymecode/sqlservertojson
+require("rintera-config.php");	
+$Query =  QueryVar($id_rep, $IdVar);
+$IdCon = IdConVar($id_rep, $IdVar);
+$ConType = ConType($IdCon);
+var_dump($Query);
+if ($ConType <=1 ){    
+    // include("con_close.php");
+    $Con_IdCon = $IdCon; include("con_init.php");    
+    if ($Con_Val == TRUE){    
+        if ($rS = $LaConeccion -> query($Query)){            
+
+            while($finfo = $rS -> fetch_array()) {   
+                echo "<option value='".$finfo['Value']."'>".$finfo['Data']."</opion>";
+            }
+              
+        
+        } else {
+            echo "ERROR al conectarse";
+        }
+        // var_dump($LaConeccion);
+    }
+    include("con_close.php");
+ 
+} else {
+//1.- Obtener datos de conección
+$WS_Val = FALSE;
+$WS_Msg = "";
+$WSSQL = "select * from dbs where IdCon='".$IdCon."' AND Active=1 AND ConType =2"; //SQLSERVERTOJSON
+echo $WSSQL;
+$WSCon = $db0 -> query($WSSQL);
+var_dump($WSCon);
+if($WSConF = $WSCon -> fetch_array())
+{
+     
+        $WSurl = $WSConF['wsurl'];
+        $WSmethod = $WSConF['wsmethod'];
+        $WSjson = $WSConF['wsjson'];
+        $WSparametros = $WSConF['parametros'];
+
+        $wsP1_id = $WSConF['wsP1_id'];  $wsP1_value = $WSConF['wsP1_value'];
+        $wsP2_id = $WSConF['wsP2_id'];  $wsP2_value = $WSConF['wsP2_value'];
+        $wsP3_id = $WSConF['wsP3_id'];  $wsP3_value = $WSConF['wsP3_value'];
+        $wsP4_id = $WSConF['wsP4_id'];  $wsP4_value = $WSConF['wsP4_value'];
+
+        $WS_Val = TRUE;
+        // echo "OK";
+
+                
+        $url = $WSurl;            
+        $sql = $Query;
+        $token = $wsP1_value;
+
+        //Peticion
+        $myObj = new stdClass;
+        $myObj->token = $token;
+        $myObj->sql = $sql;
+        $myJSON = json_encode($myObj,JSON_UNESCAPED_SLASHES);
+        
+        $datos_post = http_build_query(
+            $myObj
+        );
+
+        $opciones = array('http' =>
+            array(
+                'method'  => 'POST',
+                'header'  => 'Content-type: application/x-www-form-urlencoded',
+                'content' => $datos_post
+            )
+        );
+        
+        $context = stream_context_create($opciones);            
+        $archivo_web = file_get_contents($url, false, $context);            
+        $data = json_decode($archivo_web);
+        var_dump($archivo_web);
+       
+                $tabla = "";                  
+                // //Recorrido del contenido
+                $jsonIterator = new RecursiveIteratorIterator(
+                    new RecursiveArrayIterator(json_decode($archivo_web, TRUE)),
+                    RecursiveIteratorIterator::SELF_FIRST
+                );
+            
+                // var_dump( $jsonIterator);
+                $tabla= "<table id='".$IdTabla."'  width=100% border=0 class='".$ClaseTabla."'>";          
+                $tabla_content = ""; $tabla_th = "";  
+                $row=0; $rowC = 0;
+                $limit = 0 ; foreach ($jsonIterator as $key => $val) {
+                    if (is_numeric($key)){ //rows
+                    // echo $limit."=".$key."=".$val."<br>";
+                     $limit = 0;
+                    }
+                    else {
+                        // echo "*".$limit."=".$key."=".$val."<br>";
+                        $limit = $limit  + 1;
+                    }
+                    
+                }
+                // echo "limit=".$limit;
+
+                //Construccion de <th>
+                foreach ($jsonIterator as $key => $val) {
+                    if (is_numeric($key)){ //rows                        
+                        $rowC = 0;
+                    } else {
+                        if ($row < $limit){
+                            if ($rowC == 0){$tabla_th.="<tr>";}                            
+                            $tabla_th.="<th>".$key."</th>";
+                        }                        
+                    $rowC = $rowC + 1;
+                    $row = $row + 1;
+                    }
+                }
+                $tabla_th.="</tr>";
+                $row =0; $rowC = 0;
+                
+                // echo "limit=".$limit;
+                foreach ($jsonIterator as $key => $val) {
+                    if (is_numeric($key)){ //rows                        
+                        $rowC = 0;
+                    }
+                    else {                    
+                        if ($rowC == 0){$tabla_content.="<tr>";}
+                        if ($rowC == $limit){$tabla_content.="</tr>"; }                             
+                        $tabla_content.="<td >".$val."</td>";                       
+                    $rowC = $rowC + 1;
+                    $row = $row + 1;
+                    }
+                
+                
+                }
+                
+                
+                $tabla.=$tabla_th.$tabla_content."</table>";     
+                $Titulo = TituloReporte($id_rep);
+                $Descripcion = DescripcionReporte($id_rep);           
+                // var_dump($Descripcion);
+            
+                var_dump($tabla);
+               
+    
+    } else {
+        echo "ERROR";
+    }
+
+}
+
+}
+
+
+
+
+
+
+
+function GraficaPorcentaje($Div, $Valor){
+
+
+	echo '
+	<div id="'.$Div.'" class="GraficaPorcentaje" >
+		<canvas id="'.$Div.'canvas" class="GraficaPorcentajeCanvas"></canvas>    
+		<div  id="'.$Div.'CanvasGLabel"  class="GraficaPorcentajeLabel">18%</div>
+		<div  id="CanvasGLabelSigno"  class="GraficaPorcentajeSigno">%</div>
+	</div>
+	';
+	
+	echo "
+	<script>
+	function GraficaPorcentaje".$Div."(){
+		var opts = {
+			lines: 12, 
+			angle: 0.22,
+			lineWidth: 0.1, 
+			pointer: {
+				length: 0.5, strokeWidth: 0.035, color: '#000000' 
+			},
+			limitMax: 'false', 
+			colorStart: '#A1C30D', 
+			colorStop: '#2DA3DC',
+			strokeColor: '#A1C30D', 
+			generateGradient: true
+		};
+		var target = document.getElementById('".$Div."canvas'); 
+		var gauge = new Donut(target).setOptions(opts);
+		gauge.maxValue = 100; 
+		gauge.animationSpeed = 20; 
+		gauge.set(".$Valor."); 
+		gauge.setTextField(document.getElementById('".$Div."CanvasGLabel'));
+		
+		textRenderer.render = function(gauge){
+			//percentage = gauge.displayedValue / gauge.maxValue
+			//this.el.innerHTML = (percentage * 100).toFixed(2) + '%'
+			this.el.innerHTML = gauge.displayedValue + '%'
+	
+		};
+		
+	
+	}  
+	GraficaPorcentaje".$Div."();
+	</script>
+	
+	";
+	
 
 }
