@@ -36,18 +36,13 @@ require ("components.php");
     <script src="node_modules/popper.js/dist/popper.min.js"></script>
     
     <!-- DATATABLE -->
-    <script src="node_modules/datatables.net-dt/js/dataTables.dataTables.min.js"></script>
-    <link rel="stylesheet" href="node_modules/datatables.net-dt/css/jquery.dataTables.min.css">    
+    <script src="lib/datatables.min.js"></script>
+    <link rel="stylesheet" href="lib/datatables.min.css">    
 
-    <script src="node_modules/datatables.net-autofill-dt/js/autoFill.dataTables.min.js"></script>
-    <link rel="stylesheet" href="node_modules/datatables.net-autofill-dt/css/autoFill.dataTables.min.css">    
 
-    <script src="node_modules/datatables.net-buttons-dt/js/buttons.dataTables.min.js"></script>
-    <link rel="stylesheet" href="node_modules/datatables.net-buttons-dt/css/buttons.dataTables.min.css">    
-    
-
-    
-
+    <!-- TOAST -->
+    <link rel="stylesheet" href="lib/jquery.toast.min.css">
+    <script type="text/javascript" src="lib/jquery.toast.min.js"></script>
 
     
     <!-- <link href="lib/jquery.flexdatalist.css" rel="stylesheet" type="text/css">
@@ -55,8 +50,8 @@ require ("components.php");
     <!-- <script src="lib/jcanvas.min.js"></script> --> 
     <!-- <script src="lib/apexcharts.min.js"></script> -->
     <!-- <link rel="stylesheet" type="text/css" href="lib/bootstrap/css/bootstrap.css">
-    <link rel="stylesheet" href="lib/jquery.toast.min.css">
-    <script type="text/javascript" src="lib/jquery.toast.min.js"></script>
+    
+    
     <link rel="stylesheet" type="text/css" href="lib/datatables.min.css"/> 
     <script type="text/javascript" src="lib/datatables.min.js"></script>
     <script src="lib/jquery.modalpdz.js"></script> 

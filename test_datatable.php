@@ -13,16 +13,12 @@
     <script src="node_modules/popper.js/dist/popper.min.js"></script>
     
     <!-- DATATABLE -->
-    <script src="node_modules/datatables.net-dt/js/dataTables.dataTables.min.js"></script>
-    <link rel="stylesheet" href="node_modules/datatables.net-dt/css/jquery.dataTables.min.css">    
+    <!-- DATATABLE -->
+    <script src="lib/datatables.min.js"></script>
+    <link rel="stylesheet" href="lib/datatables.min.css">    
 
-    <script src="node_modules/datatables.net-autofill-dt/js/autoFill.dataTables.min.js"></script>
-    <link rel="stylesheet" href="node_modules/datatables.net-autofill-dt/css/autoFill.dataTables.min.css">    
 
-    <script src="node_modules/datatables.net-buttons-dt/js/buttons.dataTables.min.js"></script>
-    <link rel="stylesheet" href="node_modules/datatables.net-buttons-dt/css/buttons.dataTables.min.css">    
     
-
 </head>
 <body>
     

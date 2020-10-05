@@ -391,23 +391,16 @@ function Toast($Texto,$Tipo,$img){
 
 function UserAdmin($IdUser){
     require("rintera-config.php");   
-    // var_dump($dbUser);
-    if (Preference("UsuariosForaneos", "", "") == "FALSE"){
-        $sql = "select * from users WHERE IdUser ='".$IdUser."'";        
-    } else {
-        
-        $sql = Preference("UsuariosForaneosQuery", "", "")." and IdUser='".$IdUser."'";
-        
-    }
+    // var_dump($dbUser);  
+    $sql = "select * from useradmin WHERE IdUser ='".$IdUser."'";        
+  
     $rc= $dbUser -> query($sql);
     if($f = $rc -> fetch_array())
-    {
-        if ($f['RinteraLevel']==1)  {
-            return TRUE; // es admin
-        } else {
+    {            return TRUE; // es admin
+    } else {
             return FALSE; // no es admin
-        }
     }
+    
         
 }
 
@@ -2382,12 +2375,9 @@ function UserName($IdUser){
     require("rintera-config.php");	
     $UsuariosForaneaos = Preference("UsuariosForaneaos", "", "");   
 
-    if ($UsuariosForaneaos == "FALSE") {
-        $sql = "select * from users WHERE IdUser='".$IdUser."'";
-    } else {
-        $sql = $QueryUsuariosForaneos . " and IdUser='".$IdUser."'";
-    }
-
+    
+    $sql = "select * from users WHERE IdUser='".$IdUser."'";
+    
     $rc = $dbUser->query($sql);    
     if ($dbUser->query($sql) == TRUE){
         if($f = $rc -> fetch_array())
@@ -2690,4 +2680,50 @@ function GraficaPorcentaje($Div, $Valor){
 	";
 	
 
+
+}
+
+function infoPermiso($id_rep,$IdUser){
+    require("rintera-config.php");   
+    // var_dump($dbUser);
+    $sql = "select * from reportes_permisos WHERE id_rep ='".$id_rep."' and '".$IdUser."'";        
+    $r= $db0 -> query($sql);
+    if($f = $r -> fetch_array())
+    {
+        return "".$f['fecha']." a las ".$f['fecha']." - ".$f['QuienAutorizo'];
+    } else {
+        return "";
+    }
+        
+}
+
+function DarPermiso($id_rep, $IdUser, $IdUserAdmin){
+    require("rintera-config.php");	
+    $sql = "INSERT INTO reportes_permisos (id_rep, IdUser,  fecha, hora, QuienAutorizo) 
+    VALUES ('".$id_rep."', '".$IdUser."', '".$fecha."', '".$hora."', '".$IdUserAdmin."')";    
+    echo $sql;
+    if ($db0->query($sql) == TRUE)
+        {
+            Historia($IdUserAdmin, "Permisos", "(".$IdUserAdmin.") - ".UserName($IdUserAdmin)." dio permiso a (".$IdUser.") - ".UserName($IdUser)." para usar el reporte con id ".$id_rep);
+            return TRUE;
+        
+            
+        }
+
+
+    else {return FALSE;}
+}
+
+
+function QuitarPermiso($id_rep, $IdUser, $IdUserAdmin){
+    require("rintera-config.php");	
+    $sql = "DELETE  FROM  reportes_permisos WHERE id_rep='".$id_rep."' and IdUser='".$IdUser."'";    
+    echo $sql;
+    if ($db0->query($sql) == TRUE)
+        {
+            Historia($IdUserAdmin, "Permisos", "(".$IdUserAdmin.") - ".UserName($IdUserAdmin)." retiro el permiso a (".$IdUser.") - ".UserName($IdUser)." para usar el reporte con id ".$id_rep);
+            return TRUE;
+        
+        }
+    else {return FALSE;}
 }

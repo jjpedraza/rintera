@@ -15,7 +15,7 @@ $MiToken = MiToken($RinteraUser, "Edit");
 // echo "Token: ".$MiToken;
 
 
-
+$id_rep = VarClean($_GET['id']);
 
 include ("header.php");
 
@@ -62,7 +62,10 @@ echo '
     "
    
     >';
-echo 'Configuración de Reporte
+echo '
+
+Configuración de Reporte
+
 </div>';
 
 echo '
@@ -794,7 +797,12 @@ echo '
         cursor: pointer;
         "
     >';
-    echo 'Usuarios de Este Reporte';
+    echo '
+
+Usuarios de éste Reporte
+    
+    
+    ';
     echo '</div>';
 
     echo '<div id="UsuariosThis" class="collapse  width" data-parent="#TabsReportes"
@@ -804,7 +812,72 @@ echo '
         "
         >';
         echo '<div class="card-body">';
-            echo "Text 2";
+
+        echo "<table class='tabla' id='TablaUser'>";
+        $sqlU="
+        select a.*,
+        (select count(*) from reportes_permisos where IdUser = a.IdUser and id_rep = '".$id_rep."') as Permiso
+        from users a
+        order by UserName 
+        ";
+        echo "
+        <thead>
+        <tr>
+      
+        <th>Usuario</th>       
+        <th>Permiso</th>
+        <th>Acceso</th>
+        
+        </tr>
+        </thead>
+        <tbody>
+        ";
+
+        $rU= $db0 -> query($sqlU);    
+        while($fU = $rU -> fetch_array()) {   
+            if ($fU['Permiso']==1){
+                echo "<tr style='background-color:green;' id='Lin_".$fU['IdUser']."'>";
+            } else {
+                echo "<tr id='Lin_".$fU['IdUser']."'>";
+            }
+            // echo "<td width=50px>";
+            // echo "<img src='https://plataformaitavu.tamaulipas.gob.mx/ws/fotos/".$fU['IdUser'].".jpg' class='FotoUser'>";
+            // echo "</td>";
+            echo "<td style='font-size:11pt;'>".$fU['UserName']."</td>";
+            echo "<td style='font-size:11pt;'>";
+            if ($fU['Permiso']==1){ 
+                echo "<span id='Etiqueta_".$fU['IdUser']."'>Con Acceso</span>";            
+            } else {
+                echo "<span id='Etiqueta_".$fU['IdUser']."'></span>";      
+            }
+            echo "</td>";
+            echo "<td>";
+            echo '
+                <div class="custom-control custom-switch col-sm-6 " style="cursor:pointer;">';
+                if ($fU['Permiso']==1){
+                    echo '
+                    <input   style="cursor:pointer;" type="checkbox" class="custom-control-input" id="ChecU_'.$fU['IdUser'].'" onclick="Permitir('.$id_rep.','.$fU['IdUser'].');" checked="">
+                    <label  style="cursor:pointer;" class="custom-control-label" for="ChecU_'.$fU['IdUser'].'"></cite></label>';
+                } else {
+                    echo '
+                    <input  style="cursor:pointer;" type="checkbox" class="custom-control-input" id="ChecU_'.$fU['IdUser'].'" onclick="Permitir('.$id_rep.','.$fU['IdUser'].');" >
+                    <label   style="cursor:pointer;" class="custom-control-label" for="ChecU_'.$fU['IdUser'].'"></label>';
+                }
+            echo ' </div>';
+            echo "</td>";
+            echo "</tr>";
+            
+        }
+        echo "</tbody ></table>";
+        echo "
+        <script>
+        $(document).ready(function() {
+            $('#TablaUser').DataTable();
+        } );
+        </script>";
+
+
+
         echo '</div>';
     echo '</div>';
 echo '</div>';
@@ -821,7 +894,11 @@ echo '
         cursor: pointer;
         "
     >';
-    echo 'Estadistica';
+    echo '
+    
+Estadistica del Reporte
+    
+    ';
     echo '</div>';
 
     echo '<div id="Estadistica" class="collapse  show width" data-parent="#TabsReportes"
@@ -832,7 +909,7 @@ echo '
         "
         >';
         echo '<div class="card-body">';
-            echo "Estadistica 2";
+            
             $QueryEstadistica = "
             SELECT 
                 (select count(*) from historia WHERE IdApp='VIO' and Descripcion='18') as Vistas,
@@ -857,32 +934,7 @@ echo '
             }
             echo "</table>";
             unset($r); unset($fe);
-            $Div = "Grafica"; $Valor=5;
-            echo "
-                <script>
-
-                const type = 'donut'
-                const title = '# Kittens Love #'
-                
-                var chart = c3.generate({
-                    data: {
-                        columns: [
-                            ['Yoko', 50],
-                            ['Linda', 50],
-                        ],
-                        type
-                    },
-                    donut: { title }
-                });
-                
-                
-  
-                </script>  
-                <div id='chart' /></div>
-                        
-            
-            ";
-
+           
         echo '</div>';
     echo '</div>';
 echo '</div>';
@@ -913,5 +965,27 @@ horizontalAccordions.each((index, element) => {
 });
 </script> -->
 
+<script>
+function Permitir(id_rep,IdUser){
+
+    $('#PreLoader').show();
+            $.ajax({
+                url: 'userpermisos_data.php',
+                type: 'post',
+                data: {
+                    id_rep: id_rep,                    
+                    IdUserAdmin: '<?php echo $RinteraUser; ?>',
+                    IdUser:IdUser
+                },
+                success: function(data) {
+                    $('#R').html(data);
+                   
+                    $('#PreLoader').hide();
+                }
+            });
+    
+}
+
+</script>
 
 <?php include ("footer.php"); ?>
