@@ -387,42 +387,10 @@ if (UserAdmin($RinteraUser)==TRUE){
 
 
 
-    if ($UsuariosForaneaos == "FALSE"){
-        echo "<br><label>Usuario Administrador: <a href='users.php' title='Haga clic para administrar los usuarios'><img src='icons/user_add.png' style='width:17px;'></a></label><br>";
-        echo "<select name='ReporteIdUser' id='ReporteIdUser' class='form-control'>";
-        echo "<option value=''>Seleccione</option>";         
-    } else {
-        echo "<br><label>Usuario Administrador: </label><br>";
-        echo "<select name='ReporteIdUser' id='ReporteIdUser' class='form-control'>";
-        echo "<option value=''>Seleccione</option>";        
-    }
+
        
-
-    if ($UsuariosForaneaos == "FALSE") {
-        $sql = "select * from users";
-    } else {
-        $sql = $QueryUsuariosForaneos . " order by UserName";
-    }
-    echo $sql;
-    $rc = $dbUser->query($sql);    
-    if ($dbUser->query($sql) == TRUE){
-        // echo "OK";
-        while($fu= $rc -> fetch_array()) {   
-                echo "<option value='".$fu['IdUser']."' title='IdUser=".$fu['IdUser']."'>".$fu['UserName']."</option>";
-        }
-
-    } else {
-        Toast("ERROR al obtener la lista de usuarios",3,"");
-    }
-
-    
-    
-         
-
-    
-    // echo $sql;
-    
-    echo "</select>";
+        
+      
 
 
     echo '

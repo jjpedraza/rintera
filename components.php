@@ -561,9 +561,10 @@ function ReporteFooter2($id_rep){
     $r= $db0 -> query($sql);
     if($f = $r -> fetch_array())
     {
-        $Footer = "Reporte creado el ".$f['fecha']." a las ".$f['hora']." por ".UserName($f['IdUser']).", el usuario Administrador es ".UserName($f['admin']).".
-       DATA desde ".IdConInfo($f['IdCon'])."
-        ";
+        // $Footer = "Reporte creado el ".$f['fecha']." a las ".$f['hora']." por ".UserName($f['IdUser']).", el usuario Administrador es ".UserName($f['admin']).".
+    //    DATA desde ".IdConInfo($f['IdCon'])." | ".InfoEquipo();
+
+       $Footer =  InfPC()." | ".ConName($f['IdCon'])." | ";
 
         return $Footer;
     } else {
@@ -1621,7 +1622,7 @@ if($WSConF = $WSCon -> fetch_array())
                         $PageSize = "0"; // 0= carta y 1 == oficio
                         $orientacion = "L";
                         // $id_rep = 0;
-                        $info_leyenda = "*".ReporteFooter2($id_rep);
+                        $info_leyenda =  InfPC()." | ".ConName($IdCon)." | ";
                         // var_dump($info_leyenda);
                         $ArchivoDelReporte = TableToPDF($TablaHTML, $IdUser, $titulo, $descripcion, $PageSize, $orientacion,$id_rep,$info_leyenda);
                         echo "<iframe id='pdfPresenter' src='".$ArchivoDelReporte."'
@@ -2047,8 +2048,9 @@ if ($Con_Val == TRUE){
                     $descripcion = DescripcionReporte($id_rep);
                     $PageSize = "0"; // 0= carta y 1 == oficio
                     $orientacion = "L";
-                    $id_rep = 0;
-                    $info_leyenda = "x";
+                    // $id_rep = 0;
+                    $IdCon = IdConReporte($id_rep);
+                    $info_leyenda =  InfPC()." | ".ConName($IdCon)." | ";
                     $ArchivoDelReporte = TableToPDF($TablaHTML, $IdUser, $titulo, $descripcion, $PageSize, $orientacion,$id_rep,$info_leyenda);
                     echo "<iframe id='pdfPresenter' src='".$ArchivoDelReporte."'
                     style='
@@ -2056,6 +2058,7 @@ if ($Con_Val == TRUE){
                         height: 94%;
                         position: fixed;
                         border: 0px;
+                        z-index: 500;
                     '
                     >
                     
@@ -2073,7 +2076,8 @@ if ($Con_Val == TRUE){
                     $PageSize = "0"; // 0= carta y 1 == oficio
                     $orientacion = "L";
                     // $id_rep = 0;
-                    $info_leyenda = "x";
+                    $IdCon = IdConReporte($id_rep);
+                    $info_leyenda =  InfPC()." | ".ConName($IdCon)." | ";
                     // $ArchivoDelReporte = TableToPDF($TablaHTML, $IdUser, $titulo, $descripcion, $PageSize, $orientacion,$id_rep,$info_leyenda);
                     $ArchivoDelReporte = "excel.php?IdUser=".$IdUser."&id_rep=".$id_rep;
                     echo "<p>El Archivo del reporte se descargara automaticamente, si no es así 
@@ -2101,7 +2105,8 @@ if ($Con_Val == TRUE){
                     $PageSize = "0"; // 0= carta y 1 == oficio
                     $orientacion = "L";
                     // $id_rep = 0;
-                    $info_leyenda = "x";
+                    $IdCon = IdConReporte($id_rep);
+                    $info_leyenda =  InfPC()." | ".ConName($IdCon)." | ";
                     // $ArchivoDelReporte = TableToPDF($TablaHTML, $IdUser, $titulo, $descripcion, $PageSize, $orientacion,$id_rep,$info_leyenda);
                     $ArchivoDelReporte = "word.php?IdUser=".$IdUser."&id_rep=".$id_rep;
                     echo "<p>El Archivo del reporte se descargara automaticamente, si no es así 
@@ -2481,7 +2486,7 @@ require("rintera-config.php");
 $Query =  QueryVar($id_rep, $IdVar);
 $IdCon = IdConVar($id_rep, $IdVar);
 $ConType = ConType($IdCon);
-var_dump($Query);
+// var_dump($Query);
 if ($ConType <=1 ){    
     // include("con_close.php");
     $Con_IdCon = $IdCon; include("con_init.php");    
@@ -2727,3 +2732,40 @@ function QuitarPermiso($id_rep, $IdUser, $IdUserAdmin){
         }
     else {return FALSE;}
 }
+
+
+
+function fecha_larga($fecha_){
+    //return  dia_semana($fecha_)." ".date('d/m/Y', strtotime($fecha_));
+    $mes = date('m', strtotime($fecha_));
+    $mes = (int)$mes -1;
+    $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+    $mes_largo = $meses[$mes];
+    $fecha_salida = dia_semana($fecha_)." ".date('d', strtotime($fecha_))." de ".$mes_largo." de ".date('Y', strtotime($fecha_));;
+    
+    return $fecha_salida;
+    }
+    
+    function fecha_larga_cumple($fecha_){
+    //return  dia_semana($fecha_)." ".date('d/m/Y', strtotime($fecha_));
+    $mes = date('m', strtotime($fecha_));
+    $mes = (int)$mes -1;
+    $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+    $mes_largo = $meses[$mes];
+    $fecha_salida = dia_semana($fecha_)." ".date('d', strtotime($fecha_))." de ".$mes_largo;
+    
+    return $fecha_salida;
+    }
+    function hora12($hora_){
+    return date("g:ia",strtotime($hora_));
+    }    
+
+
+    function dia_semana($fecha_){
+        $dias = array('Lunes','Martes','Miercoles','Jueves','Viernes','Sabado','Domingo');
+        $n= date('N', strtotime($fecha_));
+        $fecha = $dias[$n-1];
+        return $fecha;
+        //return $fecha_;
+        //return date('N', strtotime($fecha_));
+    }        

@@ -912,17 +912,23 @@ Estadistica del Reporte
             
             $QueryEstadistica = "
             SELECT 
-                (select count(*) from historia WHERE IdApp='VIO' and Descripcion='18') as Vistas,
-                (select count(*) from historia WHERE IdApp='VIO' and Descripcion='18' and IdUser='admin') as MisVistas,
-                (select count(DISTINCT IdUser) from historia WHERE IdApp='VIO' and Descripcion='18') as Usuarios,
-                (select IdUser  from historia WHERE IdApp='VIO' and Descripcion='18' order by fecha DESC, hora DESC
+                (select count(*) from historia WHERE IdApp='VIO' and Descripcion='".$id_rep."') as Vistas,
+                (select count(*) from historia WHERE IdApp='VIO' and Descripcion='".$id_rep."' and IdUser='".$RinteraUser."') as MisVistas,
+                (select count(DISTINCT IdUser) from historia WHERE IdApp='VIO' and Descripcion='".$id_rep."') as Usuarios,
+                (select IdUser  from historia WHERE IdApp='VIO' and Descripcion='".$id_rep."' order by fecha DESC, hora DESC
                 limit 1) as UltimoUsuario,
-                (select CONCAT(fecha,' a las ',hora, 'hr')  from historia WHERE IdApp='VIO' and Descripcion='18' 
+                (select CONCAT(fecha,' a las ',hora, 'hr')  from historia WHERE IdApp='VIO' and Descripcion='".$id_rep."' 
                 order by fecha DESC, hora DESC limit 1) as UltimaVisita
                 
             ";
             $r= $db0 -> query($QueryEstadistica);    
-            echo "<table class='tabla'>";
+            echo "<table class='tabla' style='
+            
+            font-size: 11pt;
+            padding: 10px;
+            background-color: #0eb02f;            
+            border-radius: 12px;
+            '>";
             while($fe = $r -> fetch_array()) {   
                 
                 echo "<tr><td align=right>Visitas</td><td align=left>".$fe['Vistas']."</td></tr>";
@@ -935,6 +941,37 @@ Estadistica del Reporte
             echo "</table>";
             unset($r); unset($fe);
            
+            $QueryEstadistica2 = "
+            select 
+                a.fecha, a.hora,
+                ifnull((select CONCAT(UserName,' (',IdUser,')')  from users where IdUser = a.IdUser),'Sin Registro de Usuario') as UserName,
+                a.IdUser
+
+                from 
+                historia a WHERE IdApp='VIO' and Descripcion='".$id_rep."'
+                order by fecha DESC, hora DESC
+                limit 1000
+            ";
+
+            $r= $db0 -> query($QueryEstadistica2);    
+            echo "<br>
+            <h5>Ultimas 1000 Visitas:</h5>
+            <table class='tabla'>";
+            while($fe = $r -> fetch_array()) {   
+                
+                echo "<tr>";
+                echo "<td width=50px>";
+                    echo "<img src='https://plataformaitavu.tamaulipas.gob.mx/ws/fotos/".$fe['IdUser'].".jpg' class='FotoUser'>";
+                echo "</td>";
+                echo "<td>".fecha_larga($fe['fecha'])."</td>";
+                echo "<td>".hora12($fe['hora'])."</td>";
+                echo "<td>".$fe['UserName']."</td>";
+
+                echo "</tr>";
+                
+            }
+            echo "</table>";
+            unset($r); unset($fe);
         echo '</div>';
     echo '</div>';
 echo '</div>';

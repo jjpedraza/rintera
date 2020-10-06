@@ -43,8 +43,8 @@ if ($rep_query == '' or strlen($rep_query)<=5){$OK = FALSE; $msg= $msg."<li>Debe
     $('#rep_query').css('border-width', '4px');
     </script>";}
 
-    $ReporteIdUser = VarClean($_POST['ReporteIdUser']);
-    if ($ReporteIdUser == ''){$OK = FALSE; $msg= $msg."<li>Se requiere seleccionar un Administrador del Reporte</li><script>$('#ReporteIdUser').css('background-color', '#ffeed8');</script>";}
+    // $ReporteIdUser = VarClean($_POST['ReporteIdUser']);
+    // if ($ReporteIdUser == ''){$OK = FALSE; $msg= $msg."<li>Se requiere seleccionar un Administrador del Reporte</li><script>$('#ReporteIdUser').css('background-color', '#ffeed8');</script>";}
     
 
 // var_dump($var1_sql);
@@ -147,7 +147,7 @@ if ($OK ==TRUE){
     '".$var1_sql."',
     '".$var2_sql."',
     '".$var3_sql."',
-    '".$ReporteIdUser."',
+    '',
     '".$var1_IdCon."',
     '".$var2_IdCon."',
     '".$var3_IdCon."'    

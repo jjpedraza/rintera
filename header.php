@@ -91,20 +91,20 @@ box-shadow: inset 0px -36px 13px -31px rgba(0,0,0,0.39);
     }
     
 
-    $Pendientes = 3;
+    // $Pendientes = 3;
 
-    if ($Pendientes >0 ){
-        echo "
-        <td  style='background-color:".Preference("ColorResaltado", "", "").";color:white; font-weight:bold;     ".$sombra."' align=center title='Pendientes por checar'>
-        ".$Pendientes."
-        </td>";
+    // if ($Pendientes >0 ){
+    //     echo "
+    //     <td  style='background-color:".Preference("ColorResaltado", "", "").";color:white; font-weight:bold;     ".$sombra."' align=center title='Pendientes por checar'>
+    //     ".$Pendientes."
+    //     </td>";
 
-    } else {
-        echo "
-        <td width=0px  style='background-color:".Preference("ColorPrincipal", "", "").";     ".$sombra."' align=center>
+    // } else {
+    //     echo "
+    //     <td width=0px  style='background-color:".Preference("ColorPrincipal", "", "").";     ".$sombra."' align=center>
         
-        </td>";
-    }
+    //     </td>";
+    // }
 
 
     echo "
