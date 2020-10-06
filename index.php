@@ -70,7 +70,7 @@ background-color: <?php echo Preference("ColorPrincipal", "", ""); ?>;
 >
 <button  class="Mbtn btn-Success"  onclick="Search();" style="
 background-color:  <?php echo Preference("ColorResaltado", "", ""); ?>;
-box-shadow: 0 3px  #4d4c49;
+box-shadow: 0 3px  #4d4c49; margin:10px;
 
 "> 
 <img src='icons/busqueda.png' style='width:50px;'></button>
@@ -108,10 +108,7 @@ if (UserAdmin($RinteraUser) == TRUE) {
 }
 ?>
 
-<div id='Footer'>
-    <b>Rintera<b>: Es un proyecto para la gestion de reportes a traves de consultas a la base de datos con variables integradas. El entorno ideal para gestionar la data de tu proyecto
 
-</div>
 
 
 <?php

@@ -53,7 +53,7 @@ if (MiToken_valida($ElToken, $IdUser, "Search")==TRUE){//Valido
             echo "<table width=100% border=0><tr><td align=center valign=middle>  ";        
             echo "<a href='r.php?id=".$f['id_rep']."'>";
         } else {
-            echo "<article style='background-color:#fbeee8;opacity:0.5;'>";
+            echo "<article style='background-color:#fbeee8;opacity:0.5; cursor: not-allowed;'>";
             echo "<table width=100% border=0><tr><td align=center valign=middle>  ";
             
         }

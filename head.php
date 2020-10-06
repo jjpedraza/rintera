@@ -44,6 +44,10 @@ require ("components.php");
     <link rel="stylesheet" href="lib/jquery.toast.min.css">
     <script type="text/javascript" src="lib/jquery.toast.min.js"></script>
 
+    <!-- Modal -->
+    <script src="lib/jquery.modalpdz.js"></script> 
+    <link rel="stylesheet" href="lib/jquery.modalcsspdz.css" />
+
     
     <!-- <link href="lib/jquery.flexdatalist.css" rel="stylesheet" type="text/css">
     <script src="lib/jquery.flexdatalist.js"></script> -->

@@ -5,6 +5,8 @@ include ("header.php");
 $id_rep = VarClean($_GET['id']);
 $Tipo = ReporteTipo($id_rep); // $Tipo = 1; // 0 = html, 1= DataTable, 2 = PDF, 3 = Excel, 4 = Word
 // var_dump($Tipo);
+if (PermisoReporte_Ver($RinteraUser,$id_rep)==TRUE){
+
 echo '<div class="row">';
 $ClaseDiv  = "ContenedorDeReporte"; $ClaseTabla = "tabla";
     echo "<div id='C' style='
@@ -130,6 +132,8 @@ echo "</div>";
 
 echo "</div>";
 
-
+} else {
+    Error("No tienes acceso a este Reporte");
+}
 include ("footer.php");
 ?>
