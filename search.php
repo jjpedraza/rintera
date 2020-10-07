@@ -1,4 +1,5 @@
 <?php
+require("seguridad.php");
 require_once("rintera-config.php");
 require("components.php");
 
@@ -31,6 +32,7 @@ if (MiToken_valida($ElToken, $IdUser, "Search")==TRUE){//Valido
             rep_name like '%".$busqueda."%' or
             rep_description like '%".$busqueda."%' or
             id_rep like '%".$busqueda."%'";
+            Historia($RinteraUser, "BUSQUEDAS", "Busco ".$busqueda);
         }
 
     } else {
@@ -40,23 +42,27 @@ if (MiToken_valida($ElToken, $IdUser, "Search")==TRUE){//Valido
         id_rep like '%".$busqueda."%'";
     }
     if ($busqueda <> ''){
-        GuardaBusqueda($IdUser,$busqueda);
+
+        // GuardaBusqueda($IdUser,$busqueda);
     }
     
     // echo $sql;
     $r= $db0 -> query($sql); 
-    $Resultados = 0;
+    $Resultados = 0; $RInfo = "";
     while($f = $r -> fetch_array()) {   
         $Resultados = $Resultados + 1;
         if (PermisoReporte_Ver($IdUser,$f['id_rep'])==TRUE){
             echo "<article>";
             echo "<table width=100% border=0><tr><td align=center valign=middle>  ";        
             echo "<a href='r.php?id=".$f['id_rep']."'>";
+            $RInfo.= "[".$f['rep_name']."=OK] ";
         } else {
             echo "<article style='background-color:#fbeee8;opacity:0.5; cursor: not-allowed;'>";
             echo "<table width=100% border=0><tr><td align=center valign=middle>  ";
+            $RInfo.= "[".$f['rep_name']."=X] ";
             
         }
+
         
         switch ($f['out_type']) {
             case 0: //Pantalla
@@ -176,6 +182,10 @@ if (MiToken_valida($ElToken, $IdUser, "Search")==TRUE){//Valido
             text-align: center;
             border-radius: 10px;
             'class='bg-warning'>Sin Resultados; intentelo con otra palabra </p>";    
+
+            Historia($RinteraUser, "BUSQUEDAS", "Sin Resultados de ".$busqueda);
+    } else {        
+        Historia($RinteraUser, "BUSQUEDAS", "Encontro ".$RInfo." Mientras buscaba ".$busqueda);
     }
     echo "</section>";
 } else {    

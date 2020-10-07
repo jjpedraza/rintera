@@ -2052,6 +2052,8 @@ if ($Con_Val == TRUE){
                     $IdCon = IdConReporte($id_rep);
                     $info_leyenda =  InfPC()." | ".ConName($IdCon)." | ";
                     $ArchivoDelReporte = TableToPDF($TablaHTML, $IdUser, $titulo, $descripcion, $PageSize, $orientacion,$id_rep,$info_leyenda);
+                    Historia($IdUser, "REPORTE PDF", "Utilizo el reporte ".$id_rep." - ".$titulo.". Genero el archivo <a href='".$ArchivoDelReporte."'>".$ArchivoDelReporte."</a>");
+
                     echo "<iframe id='pdfPresenter' src='".$ArchivoDelReporte."'
                     style='
                         width: 100%;
