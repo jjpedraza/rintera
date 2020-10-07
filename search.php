@@ -147,8 +147,8 @@ if (MiToken_valida($ElToken, $IdUser, "Search")==TRUE){//Valido
         if (PermisoReporte_Ver($IdUser,$f['id_rep'])==TRUE){
             echo "<div style='height:20px;'></div>";
         } else {
-            echo "<img src='icons/candado.png' style='width:15px;cursor:pointer;'
-            title='Haga clic aquí para solicitar acceso'> Sin acceso";
+            echo "<a target=_blank href='solicita/?id=".$f['id_rep']."' title='Haga clic aqui para imprimir el formato de solicitud'><img src='icons/candado.png' style='width:15px;cursor:pointer;'
+            title='Haga clic aquí para solicitar acceso' download> Sin acceso</a>";
         }
         echo "</td><td align=right valign=bottom width=20px>";
         // if (PermisoReporte_Share($IdUser,$f['id_rep'])==TRUE){

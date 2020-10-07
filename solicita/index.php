@@ -5,7 +5,9 @@ require ("../components.php");
 
 include("../seguridad.php");   
 MiToken_CloseALL($RinteraUser);
-$id_rep=18;
+
+$id_rep = VarClean($_GET['id']);
+
 $Titulo = TituloReporte($id_rep);
 $Descripcion = DescripcionReporte($id_rep);     
 $IdCon = IdConReporte($id_rep);
@@ -63,7 +65,7 @@ $styleqr = array(
     
 
     $pdf->SetFont('', 'B', 12, '', 'false');
-    $pdf->Text(100, 20, ''.'Asunto: Solicitud de Acceso a Reporte'); 
+    $pdf->Text(100, 20, ''.'Asunto: Acceso a Reporte '.$id_rep); 
 
 
     $Director = Preference("Director","","");
@@ -81,27 +83,48 @@ $styleqr = array(
     $pdf->Text(70, 55, ''.'Jefe del Dpto. de Informática'); 
 
     $pdf->SetFont('', '', 12, '', 'false');
-    $pdf->Text(20, 70, ''.'Por medio de la presente solicito acceso al reporte identficado con el ID '.$id_rep.''); 
+    $pdf->Text(20, 70, ''.'Por medio de la presente solicito acceso al reporte identficado con el ID='.$id_rep.''); 
     $pdf->Text(10, 78, ''.'del modulo de reportes de la Plataforma de ITAVU, denominado Rintera.'); 
 
 
-    $pdf->SetFont('', '', 12, '', 'false');
+    $pdf->SetFont('', 'B', 12, '', 'false');
     $pdf->Text(10, 90, ''.'Titulo: '.$Titulo); 
     $pdf->Text(10, 98, ''.'Descripcion: '.$Descripcion); 
     $pdf->Text(10, 106, ''.'Base de Datos: '.$Base); 
     
     $pdf->SetFont('', 'B', 12, '', 'false');
-    $pdf->Text(10, 115, ''.'Requirimientos adicionales u observaciones:'); 
+    $pdf->Text(10, 115, ''.'Requerimientos adicionales u observaciones:'); 
 
     $pdf->SetFont('', '', 12, '', 'false');
     $pdf->Text(50, 195, ''.'Cd. _____________________________ a '.fecha_larga($fecha)); 
 
 
     $pdf->SetFont('', '', 12, '', 'false');
-    $pdf->Text(18, 238, 'C. '.UserName($RinteraUser)); 
+    $pdf->Text(18, 244, 'C. '.UserName($RinteraUser)); 
     $pdf->SetFont('', 'I', 12, '', 'false');
-    $pdf->Text(18, 244, 'Puesto:________________________'); 
+    $pdf->Text(18, 251, 'Puesto:________________________'); 
 
+
+    $pdf->Text(110, 244, 'C. ____________________________________ '); 
+    $pdf->SetFont('', 'I', 12, '', 'false');
+    $pdf->Text(110, 251, 'Puesto:________________________'); 
+
+
+    $pdf->SetFont('', 'I', 8, '', 'false');
+    $pdf->Text(140, 220, 'Autoriza: Jefe Inmediato'); 
+    
+
+    $pdf->SetFont('', 'I', 8, '', 'false');
+    $pdf->Text(50, 220, 'Solicita'); 
+    
+
+    $pdf->SetFont('', '', 7, '', 'false');
+    $pdf->Text(100, 210, 'f i r m a s :'); 
+    
+    $pdf->SetFont('', '', 7, '', 'false');
+    $pdf->Text(18, 238, '_____________________________________________________'); 
+    $pdf->Text(110, 238, '_______________________________________________________________________'); 
+    
 
 
     $pdf->StopTransform();
