@@ -20,6 +20,7 @@ if (MiToken_valida($ElToken, $IdUser, "Search")==TRUE){//Valido
 
     if ($busqueda == ''){
         $busqueda = UltimaBusqueda($IdUser);
+        
         echo "<h3 style='        
         font-size: 12pt;
         text-align: center; 
@@ -43,7 +44,7 @@ if (MiToken_valida($ElToken, $IdUser, "Search")==TRUE){//Valido
     }
     if ($busqueda <> ''){
 
-        // GuardaBusqueda($IdUser,$busqueda);
+        GuardaBusqueda($IdUser,$busqueda);
     }
     
     // echo $sql;

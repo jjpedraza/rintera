@@ -1079,7 +1079,7 @@ function TableToPDF($TablaHTML, $IdUser, $titulo, $descripcion, $PageSize, $orie
                 if ($this->orientacion == 'L') { //horizontal CARTA						
                     $image_file = K_PATH_IMAGES.'../../../../img/Logo.png';
                     $icono = K_PATH_IMAGES.'user.png';		
-                    $this->Image($image_file, 15, 7, 15, '', 'PNG', '', 'T', false, 300, '', false, false, 0, false, false, false);
+                    $this->Image($image_file, 15, 7, 30, '', 'PNG', '', 'T', false, 300, '', false, false, 0, false, false, false);
                     $this->SetFont('helvetica', 'B', 10);
                     $LogitudTitulo=150;
                     $this->Text(57, 7, ''.substr($this->titulo,0,$LogitudTitulo).""); 
@@ -1265,10 +1265,13 @@ $pdf->lastPage();
 //   $pdf->Output('reporte_'.$id_rep.'.pdf', 'I');
 $directorio = __DIR__;
 // $directorio = str_replace("unica", "tmp", $directorio);
-$archivo = $directorio."\\tmp\\".$StringFecha."_".$id_rep."_".$IdUser.".pdf";  
+// $archivo = $directorio."\\tmp\\".$StringFecha."_".$id_rep."_".$IdUser.".pdf";  
+
+$archivo = $directorio."/tmp/".$StringFecha."_".$id_rep."_".$IdUser.".pdf";  
+
 $archivoWeb = "tmp/".$StringFecha."_".$id_rep."_".$IdUser.".pdf";  
 $pdf->Output($archivo, 'F');   
-
+// echo $archivo;
 return $archivoWeb;
 
 

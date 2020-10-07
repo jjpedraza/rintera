@@ -62,7 +62,6 @@ Update();
 
 <?php
 
-include ("../footer.php");
 
 
 ?>

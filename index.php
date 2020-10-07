@@ -122,15 +122,7 @@ echo "
     <script>
     function Search(){
         var busqueda = $('#InputBusqueda').val();
-        if($('#InputBusqueda').val().length < 5) {  
-            $.toast({
-                           heading: 'Error',
-                           text: 'Escribe mas caracteres en tu busqueda, minimo 5',
-                           showHideTransition: 'slide',
-                           icon: 'error'
-            })
-        } else {
-            $('#PreloaderBuscando').show();                
+         $('#PreloaderBuscando').show();                
             $.ajax({
                 url: 'search.php',
                 type: 'post',        
@@ -143,7 +135,7 @@ echo "
                 $('#PreloaderBuscando').hide();
             }
             });
-        }
+        
        
 
 
