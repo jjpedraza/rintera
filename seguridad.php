@@ -56,7 +56,27 @@ else
 	
 	$_SESSION = array(); session_destroy();		   
 	unset($IdUser);
-	header("location:login.php");		
+	if (isset($_GET['IdUser'])){
+        $IdUser = VarClean($_GET['IdUser']);
+    } else {$IdUser = "";}
+    if (isset($_GET['id'])){
+        $id_rep = VarClean($_GET['id']);
+	} else {$id_rep = "";}
+	
+	$url = "";
+	if ($IdUser <> '') {
+		$url.="IdUser=".$IdUser;
+	}
+
+	if ($id_rep <> '') {
+		$url.="&id_rep=".$id_rep;
+	}
+	if ($url <> '' ){
+		header("location:login.php?".$url);		
+	} else {
+		header("location:login.php");		
+	}
+	
 	
 }
 

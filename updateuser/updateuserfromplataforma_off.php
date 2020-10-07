@@ -1,7 +1,7 @@
 <?php
 require ("../rintera-config.php");
 require ("../components.php");
-require ("../seguridad.php");
+// require ("../seguridad.php");
 
 //Plataforma IdCon=1
 //Rintera IdCon=3
@@ -25,6 +25,9 @@ if ($Con_Val == TRUE){
     while($f = $r -> fetch_array()) {   
         if ($f['IdUser']<> $RinteraUser){
             $QueryInsert.= "INSERT INTO users(IdUser, NIP, UserName, RinteraLevel) VALUES('".$f['IdUser']."','".$f['NIP']."','".$f['UserName']."','".$f['RinteraLevel']."');";
+        }
+        if ($f['RinteraLevel']==2){//Es un Administrador
+
         }
 
         $c= $c + 1;

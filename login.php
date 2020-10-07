@@ -1,7 +1,7 @@
 <?php
+
 require("rintera-config.php");
 require("components.php");
-
 
 ?>
 
@@ -40,10 +40,10 @@ require("components.php");
 
     <style>
         body {
-            /* background-image: var(--RinteraBackground); */
-            /* background-size: 200%; */
+            background-image: var(--RinteraBackground);
+            background-size: 200%;
             background-color: #919191;
-            /* background-blend-mode: screen; */
+            background-blend-mode: screen;
 
         }
 
@@ -66,25 +66,57 @@ require("components.php");
 
 <body>
     <?php
+    
+    //Variables de entrada
+    if (isset($_GET['IdUser'])){
+        $IdUser = VarClean($_GET['IdUser']);
+    } else {$IdUser = "";}
+    if (isset($_GET['id_rep'])){
+        $id_rep = VarClean($_GET['id_rep']);
+    } else {$id_rep = "";}
+
     if ($Error == ''){
-    echo '
-        <div id="Login">
+        if ($IdUser <> ''){
+            echo '
+                <div id="Login">
 
 
-        <form class="form-signin" style="text-align:center;" method="POST" action="">
+                <form class="form-signin" style="text-align:center;" method="POST" action="">
 
-            <h3><b>RINTERA:</b> Identificate!</h3>
-            <label for="txtIdUser" class="sr-only">IdUser</label>
-            <input type="text" id="txtIdUser" name="txtIdUser" class="form-control" placeholder="IdUser" required autofocus>
-            <label for="txtNIP" class="sr-only">Password</label><br>
-            <input type="password" id="txtNIP" name="txtNIP" class="form-control" placeholder="Password" required>
-            <br>
-            <input name="FormLogin" type="submit" class="btn btn-lg btn-primary btn-block" Value="Entrar">
-            <br><br>
-        </form>
+                    <h5>Identificate! '.UserName($IdUser).'</h5>
+                    <label for="txtIdUser" class="sr-only">IdUser </label>
+                    <input type="text" id="txtIdUser" name="txtIdUser" class="form-control" placeholder="IdUser" value="'.$IdUser.'" required >
+                    <label for="txtNIP" class="sr-only">Password</label><br>
+                    <input type="password" id="txtNIP" name="txtNIP" class="form-control" placeholder="Password" required>
+                    <br>
+                    <input name="FormLogin" type="submit" class="btn btn-lg btn-primary btn-block" Value="Entrar">
+                    <br><br>
+                </form>
 
-    </div>';
+            </div>';
+            
+
+        } else {
+            echo '
+            <div id="Login">
+    
+    
+            <form class="form-signin" style="text-align:center;" method="POST" action="">
+    
+                <h3><b>RINTERA:</b> Identificate!</h3>
+                <label for="txtIdUser" class="sr-only">IdUser</label>
+                <input type="text" id="txtIdUser" name="txtIdUser" class="form-control" placeholder="IdUser" required autofocus>
+                <label for="txtNIP" class="sr-only">Password</label><br>
+                <input type="password" id="txtNIP" name="txtNIP" class="form-control" placeholder="Password" required>
+                <br>
+                <input name="FormLogin" type="submit" class="btn btn-lg btn-primary btn-block" Value="Entrar">
+                <br><br>
+            </form>
+    
+            </div>';
+        }
     }
+    
     
 
     ?>
@@ -132,8 +164,13 @@ require("components.php");
 
 
 
+                        if ($id_rep <> ''){
+                            echo '<script>window.location.replace("r.php?id='.$id_rep.'")</script>'; 
+                        } else {
+                            echo '<script>window.location.replace("index.php?home=")</script>'; 
+                        }
 
-                        echo '<script>window.location.replace("index.php?home=")</script>'; 
+                        
 
                     } else {
                         Toast("Password  Incorrecto", 2, "");

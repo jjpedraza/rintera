@@ -1,47 +1,4 @@
-
-<?php
-require ("rintera-config.php");
-require ("components.php");
-
-    include("seguridad.php");   
-
-?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">	
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title><?php echo $Cliente.": ".$ClienteInfo; ?></title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
-    <meta http-equiv="x-ua-compatible" content="ie-edge">
-
-    <script src="lib/popper.min.js"></script>
-    <script src="lib/jquery-3.5.1.js"></script>
-    <script src="lib/bootstrap/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="src/default.css">
-
-
-
-<link rel="stylesheet" type="text/css" href="lib/bootstrap/css/bootstrap.css">
-<link rel="stylesheet" href="lib/jquery.toast.min.css">
-<script type="text/javascript" src="lib/jquery.toast.min.js"></script>
-<link rel="stylesheet" type="text/css" href="lib/datatables.min.css"/> 
-<script type="text/javascript" src="lib/datatables.min.js"></script>
-<script src="lib/jquery.modalpdz.js"></script> 
-<link rel="stylesheet" href="lib/jquery.modalcsspdz.css" />
-
-
-</head>
-<body>
-
-
-<div id='PreLoader'>
-    <div id='Loader'>
-        <img src='img/loader_classic.gif'><br>      
-    </div>
-</div>
-
+<?php include("head.php"); ?>
 
 <?php
 //TOKENS
@@ -69,7 +26,7 @@ if (UserAdmin($RinteraUser)==TRUE){
         }
         if (isset($_POST['BtnActualizar'])){
             $IdUser = VarClean($_POST['IdUser']);
-            $RinteraLevel = VarClean($_POST['RinteraLevel']);
+            $RinteraLevel = 0;
             $UserName = VarClean($_POST['UserName']);
             $NIP = VarClean($_POST['NIP']);
             $sql = "UPDATE users SET RinteraLevel='".$RinteraLevel."', UserName='".$UserName."', NIP='".$NIP."' WHERE IdUser='".$IdUser."'";
@@ -143,25 +100,25 @@ if (UserAdmin($RinteraUser)==TRUE){
                 echo "<input type='hidden' name='IdUser' value='".$IdUser."'>";
                 echo "<div class='col-sm-4'><label>Nombre: <input class='form-control' type='text' name='UserName' value='".$f['UserName']."'></label></div>";
                 
-                echo "<div class='col-sm-4'><label>Tipo: ";
-                echo "<select name='RinteraLevel' class='form-control'>";
+                // echo "<div class='col-sm-4'><label>Tipo: ";
+                // echo "<select name='RinteraLevel' class='form-control'>";
 
-                if ($f['RinteraLevel']==0) {
-                    echo "<option value='' selected>No Definido</option>";
-                    echo "<option value='1' >Administrador</option>";
-                    echo "<option value='2' >Consulta</option>";
-                } else {
-                    if ($f['RinteraLevel']==1) {
-                        echo "<option value='1' selected>Administrador</option>";                    
-                        echo "<option value='2' >Consulta</option>";
-                    } else {
-                        echo "<option value='2' selected>Consulta</option>";
-                        echo "<option value='1' >Administrador</option>";                    
+                // if ($f['RinteraLevel']==0) {
+                //     echo "<option value='' selected>No Definido</option>";
+                //     echo "<option value='1' >Administrador</option>";
+                //     echo "<option value='2' >Consulta</option>";
+                // } else {
+                //     if ($f['RinteraLevel']==1) {
+                //         echo "<option value='1' selected>Administrador</option>";                    
+                //         echo "<option value='2' >Consulta</option>";
+                //     } else {
+                //         echo "<option value='2' selected>Consulta</option>";
+                //         echo "<option value='1' >Administrador</option>";                    
 
-                    }
+                //     }
 
-                }
-                echo "</select>";
+                // }
+                // echo "</select>";
                 
                 echo "</label></div>";
                 echo "<div class='col-sm-4'><label>NIP: <input class='form-control' type='text' name='NIP' value='".$f['NIP']."'></label></div>";
@@ -188,7 +145,7 @@ if (UserAdmin($RinteraUser)==TRUE){
                 }
                 if (isset($_POST['BtnNew'])){
                     $IdUser = VarClean($_POST['IdUser']);
-                    $RinteraLevel = VarClean($_POST['RinteraLevel']);
+                    $RinteraLevel = 0;
                     $UserName = VarClean($_POST['UserName']);
                     $NIP = VarClean($_POST['NIP']);
                     $sql = "INSERT INTO users
@@ -229,14 +186,14 @@ if (UserAdmin($RinteraUser)==TRUE){
             
             echo "<div class='col-sm-4'><label>IdUser: <input class='form-control' type='text' name='IdUser' value='' required></label></div>";
             echo "<div class='col-sm-4'><label>Nombre: <input class='form-control' type='text' name='UserName' value='' required></label></div>";
-            echo "<div class='col-sm-4'><label>Tipo: ";
-            echo "<select name='RinteraLevel' class='form-control' required>";
-                echo "<option value='' selected>No Definido</option>";
-                echo "<option value='1' >Administrador</option>";
-                echo "<option value='2' >Consulta</option>";
-            echo "</select>";
+            // echo "<div class='col-sm-4'><label>Tipo: ";
+            // echo "<select name='RinteraLevel' class='form-control' required>";
+            //     echo "<option value='' selected>No Definido</option>";
+            //     echo "<option value='1' >Administrador</option>";
+            //     echo "<option value='2' >Consulta</option>";
+            // echo "</select>";
             
-            echo "</label></div>";
+            // echo "</label></div>";
             echo "<div class='col-sm-4'><label>NIP: <input class='form-control' type='text' name='NIP' value='' required></label></div>";
             echo "<div class='col-sm-4'><label><br><input class='btn btn-success' type='submit' name='BtnNew' value='Guardar' ></label></div>";
             
@@ -280,7 +237,16 @@ if (UserAdmin($RinteraUser)==TRUE){
 
 
 
-        $sql ='select * from users_html';
+        $sql ="
+        SELECT
+	IdUser,
+	`rintera`.`users`.`UserName` AS `UserName`,
+
+	concat( '<a href=\'?x=', `rintera`.`users`.`IdUser`, '\' title=\'Haga clic para Eliminar al Usuario\' class=\'btn btn-warning\'><img src=\'icons/x.png\' style=\'width:17px;\'></a>' ) AS `Eliminar` 
+FROM
+	`users`
+        
+        ";
         $IdTabla = "MiTabla";
         $Clase = "container ";
         $db= 0 ;        

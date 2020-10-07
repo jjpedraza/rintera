@@ -26,15 +26,18 @@
 //     PRIMARY KEY (`Preference`)
 //   ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-
+// $db0_host = '192.168.159.5';	
+// $db0_user = 'wbproduction1';
+// $db0_pass = '4Dm1NPr0'; 
+// $db0_name = 'rintera';
 
 //CONEXION DE LA BASE DE DATOS DE RINTERA	
 // define("Pdbhost","localhost"); 
-$Pdbhost = "localhost";
+$Pdbhost = "192.168.159.5";
 // define("Pdbuser","root"); 
-$Pdbuser  = "root";
+$Pdbuser  = "wbproduction1";
 // define("Pdbpass","3l-1t4vu"); 
-$Pdbpass = "3l-1t4vu";
+$Pdbpass = "4Dm1NPr0";
 // define("Pdbname","rintera"); 
 $Pdbname = "rintera";
 

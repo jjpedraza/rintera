@@ -8,10 +8,18 @@ $SesionName="R1nT3r4";
 require_once("preference.php");
 // require_once("components.php");
 //CONEXION DE LA BASE DE DATOS DE RINTERA	
-$db0_host = 'localhost';	
-$db0_user = 'root';
-$db0_pass = '3l-1t4vu'; 
+// $db0_host = 'localhost';	
+// $db0_user = 'root';
+// $db0_pass = '3l-1t4vu'; 
+// $db0_name = 'rintera';
+
+
+$db0_host = '192.168.159.5';	
+$db0_user = 'wbproduction1';
+$db0_pass = '4Dm1NPr0'; 
 $db0_name = 'rintera';
+
+
 
 if (function_exists('mysqli_connect')) {		
     $db0 = new mysqli($db0_host,$db0_user,$db0_pass,$db0_name);

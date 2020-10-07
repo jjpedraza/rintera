@@ -164,6 +164,14 @@
     border-color: #45454645;
     text-align: center;
     font-family: Regular;
+    position: fixed;
+    width: 100%;
+    bottom: 0px;
+    opacity: 0.2;
+}
+
+#Footer:hover {
+    opacity: 1;
 }
 
 a:hover {
