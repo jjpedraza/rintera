@@ -1351,11 +1351,13 @@ if($WSConF = $WSCon -> fetch_array())
                 'content' => $datos_post
             )
         );
-        
+        ini_set('max_execution_time', 7000);
+        ini_set('max_execution_time', 0);
         $context = stream_context_create($opciones);            
         $archivo_web = file_get_contents($url, false, $context);            
+        var_dump($archivo_web);
         $data = json_decode($archivo_web);
-        // var_dump($archivo_web);
+        
         switch ($Tipo) {
             // case 0:
             //     return $archivo_web;
@@ -1970,7 +1972,7 @@ $Con_IdCon = IdConReporte($id_rep);
  include("con_init.php");
 
 if ($Con_Val == TRUE){    
-    
+    // echo $Query;
     if ($r = $LaConeccion -> query($Query)){
         // var_dump($LaConeccion);
         // var_dump($Query);

@@ -1,7 +1,62 @@
 <?php
 include ("head.php");
 include ("header.php");
+?>
 
+
+<script>
+function CargaReporte(Post,id_rep){
+
+if (Post=1){
+    
+    var1_str = $('#var1_str').val();
+    var2_str = $('#var2_str').val();
+    var3_str = $('#var3_str').val();
+
+    $('#PreLoader').show();
+             $.ajax({
+                url: 'r_data.php',
+                type: 'post',
+                data: {
+                    var1_str:var1_str,
+                    var2_str:var2_str,
+                    var3_str:var3_str,
+                    id_rep:id_rep,
+                    Post:Post
+                    
+                },
+                success: function(data) {
+                    $('#DivReporte').html(data);
+                    $('#PreLoader').hide();
+                    $('#FormVar').hide();
+                    $('#DivReporte').show();
+                }
+            });
+}
+else {
+    $('#PreLoader').show();
+             $.ajax({
+                url: 'r_data.php',
+                type: 'post',
+                data: {                    
+                    id_rep:id_rep,
+                    Post:Post
+                    
+                },
+                success: function(data) {
+                    $('#DivReporte').html(data);
+                    $('#PreLoader').hide();
+                    $('#FormVar').hide();
+                    $('#DivReporte').show();
+                }
+            });
+}
+
+}
+</script>
+
+
+<?php
 $id_rep = VarClean($_GET['id']);
 $Tipo = ReporteTipo($id_rep); // $Tipo = 1; // 0 = html, 1= DataTable, 2 = PDF, 3 = Excel, 4 = Word
 // var_dump($Tipo);
@@ -15,7 +70,14 @@ $ClaseDiv  = "ContenedorDeReporte"; $ClaseTabla = "tabla";
     ' class='col-9'
 
     >";
+    echo "<div id='DivReporte' 
+    style='padding-left: 21px;
+    margin: 0px;
+    text-align: center;
+    width:100%;
+    ' 
 
+    ></div>";
     //1 detectar si hay interaccion de variables
     $sql = "select * from reportes where id_rep='".$id_rep."'";    
     $Reportes = $db0->query($sql);    
@@ -49,11 +111,11 @@ $ClaseDiv  = "ContenedorDeReporte"; $ClaseTabla = "tabla";
                     echo "<div class='Elemento'>";                   
                     echo "<label>".$Rep['var1_label']."</label>";
                     if ($Rep['var1_type']=="option"){
-                        echo "<select name='var1_str'  class='form-control' required>";
+                        echo "<select name='var1_str'  id='var1_str' class='form-control' required>";
                         echo var_select($id_rep,1);                        
                         echo "</select>";
                     } else {
-                        echo "<input class='form-control' type='".$Rep['var1_type']."' value='' name='var1_str' required>";
+                        echo "<input class='form-control' type='".$Rep['var1_type']."' value='' id='var1_str' name='var1_str' required>";
                     }
                     echo "</div>";
                 }
@@ -62,11 +124,11 @@ $ClaseDiv  = "ContenedorDeReporte"; $ClaseTabla = "tabla";
                     echo "<div class='Elemento'>";                   
                     echo "<label>".$Rep['var2_label']."</label>";
                     if ($Rep['var2_type']=="option"){
-                        echo "<select name='var2_str'  class='form-control' required>";
+                        echo "<select name='var2_str'  id='var2_str' class='form-control' required>";
                         echo var_select($id_rep,2);                        
                         echo "</select>";
                     } else {
-                        echo "<input class='form-control' type='".$Rep['var2_type']."' value='' name='var2_str' required>";
+                        echo "<input class='form-control' type='".$Rep['var2_type']."' value='' name='var2_str' id='var2_str' required>";
                     }
                     echo "</div>";
                 }
@@ -75,30 +137,32 @@ $ClaseDiv  = "ContenedorDeReporte"; $ClaseTabla = "tabla";
                     echo "<div class='Elemento'>";                   
                     echo "<label>".$Rep['var3_label']."</label>";
                     if ($Rep['var3_type']=="option"){
-                        echo "<select name='var3_str'  class='form-control' required>";
+                        echo "<select name='var3_str'  id='var3_str' class='form-control' required>";
                         echo var_select($id_rep,2);                        
                         echo "</select>";
                     } else {
-                        echo "<input class='form-control' type='".$Rep['var3_type']."' value='' name='var3_str' required>";
+                        echo "<input class='form-control' type='".$Rep['var3_type']."' value='' id='var3_str' name='var3_str' required>";
                     }
                     echo "</div>";
                 }
 
 
-                echo "<br><br><input type='submit' value='Preparar Reporte' class=' btn btn-success' name='btnReporte'>";
+                echo "<br><br><buttom 'Preparar Reporte' class=' btn btn-success' name='btnReporte' onclick='CargaReporte(1,".$id_rep.");'>Preparar Reporte<buttom>";
                 
 
                 echo "</form>";
 
                 if (isset($_POST['btnReporte'])){
-                    $Data =  Reporte($id_rep, $Tipo, $ClaseDiv, $ClaseTabla, $RinteraUser );
-                    Historia($RinteraUser, "VIO", "".$id_rep."");
-                    echo $Data;
+                    // echo "<script>CargaReporte(Post)</;
+                    // $Data =  Reporte($id_rep, $Tipo, $ClaseDiv, $ClaseTabla, $RinteraUser );
+                    // Historia($RinteraUser, "VIO", "".$id_rep."");
+                    // echo $Data;
                 }
             } else { // Sin Variables
-                $Data =  Reporte($id_rep, $Tipo, $ClaseDiv, $ClaseTabla, $RinteraUser );
-                Historia($RinteraUser, "VIO", "".$id_rep."");
-                echo $Data;
+                // $Data =  Reporte($id_rep, $Tipo, $ClaseDiv, $ClaseTabla, $RinteraUser );
+                // Historia($RinteraUser, "VIO", "".$id_rep."");
+                // echo $Data;
+                echo "<script>CargaReporte(0,".$id_rep.");</script>";
             }
 
         } else {
@@ -120,9 +184,11 @@ $ClaseDiv  = "ContenedorDeReporte"; $ClaseTabla = "tabla";
         Historia($RinteraUser, "Reporte", "No encontro el reporte ".$id_rep."");
     }
 
+    
+
+
    
     echo "</div>";
-
 
 
 
@@ -134,6 +200,8 @@ echo "</div>";
 
 } else {
     Error("No tienes acceso a este Reporte");
-}
+}?>
+
+<?php
 include ("footer.php");
 ?>

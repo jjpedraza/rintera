@@ -87,7 +87,7 @@ $styleqr = array(
     $pdf->Text(10, 78, ''.'del modulo de reportes de la Plataforma de ITAVU, denominado Rintera.'); 
 
 
-    $pdf->SetFont('', 'B', 12, '', 'false');
+    $pdf->SetFont('', 'B', 10, '', 'false');
     $pdf->Text(10, 90, ''.'Titulo: '.$Titulo); 
     $pdf->Text(10, 98, ''.'Descripcion: '.$Descripcion); 
     $pdf->Text(10, 106, ''.'Base de Datos: '.$Base); 
