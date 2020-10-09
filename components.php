@@ -2694,6 +2694,21 @@ function GraficaPorcentaje($Div, $Valor){
 
 
 }
+function UserNIP($IdUser){
+    require("rintera-config.php");   
+    // var_dump($dbUser);
+    $sql = "select * from users WHERE IdUser='".$IdUser."'";        
+    $r= $db0 -> query($sql);
+    if($f = $r -> fetch_array())
+    {
+        return "".$f['NIP'];
+    } else {
+        return "";
+    }
+        
+}
+
+
 
 function infoPermiso($id_rep,$IdUser){
     require("rintera-config.php");   

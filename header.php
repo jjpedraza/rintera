@@ -66,10 +66,18 @@ box-shadow: inset 0px -36px 13px -31px rgba(0,0,0,0.39);
     text-align: right;
     background-color: ".Preference("ColorPrincipal", "", "").";
     color: white;
-    padding-right: 15px;
+    padding-right: 5px;
     ".$sombra."
-    '><img src='icons/atencion.png' style='width:17px;'><span class='pc'> ".$RinteraUserName."</span> </td>";
+    '><img src='icons/atencion.png' style='width:17px;' class='pc'><span class='pc'> ".$RinteraUserName."</span> </td>";
 
+   
+    echo "<td  valing=middle  style='
+    text-align: right;
+    background-color: ".Preference("ColorPrincipal", "", "").";
+    color: white;
+    padding-right: 5px;
+    ".$sombra."
+    '><a href='nip.php'><img src='icons/candado.png' style='width:17px;'></a> </td>";
 
     if (UserAdmin($RinteraUser)==TRUE){
         echo "<td width=22px align=right 
@@ -78,6 +86,7 @@ box-shadow: inset 0px -36px 13px -31px rgba(0,0,0,0.39);
         background-color: ".Preference("ColorPrincipal", "", "").";
         font-size: 10pt;
         color: white;
+        padding-right: 5px;
         ".$sombra."
         '
         >";
@@ -117,5 +126,11 @@ box-shadow: inset 0px -36px 13px -31px rgba(0,0,0,0.39);
     </td></tr>
     </table></div>
     ";
+
+
+    //Validamos si se reseteo el nIp
+    if (UserNIP($RinteraUser) == $RinteraUser) {
+      echo '<script>window.location.replace("nip.php")</script>'; 
+    }
 
 ?>

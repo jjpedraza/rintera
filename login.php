@@ -42,8 +42,8 @@ require("components.php");
         body {
             background-image: var(--RinteraBackground);
             background-size: 200%;
-            background-color: #919191;
-            background-blend-mode: screen;
+            /* background-color: #919191;
+            background-blend-mode: screen; */
 
         }
 
@@ -129,11 +129,9 @@ require("components.php");
         $txtNIP = VarClean($_POST['txtNIP']);
 
         //Prearamos el Query
-        if ($UsuariosForaneaos == "FALSE") {
+       
             $sql = "select * from users WHERE IdUser ='" . $txtIdUser . "'";
-        } else {
-            $sql = $QueryUsuariosForaneos . " and IdUser='" . $txtIdUser . "'";
-        }
+       
         // echo $sql;
         // var_dump($sql);
         $rc = $dbUser->query($sql);
