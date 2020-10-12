@@ -31,6 +31,28 @@
     src: url("OpenSans-ExtraBold.ttf") format("truetype")
 }
 
+.btnMaximizar {
+    width: 20px;
+    margin-top: -2px;
+    opacity: 0.5;
+    position: absolute;
+}
+
+.btnMaximizar:hover {
+    opacity: 1;
+}
+
+.Graficas {
+    width: 200px;
+    height: 200px;
+    background-color: rgba(255, 255, 255, 0.5);
+    padding: 5px;
+    border-radius: 4px;
+    margin: 5px;
+    display: inline-block;
+    vertical-align: top;
+}
+
 .FotoUser {
     width: 50px;
     /* height: 30px; */
@@ -44,8 +66,6 @@
     color: white;
     cursor: pointer;
 }
-
-.globo {}
 
 .Elemento {
     width: 30%;
@@ -237,13 +257,13 @@ label {
 }
 
 .InputBusqueda {
-    height: 90px;
+    height: 40px;
     width: 100%;
     display: inline-block;
     /* position: absolute; */
     border-width: 0px;
     /* background-color: rgb(24, 149, 198); */
-    font-size: 24pt;
+    font-size: 14pt;
     text-align: center;
     color: white;
     outline: 0px;
@@ -258,7 +278,7 @@ label {
     background-color: #dfdede;
     color: white;
     width: 100%;
-    height: 90px;
+    /* height: 90px; */
     margin: 0px;
     padding: 0px;
 }
@@ -267,14 +287,18 @@ label {
     margin-top: 5px;
     padding: 10px;
     color: gray;
-    background-color: #0082E1;
+    /* background-color: #0082E1; */
+    display: inline-block;
+    width: 70%;
 }
 
 #MisApp {
-    background-color: #72A23C;
+    /* background-color: #72A23C; */
     margin-top: 5px;
     padding: 10px;
     color: gray;
+    display: inline-block;
+    width: 30%;
 }
 
 .input-group.md-form.form-sm.form-1 input {
@@ -928,6 +952,13 @@ hr {
 }
 
 @media only screen and (max-width:600px) {
+    #Resultados {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+    #MisApp {
+        width: 100%;
+    }
     #Loader cite {
         font-size: 9pt;
         margin-top: -70px;
@@ -1003,7 +1034,7 @@ hr {
         right: 0px;
     }
     .InputBusqueda {
-        font-size: 14pt;
+        font-size: 11pt;
     }
     #Reportes article {
         width: 99%;

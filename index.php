@@ -25,57 +25,37 @@ background-color: <?php echo Preference("ColorPrincipal", "", ""); ?>;
 
 <table width=100%><tr><td>
     <?php
-
     if (isset($_GET['q'])) {
+        echo '<input id="InputBusqueda" list="busquedas"     data-min-length="1" style="background-color: '.Preference("ColorPrincipal", "", "").';"
+        class="InputBusqueda flexdatalist" type="text" placeholder="¿Que reporte necesitas?"  value="' . VarClean($_GET['q']) . '">';
 
-        echo '
-    <input id="InputBusqueda" list="busquedas"     data-min-length="1"
-    style="
-
-        background-color: '.Preference("ColorPrincipal", "", "").';
-        
-
-    "
-    class="InputBusqueda flexdatalist" type="text" placeholder="¿Que Información necesitas?"  value="' . VarClean($_GET['q']) . '">
-    ';
     } else {
-        echo '
-    <input id="InputBusqueda" list="busquedas"  data-min-length="1"
-    style="
-
-        background-color: '.Preference("ColorPrincipal", "", "").';
-       
-
-    "
-    class="InputBusqueda flexdatalist" type="text" placeholder="¿Que Información necesitas?" >
-    ';
+        echo '<input id="InputBusqueda" list="busquedas"  data-min-length="1" style="background-color: '.Preference("ColorPrincipal", "", "").';"
+        class="InputBusqueda flexdatalist" type="text" placeholder="¿Que reporte necesitas?" >';
     }
 
     if (isset($_GET['i1'])) {
         Toast("Guardado correctamente " . VarClean($_GET['q']), 1, "");
     }
+
     if (isset($_GET['e1'])) {
         Toast("ERROR:Al localizar el Reporte " . VarClean($_GET['e1']), 2, "");
     }
-    // Toast("No se ha localizado tu Reporte ".$IdRep,2,"");
-
-
     ?>
 
-</section>
-</td><td width=50px align=right valign=middle 
-style='
-background-color: <?php echo Preference("ColorPrincipal", "", ""); ?>;
-'
->
-<button  class="Mbtn btn-Success"  onclick="Search();" style="
-background-color:  <?php echo Preference("ColorResaltado", "", ""); ?>;
-box-shadow: 0 3px  #4d4c49; margin:10px;
+</td>
+<td width=50px align=right valign=middle 
+    style='background-color: <?php echo Preference("ColorPrincipal", "", ""); ?>;'>
+    <button  class="Mbtn btn-Success"  onclick="Search();" style="
+    background-color:  <?php echo Preference("ColorResaltado", "", ""); ?>;
+    box-shadow: 0 3px  #4d4c49; margin:10px;
 
-"> 
-<img src='icons/busqueda.png' style='width:50px;'></button>
+    "> 
+    <img src='icons/busqueda.png' style='width:24px;'></button>
+</td>
+</tr>
+</table>
 
-</td></table>
 <div style='
 background-color: <?php echo Preference("ColorPrincipal", "", ""); ?>;
 text-align: center;
@@ -92,17 +72,20 @@ margin-top:  -21px;
     </div>
 </div>
 
+</section>
 <?php
 if (Preference("MostrarApps", "", "")=='TRUE'){
     echo '
     <div class="row">
-    <section id="Resultados" class="col-sm">
+    <section id="Resultados" >
     
 
     </section>
 
-    <section id="MisApp" class="col-sm">
-    
+    <section id="MisApp" >
+    ';
+   
+    echo '
 
     </section>
     </div>
@@ -119,6 +102,14 @@ if (Preference("MostrarApps", "", "")=='TRUE'){
 }
 ?>
 
+<div id='DashBoard'>
+    <div class="card" style="width: 18rem;">
+    Modulo 1
+    </div>
+
+
+    
+</div>
 
 <?php
 
@@ -172,48 +163,13 @@ echo "
 ";?>
 
 
-<canvas id="myChart" width="400" height="400"></canvas>
-<script>
-var ctx = document.getElementById('myChart');
-var myChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-        datasets: [{
-            label: '# of Votes',
-            data: [12, 19, 3, 5, 2, 3],
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-            ],
-            borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ],
-            borderWidth: 1
-        }]
-    },
-    options: {
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero: true
-                }
-            }]
-        }
-    }
-});
-
-</script>
 
 <?php
+
+
+
+
+
+
 include ("footer.php");
 ?>

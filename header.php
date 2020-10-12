@@ -127,7 +127,20 @@ box-shadow: inset 0px -36px 13px -31px rgba(0,0,0,0.39);
     <a href='logout.php'  title='Cerrar Sessión de ".$RinteraUserName."' style=''>    
     <img src='icons/salir2.png' style='width:17px; margin-right:4px;'></a>
     
-    </td></tr>
+    </td>";
+    
+
+
+    echo "
+
+    <td width=10px valign=midle style='background-color:".Preference("ColorPrincipal", "", "").";     ".$sombra."'>
+
+    <a href='logout.php'  title='Cerrar Sessión de ".$RinteraUserName."' style=''>    
+    <img src='icons/home.png' style='width:30px; margin-right:0px;'></a>
+    
+    </td>";
+    
+    echo "</tr>
     </table></div>
     ";
 
