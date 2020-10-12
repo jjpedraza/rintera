@@ -1,5 +1,5 @@
 <div id='R' style='display:none;'></div>
-
+<!-- 
 <div id='Footer'>
     Al hacer uso de este módulo y las demas aplicaciones del Instituto acepta el 
     <a href='#Acuerdo' rel=MyModal:open> acuerdo de confidencialidad </a>
@@ -71,6 +71,6 @@ Y en señal de expresa conformidad y aceptación de los términos recogidos en e
 </p>
 
 
-</div>
+</div> -->
 </body> </html>
 

@@ -267,6 +267,14 @@ label {
     margin-top: 5px;
     padding: 10px;
     color: gray;
+    background-color: #0082E1;
+}
+
+#MisApp {
+    background-color: #72A23C;
+    margin-top: 5px;
+    padding: 10px;
+    color: gray;
 }
 
 .input-group.md-form.form-sm.form-1 input {

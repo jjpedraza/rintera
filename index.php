@@ -85,25 +85,50 @@ font-size: 10pt;  height:22px;
 -webkit-box-shadow: 1px 5px 5px -3px rgba(0,0,0,0.75);
 -moz-box-shadow: 1px 5px 5px -3px rgba(0,0,0,0.75);
 box-shadow: 1px 5px 5px -3px rgba(0,0,0,0.75);
-margin-top: -2px;
+margin-top:  -21px;
 '>
     <div id='PreloaderBuscando' style='display:none;'>
         Buscando <img src='img/loader_bar.gif'>
     </div>
 </div>
 
-<section id='Resultados'>
-    Resutlado de la buqueda
+<?php
+if (Preference("MostrarApps", "", "")=='TRUE'){
+    echo '
+    <div class="row">
+    <section id="Resultados" class="col-sm">
+    
 
-</section>
+    </section>
+
+    <section id="MisApp" class="col-sm">
+    
+
+    </section>
+    </div>
+    ';
+} else {
+    echo '
+    
+    <section id="Resultados">    
+
+    </section>
+
+    
+    ';
+}
+?>
+
 
 <?php
 
 if (UserAdmin($RinteraUser) == TRUE) {
+    if (Preference("NuevosReportes", "", "")=='TRUE'){
     echo "<div class='btnMas' title='Haz clic aquí para crear un nuevo reporte'>
     <a href='nuevo.php' > <img src='src/mas.png' style='width:100%;'>
     </a>
     </div>";
+    }
 
 }
 ?>
@@ -141,10 +166,54 @@ echo "
 
             
     }
-    Search();
+    // Search();
     </script>
 
-";
+";?>
 
+
+<canvas id="myChart" width="400" height="400"></canvas>
+<script>
+var ctx = document.getElementById('myChart');
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+        datasets: [{
+            label: '# of Votes',
+            data: [12, 19, 3, 5, 2, 3],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+});
+
+</script>
+
+<?php
 include ("footer.php");
 ?>

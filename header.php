@@ -80,22 +80,26 @@ box-shadow: inset 0px -36px 13px -31px rgba(0,0,0,0.39);
     '><a href='nip.php'><img src='icons/candado.png' style='width:17px;'></a> </td>";
 
     if (UserAdmin($RinteraUser)==TRUE){
-        echo "<td width=22px align=right 
-        style='
         
-        background-color: ".Preference("ColorPrincipal", "", "").";
-        font-size: 10pt;
-        color: white;
-        padding-right: 5px;
-        ".$sombra."
-        '
-        >";
         
+        if (Preference("Custom", "", "")=='TRUE'){
+         echo "<td width=22px align=right 
+         style='
+         
+         background-color: ".Preference("ColorPrincipal", "", "").";
+         font-size: 10pt;
+         color: white;
+         padding-right: 5px;
+         ".$sombra."
+         '
+         >";
         echo "<a href='custom.php?db=' title='Haga clic aqui para ajustar las preferencias'>";
         echo " <img src='icons/config.png' style='width:22px; margin:3px;'> ";
         echo "</a>";
-        
         echo "</td>";
+        }
+        
+       
     
     }
     

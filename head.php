@@ -48,6 +48,11 @@ require ("components.php");
     <script src="lib/jquery.modalpdz.js"></script> 
     <link rel="stylesheet" href="lib/jquery.modalcsspdz.css" />
 
+    <!-- ChatJS -->
+    <script src="node_modules/chart.js/dist/Chart.bundle.js"></script> 
+    <link rel="stylesheet" href="node_modules/chart.js/dist/Chart.css" />
+
+    
     
     <!-- <link href="lib/jquery.flexdatalist.css" rel="stylesheet" type="text/css">
     <script src="lib/jquery.flexdatalist.js"></script> -->
