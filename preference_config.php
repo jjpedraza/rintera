@@ -27,14 +27,27 @@
 //   ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 //CONEXION DE LA BASE DE DATOS DE RINTERA	
+// $db0_host = 'localhost';	
+// $db0_user = 'c1551508_rintera';
+// $db0_pass = 'renine01PO'; 
+// // $db0_pass = ''; 
 
 $Pdbhost = "localhost";
+$Pdbuser  = "c1551508_rintera";
+$Pdbpass = "renine01PO";
+$Pdbname = "c1551508_rintera";
 
+// $db0_host = 'localhost';	
+// $db0_user = 'root';
+// $db0_pass = '3l-1t4vu'; 
+// // $db0_pass = ''; 
+// $db0_name = 'rintera_procimart';
+
+$Pdbhost = "localhost";
 $Pdbuser  = "root";
-
-$Pdbpass = "3l-1t4vu";
-
+$Pdbpass = "";
 $Pdbname = "rintera";
+
 
 if (function_exists('mysqli_connect')) {		
     $dbP = new mysqli($Pdbhost,$Pdbuser,$Pdbpass,$Pdbname);    

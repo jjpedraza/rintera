@@ -62,16 +62,18 @@ $Tipo = ReporteTipo($id_rep); // $Tipo = 1; // 0 = html, 1= DataTable, 2 = PDF, 
 // var_dump($Tipo);
 if (PermisoReporte_Ver($RinteraUser,$id_rep)==TRUE){
 
-echo '<div class="row">';
-$ClaseDiv  = "ContenedorDeReporte"; $ClaseTabla = "tabla";
+echo '<div class="row" style="margin:0px;">';
+$ClaseDiv  = "ContenedorDeReporte"; $ClaseTabla = "";
     echo "<div id='C' style='
     width:100%;
     text-align:center;
-    ' class='col-9'
+    
+    ' class='col-12'
 
     >";
     echo "<div id='DivReporte' 
-    style='padding-left: 21px;
+    style='
+    
     margin: 0px;
     text-align: center;
     width:100%;
@@ -171,6 +173,12 @@ $ClaseDiv  = "ContenedorDeReporte"; $ClaseTabla = "tabla";
             if (isset($_POST['var1_str'])){$Parametros.= "".$_POST['var1_str'];}
             if (isset($_POST['var2_str'])){$Parametros.= ", ".$_POST['var2_str'];}
             if (isset($_POST['var3_str'])){$Parametros.= ", ".$_POST['var3_str'];}
+
+            if (isset($_GET['var1_str'])){$Parametros.= "".$_GET['var1_str'];}
+            if (isset($_GET['var2_str'])){$Parametros.= ", ".$_GET['var2_str'];}
+            if (isset($_GET['var3_str'])){$Parametros.= ", ".$_GET['var3_str'];}
+
+
             if ($Parametros == ''){
                 Historia($RinteraUser, "Reporte", "No encontro informacion del reporte ".$id_rep."");
             } else {
@@ -192,9 +200,11 @@ $ClaseDiv  = "ContenedorDeReporte"; $ClaseTabla = "tabla";
 
 
 
-echo "<div class='col-3'>";
-    UltimasBusquedas($RinteraUser);
-echo "</div>";
+// echo "<div class='col-3'>";
+//     UltimasBusquedas($RinteraUser);
+// echo "</div>";
+
+UltimasBusquedas_buble($RinteraUser);
 
 echo "</div>";
 

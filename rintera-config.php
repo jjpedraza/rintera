@@ -10,13 +10,22 @@ require_once("preference.php");
 //CONEXION DE LA BASE DE DATOS DE RINTERA	
 $db0_host = 'localhost';	
 $db0_user = 'root';
-$db0_pass = '3l-1t4vu'; 
+$db0_pass = ''; 
+// $db0_pass = ''; 
 $db0_name = 'rintera';
 
 
+// Usuario c1551508_rintera
+// Clave: renine01PO
+// Base de datos: c1551508_rintera
+// Servidor: localhost
 
 
-
+// $db0_host = 'localhost';	
+// $db0_user = 'c1551508_rintera';
+// $db0_pass = 'renine01PO'; 
+// // $db0_pass = ''; 
+// $db0_name = 'c1551508_rintera';
 
 if (function_exists('mysqli_connect')) {		
     $db0 = new mysqli($db0_host,$db0_user,$db0_pass,$db0_name);
@@ -176,11 +185,13 @@ if ($Error ==''){
 
 
 
-
+    //session.auto_start = 0 o 1;  si esta en 1, da error 
+    //Warning: session_name(): Cannot change session name when session is active, al utilizar session_name(); ya que agrega    session_start(); al automaticamente
+    
 
 }
 
 
 
-
+$session_auto_start = 1;
 ?>

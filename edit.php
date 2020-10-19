@@ -856,11 +856,11 @@ Usuarios de éste Reporte
                 <div class="custom-control custom-switch col-sm-6 " style="cursor:pointer;">';
                 if ($fU['Permiso']==1){
                     echo '
-                    <input   style="cursor:pointer;" type="checkbox" class="custom-control-input" id="ChecU_'.$fU['IdUser'].'" onclick="Permitir('.$id_rep.','.$fU['IdUser'].');" checked="">
+                    <input   style="cursor:pointer;" type="checkbox" class="custom-control-input" id="ChecU_'.$fU['IdUser'].'" onclick="Permitir('.$id_rep.',`'.$fU['IdUser'].'`);" checked="">
                     <label  style="cursor:pointer;" class="custom-control-label" for="ChecU_'.$fU['IdUser'].'"></cite></label>';
                 } else {
                     echo '
-                    <input  style="cursor:pointer;" type="checkbox" class="custom-control-input" id="ChecU_'.$fU['IdUser'].'" onclick="Permitir('.$id_rep.','.$fU['IdUser'].');" >
+                    <input  style="cursor:pointer;" type="checkbox" class="custom-control-input" id="ChecU_'.$fU['IdUser'].'" onclick="Permitir('.$id_rep.',`'.$fU['IdUser'].'`);" >
                     <label   style="cursor:pointer;" class="custom-control-label" for="ChecU_'.$fU['IdUser'].'"></label>';
                 }
             echo ' </div>';
@@ -961,7 +961,7 @@ Estadistica del Reporte
                 
                 echo "<tr>";
                 echo "<td width=50px>";
-                    echo "<img src='https://plataformaitavu.tamaulipas.gob.mx/ws/fotos/".$fe['IdUser'].".jpg' class='FotoUser'>";
+                    echo $fe['IdUser'];
                 echo "</td>";
                 echo "<td>".fecha_larga($fe['fecha'])."</td>";
                 echo "<td>".hora12($fe['hora'])."</td>";

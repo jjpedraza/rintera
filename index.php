@@ -2,10 +2,13 @@
 
 
 <?php
-
+    if (isset($RinteraUser)){
     $MiToken = MiToken($RinteraUser, "Search");
     if ($MiToken == '') {
         $MiToken = MiToken_Init($RinteraUser, "Search");
+    }
+    } else {
+     
     }
 
 // echo "Token: ".$MiToken."";
@@ -76,7 +79,7 @@ margin-top:  -21px;
 <?php
 if (Preference("MostrarApps", "", "")=='TRUE'){
     echo '
-    <div class="row">
+    <div class="row" style="margin:0px;">
     <section id="Resultados" >
     
 
@@ -84,6 +87,7 @@ if (Preference("MostrarApps", "", "")=='TRUE'){
 
     <section id="MisApp" >
     ';
+   
    
     echo '
 
@@ -93,7 +97,7 @@ if (Preference("MostrarApps", "", "")=='TRUE'){
 } else {
     echo '
     
-    <section id="Resultados">    
+    <section id="Resultados" style="width:100%">    
 
     </section>
 
@@ -102,16 +106,65 @@ if (Preference("MostrarApps", "", "")=='TRUE'){
 }
 ?>
 
-<div id='DashBoard'>
-    <div class="card" style="width: 18rem;">
-    Modulo 1
+<div id='Dashboard'>
+    <div id="DashboardCol1"  >
+        <?php
+        // $QueryG = "select DISTINCT a.fecha as Fecha,
+        // (select count(*) from historia where fecha = a.fecha) as Actividad
+        // from historia a";
+        // $rF= $db0 -> query($QueryG);    
+        // $Datas = 0; $Labels="";
+        // while($Fr = $rF -> fetch_array()) {   
+        //     $Datas.= $Fr['Actividad'].", ";
+        //     $Labels.="'".$Fr['Fecha']."',";
+        // }
+        // unset($rf);unset($Fr);
+        // $Datas = substr($Datas, 0, -1); //quita la ultima coma.
+        // $Labels = substr($Labels, 0, -1); //quita la ultima coma.
+
+        //     echo '<div style="" class="Graficas">';
+        //     GraficaBar($Labels,$Datas,"Uso de Esta App");
+        //     echo '</div>';
+        ?>
+
+    
     </div>
+
+    <div id="DashboardCol2" >
+    
+
+    <?php
+     $rF= $db0 -> query("select * from reportes where Portada=1");    
+     $repos = 0; $repolist="";
+     while($Fr = $rF -> fetch_array()) {   
+         $repolist.= "<a href='r.php?id=".$Fr['id_rep']."' title='Haga Clic aqui para ver el reporte' class='btn btn-Light'
+         style='
+            background-color: #e6e6e6;
+            color: #625f5f;
+            width: 100%;
+            font-size: 10pt;
+            text-align:left;
+         '
+         >".$Fr['rep_name']."</a><br><br>";
+         $repos = $repos + 1;
+     }
+    
+     unset($rf);unset($Fr);
+     if ($repos > 0 ){
+         echo "<h6 style='font-size: 8pt;
+         opacity: 0.6;'>Recomendados</h6>";
+         echo $repolist;
+     }
+    ?>
+    </div>
+
 
 
     
 </div>
 
 <?php
+UltimasBusquedas_buble($RinteraUser);
 
 if (UserAdmin($RinteraUser) == TRUE) {
     if (Preference("NuevosReportes", "", "")=='TRUE'){
@@ -148,7 +201,9 @@ echo "
                 },
             success: function(data){
                 $('#Resultados').html(data);
+                
                 $('#PreloaderBuscando').hide();
+                $('#Dashboard').hide();
             }
             });
         
@@ -157,15 +212,29 @@ echo "
 
             
     }
+    
     // Search();
     </script>
 
-";?>
+";
+if (isset($_GET['q'])){
+    if ($_GET['q']<>''){
+        echo '
+        <script>
+            Search();
+            $("#Dashboard").hide();
+        </script>
+        ';
+    }
+}
+?>
 
+<!-- <a href='#DivModal' rel=MyModal:open onclick='URLModal(1)' class='icon'><img src='icons/check3.png'></a> -->
 
+<!-- <a href="app_detalles.php?id=1&amp;tipo=AROMA&amp;var1=1" rel="MyModal:open" class="icon"><img src="icons/info.png"></a> -->
 
 <?php
-
+Historia($RinteraUser, "HOME", "Acceso a la pagina principal");
 
 
 

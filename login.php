@@ -22,25 +22,25 @@ require("components.php");
     echo '
              
 
-<script src="lib/jquery-3.3.1.js"></script> 
-<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
+        <script src="lib/jquery-3.3.1.js"></script> 
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
 
-<link rel="stylesheet" type="text/css" href="lib/bootstrap/css/bootstrap.css">
-<link rel="stylesheet" href="lib/jquery.toast.min.css">
-<script type="text/javascript" src="lib/jquery.toast.min.js"></script>
-<link rel="stylesheet" type="text/css" href="lib/datatables.min.css"/> 
-<script type="text/javascript" src="lib/datatables.min.js"></script>
-<script src="lib/jquery.modalpdz.js"></script> 
-<link rel="stylesheet" href="lib/jquery.modalcsspdz.css" />
-<link rel="stylesheet" href="src/default.css" />
-';
+        <link rel="stylesheet" type="text/css" href="lib/bootstrap/css/bootstrap.css">
+        <link rel="stylesheet" href="lib/jquery.toast.min.css">
+        <script type="text/javascript" src="lib/jquery.toast.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="lib/datatables.min.css"/> 
+        <script type="text/javascript" src="lib/datatables.min.js"></script>
+        <script src="lib/jquery.modalpdz.js"></script> 
+        <link rel="stylesheet" href="lib/jquery.modalcsspdz.css" />
+        <link rel="stylesheet" href="src/default.css" />
+    ';
 
 
     ?>
 
     <style>
         body {
-            background-image: var(--RinteraBackground);
+            background-image: url('img/fondo3.jpg');
             background-size: 200%;
             /* background-color: #919191;
             background-blend-mode: screen; */
@@ -61,6 +61,16 @@ require("components.php");
             -moz-box-shadow: 1px 7px 13px 1px rgba(0, 0, 0, 0.75);
             box-shadow: 1px 7px 13px 1px rgba(0, 0, 0, 0.75);
         }
+
+        @media only screen and (max-width:600px) {
+            #Login {
+                width:100%;
+                left:0px;
+                top:0px;
+                border-radius:0px;
+                height:100%;
+            }
+        }
     </style>
 </head>
 
@@ -80,10 +90,9 @@ require("components.php");
             echo '
                 <div id="Login">
 
-
                 <form class="form-signin" style="text-align:center;" method="POST" action="">
 
-                    <h5>Identificate! '.UserName($IdUser).'</h5>
+                    <h5>Procimart '.UserName($IdUser).'</h5>
                     <label for="txtIdUser" class="sr-only">IdUser </label>
                     <input type="text" id="txtIdUser" name="txtIdUser" class="form-control" placeholder="IdUser" value="'.$IdUser.'" required >
                     <label for="txtNIP" class="sr-only">Password</label><br>
@@ -103,7 +112,10 @@ require("components.php");
     
             <form class="form-signin" style="text-align:center;" method="POST" action="">
     
-                <h3><b>RINTERA:</b> Identificate!</h3>
+                <img src="img/Logo_large.png" style="width:50%;"><br>
+                
+                <b><b>Identificate</b>
+                
                 <label for="txtIdUser" class="sr-only">IdUser</label>
                 <input type="text" id="txtIdUser" name="txtIdUser" class="form-control" placeholder="IdUser" required autofocus>
                 <label for="txtNIP" class="sr-only">Password</label><br>
@@ -124,7 +136,7 @@ require("components.php");
 
 
     if (isset($_POST['FormLogin'])) {
-
+        error_reporting(E_ALL);
         $txtIdUser = VarClean($_POST['txtIdUser']);
         $txtNIP = VarClean($_POST['txtNIP']);
 
@@ -145,20 +157,31 @@ require("components.php");
 
                     if ($f['NIP'] == $txtNIP) {
 
-                        $IdUser = $f['IdUser'];    // variable de entorno      
-                        session_name($SesionName);
-                        session_start();
-                        // session_regenerate_id();    
+                        $IdUser = $f['IdUser'];    // variable de entorno    
+                        // echo "OK";
+                            
+                        error_reporting(E_ALL);  
+                        // ob_end_clean();  
+                        // var_dump($session_auto_start);
+                        if ($session_auto_start == 0){
+                            session_name($SesionName);
+                            session_start();
+                        }
+                        
+                        
+                        session_regenerate_id();    
                         // echo "Id: ".session_id();            
 
 
                         $_SESSION['RinteraUser'] = $f['IdUser']; //session		
                         $_SESSION['RinteraUserName'] = $f['UserName']; //session		
                         $RinteraUser = $f['IdUser'];
-                        global $RinteraUser; //generalize       
+                        // global $RinteraUser; //generalize     
+                        
+                        // echo "Sesion=".$_SESSION['RinteraUser']." username=".$_SESSION['RinteraUserName'];
 
-                        Historia($RinteraUser, 'RinteraLogin', 'Acceso Rintera' . InfoEquipo() . '');
-                        SESSION_init(session_id(), $RinteraUser, $SesionName, InfoEquipo(), "");
+                        // Historia($RinteraUser, 'RinteraLogin', 'Acceso Rintera' . InfoEquipo() . '');
+                        // SESSION_init(session_id(), $RinteraUser, $SesionName, InfoEquipo(), "");
 
 
 
